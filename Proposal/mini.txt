@@ -1,0 +1,69 @@
+
+1	Main Modules
+1.1	Client
+•	Sign up/Sign In.
+•	View latest update any event.
+•	Search venue to organize any event.
+•	Check nearby venues using Google map.
+•	Order for event.
+•	Post their problems and get feedback.
+•	Get suggestions based on its interest.
+•	Can pay using QR code.
+•	Rate event organizer.
+•	Feedback.
+
+1.2	Event Organizer
+•	Sign In
+•	Manage its account.
+•	View orders.
+•	Accept order.
+•	Delete order.
+•	Post updates about different event.
+•	Can analyze user interest.
+1.3	Admin
+•	Add/ delete user.
+•	Add / delete event organizer. 
+•	Approve requests for posts.
+•	Check performance.
+2	Functional Requirements
+2.1	Client can
+•	Sign up for an account in application.
+•	Log in and logout from application.
+•	View updates of about different nearby events.
+•	Search any venue.
+•	View suggestions about best venues for their events.
+•	Check the available venue by looking at its Public Calendar.
+•	Appoint any event organizer
+•	Pay using QR code in application.
+•	Give feedback
+2.2	Event Organizer
+•	Log in and log out from application.
+•	Get orders from clients/ users.
+•	Analyze user interest.
+•	View profile
+•	Add new Packages
+•	Post updates about events.
+2.3	Admin can
+•	Add/Remove user.
+•	Add/Remove event organizer.
+•	Check orders details 
+•	Check performance of event organizer.
+3	Non Functional Requirements
+•	Intelligent System.
+•	User-Friendly interface
+•	Availability
+•	Responsive
+•	Secure
+•	Performance oriented
+•	More accurate
+1	Proposed System
+•	Users can easily get information about different search venues in their area.
+•	Users can easily find best venues for their events.
+•	Users can book venues online at home.
+•	Users can check the location and availability of different venues.
+•	Users can communicate with event organizer.
+•	Event organizer can provide services through our system.
+•	Event organizer can take critical business decisions more easily.
+•	Event organizer can get more profit by selling services online. 
+•	Event organizer can post about events to inform all users.
+•	Users and Event Organizer can understand and use it very easily because this system is in both English and Urdu.
