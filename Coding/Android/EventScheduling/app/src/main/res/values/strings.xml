@@ -3,4 +3,6 @@
     <string name="clienttext">Client</string>
     <string name="eventtext">EventOrganizer</string>
     <string name="act2Name">Sign Up</string>
+    <string name="signInhint">Email</string>
+    <string name="signInBtnText">Sign In</string>
 </resources>

@@ -9,17 +9,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".signin"></activity>
-        <activity
-            android:name=".SignUp"
-            android:label="@string/act2Name" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".evntOrg_signUp3"></activity>
+        <activity android:name=".evntOrg_home" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="EventSchedulingSystem"
+            android:theme="@style/splashScreenStyle">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".evntOrg_signIn"
+            android:label="Sign In"
+            android:theme="@style/splashScreenStyle" />
+        <activity
+            android:name=".evntOrg_signUp"
+            android:label="Sign Up"
+            android:theme="@style/splashScreenStyle" />
+        <activity
+            android:name=".evntOrg_signUp2"
+            android:label="Sign Up"
+            android:theme="@style/splashScreenStyle" />
     </application>
 
 </manifest>
