@@ -6,6 +6,6 @@
     <color name="background">#43A047</color>
     <color name= "buttonColor">#EC0A0A</color>
     <color name="splashBackgroundColor">#3A5E59</color>
-    <color name="secondarycolor">#E2E8EE</color>
+    <color name="secondarycolor">#FFFFFF</color>
 
 </resources>

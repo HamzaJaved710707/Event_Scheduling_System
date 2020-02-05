@@ -1,4 +1,4 @@
-package com.example.eventscheduling;
+package com.example.eventscheduling.client.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.eventscheduling.R;
+
 
 public class client_signUp extends AppCompatActivity {
 
@@ -14,12 +16,11 @@ public class client_signUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evntorg_sign_up);
-        Button regBtn = findViewById(R.id.button);
+        Button regBtn = findViewById(R.id.next_button);
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), evntOrg_home.class);
-                    startActivity(intent);
+
             }
         });
     }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".eventorg.ui.evntOrg_profile"
+    android:background="@color/splashBackgroundColor">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id="@+id/cover_image"
+        android:layout_width="412dp"
+        android:layout_height="240dp"
+        android:src="@mipmap/cover_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="208dp"
+        android:layout_height="179dp"
+        android:layout_marginTop="144dp"
+        android:src="@mipmap/bandhan_marriage_profile"
+        app:layout_constraintEnd_toEndOf="@+id/cover_image"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/cover_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Bandhan Marriage Hall"
+        android:textColor="@color/secondarycolor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/circleImageView"
+        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintStart_toStartOf="@+id/circleImageView"
+        app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:rating="3.5"
+        app:layout_constraintEnd_toEndOf="@+id/circleImageView"
+        app:layout_constraintStart_toStartOf="@+id/circleImageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

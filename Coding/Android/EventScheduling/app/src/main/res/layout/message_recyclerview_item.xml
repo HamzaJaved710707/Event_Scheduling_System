@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.cardview.widget.CardView
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="2dp"
+        card_view:cardCornerRadius="10dp"
+        android:layout_margin="3dp"
+
+    >
+    <FrameLayout
+        android:background="#FF0000"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id = "@+id/recycler_layout"
+        android:background="@color/splashBackgroundColor"
+        android:padding="4dp"
+
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_id"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="4dp"
+            />
+
+        <TextView
+            android:id="@+id/recycler_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Line1"
+            android:layout_toRightOf="@+id/image_id"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="4dp"
+            android:textSize="12pt"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+           />
+        <TextView
+        android:id="@+id/recycler_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Line1"
+        android:layout_toEndOf="@+id/image_id"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:textSize="10pt"
+        android:textColor="@android:color/white"
+        />
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+
+

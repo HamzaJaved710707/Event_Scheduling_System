@@ -1,4 +1,4 @@
-package com.example.eventscheduling;
+package com.example.eventscheduling.eventorg.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.eventscheduling.R;
+
 
 public class evntOrg_signUp extends AppCompatActivity {
 
@@ -15,7 +17,7 @@ public class evntOrg_signUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evntorg_sign_up);
-        Button regBtn = findViewById(R.id.button);
+        Button regBtn = findViewById(R.id.next_button);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override

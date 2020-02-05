@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_profile">
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_profile"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_evnt_org_profile" />
+
+    <fragment
+        android:id="@+id/nav_packages"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Packages"
+        android:label="@string/packages"
+        tools:layout="@layout/fragment_evnt_org__packages" />
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Orders"
+        android:label="@string/order"
+        tools:layout="@layout/fragment_evnt_org__orders" />
+
+    <fragment
+        android:id="@+id/nav_messages"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Messages"
+        android:label="@string/messages"
+        tools:layout="@layout/fragment_evnt_org__messages" />
+
+    <fragment
+        android:id="@+id/nav_analysis"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Analysis"
+        android:label="@string/analysis"
+        tools:layout="@layout/fragment_evnt_org__analysis" />
+
+    <fragment
+        android:id="@+id/nav_portfolio"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Portfolio"
+        android:label="@string/portfolio"
+        tools:layout="@layout/fragment_evnt_org__portfolio" />
+    <fragment
+        android:id="@+id/nav_calender"
+        android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Calender"
+        android:label="@string/portfolio"
+        tools:layout="@layout/fragment_evnt_org__calender" />
+
+</navigation>

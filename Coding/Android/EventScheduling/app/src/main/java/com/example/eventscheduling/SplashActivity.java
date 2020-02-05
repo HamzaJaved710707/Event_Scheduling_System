@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final int splash_display_length = 3000;
+    private final int splash_display_length = 1500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +19,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                   startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
-      },splash_display_length);
+        }, splash_display_length);
     }
+
+
 }

@@ -11,39 +11,41 @@
         android:id="@+id/clientText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/clienttext"
+        android:layout_marginTop="8dp"
+        android:text="@string/Client"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/appCompatImageView"
-        android:layout_width="196dp"
+        android:layout_width="297dp"
 
 
-        android:layout_height="249dp"
+        android:layout_height="289dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/eventschedulingwhitedash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.045" />
+        app:layout_constraintVertical_bias="0.12" />
 
     <TextView
         android:id="@+id/eventIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/eventtext"
+        android:layout_marginTop="8dp"
+        android:text="@string/EventOrganizer"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -51,22 +53,38 @@
         android:id="@+id/imageView2"
         android:layout_width="41dp"
         android:layout_height="61dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="72dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/icon"
+        app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:srcCompat="@mipmap/ifinder" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="41dp"
         android:layout_height="61dp"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/icon"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:srcCompat="@mipmap/ifinder" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/whoAreYou"
+        android:textColor="@color/secondarycolor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,71 @@
 <resources>
+
+    <!-- String Values created by me-->
+
     <string name="app_name">EventScheduling</string>
-    <string name="clienttext">Client</string>
-    <string name="eventtext">EventOrganizer</string>
-    <string name="act2Name">Sign Up</string>
-    <string name="signInhint">Email</string>
-    <string name="signInBtnText">Sign In</string>
+    <string name="registration">Registration</string>
+    <string name="Client">Client</string>
+    <string name="EventOrganizer">Event Organizer</string>
+    <string name="SignUp">Sign Up</string>
+    <string name="Email">Email</string>
+    <string name="SignIn">Sign In</string>
+    <string name="eventschedulingsystem">Event Scheduling System</string>
+    <string name="Map">Map</string>
+    <string name="BusinessContactInformation">Business Contact Information</string>
+    <string name="Province">Province</string>
+    <string name="City">City</string>
+    <string name="Area">Area</string>
+    <string name="Next">Next</string>
+    <string name="Name">Name</string>
+    <string name="MobileNumber">Mobile Number</string>
+    <string name="BusinessInformation">Business Information</string>
+    <string name="BusinessCategory">Business Category</string>
+    <string name="Password">Password</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="logo">Logo</string>
+    <string name="icon">Icon</string>
+    <string name="whoAreYou">Who are you?</string>
+    <string name="BusinessName">Business Name</string>
+    <string name="title_activity_evnt_org_home">evntOrg_home</string>
+
+    <!-- Defaults values created by android studio -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Navigation Bar Strings -->
+    <string name="home">Home</string>
+    <string name="packages">Packages</string>
+    <string name="order">Order</string>
+    <string name="messages">Messages</string>
+    <string name="analysis">Analysis</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="calender">Calender</string>
+    <string name="logout">Logout</string>
+    <string name="share">Share</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <!-- Drawer list array!-->
+
+
+    <array name="titles">
+        <item>Home</item>
+        <item>Packages</item>
+        <item>Messages</item>
+    </array>
 </resources>
+
+

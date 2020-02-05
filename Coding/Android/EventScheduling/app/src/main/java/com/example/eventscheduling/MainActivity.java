@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.eventscheduling.eventorg.ui.evntOrg_signIn;
+import com.muddzdev.styleabletoast.StyleableToast;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void eventOrgIcon(View view){
-        Toast.makeText(this, "This is toast activated while clicking on event org icon", Toast.LENGTH_SHORT).show();
         Intent  intent = new Intent(this, evntOrg_signIn.class);
         startActivity(intent);
+        StyleableToast.makeText(this,"Welcome",R.style.toastStyle);
     }
 }
