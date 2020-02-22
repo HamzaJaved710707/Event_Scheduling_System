@@ -7,5 +7,7 @@
     <color name= "buttonColor">#EC0A0A</color>
     <color name="splashBackgroundColor">#3A5E59</color>
     <color name="secondarycolor">#FFFFFF</color>
+    <color name="tabLayout_color1">#16C0B2</color>
+    <color name="tabLayout_color2">#992340</color>
 
 </resources>

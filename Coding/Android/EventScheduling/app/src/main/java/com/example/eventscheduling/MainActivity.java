@@ -1,35 +1,43 @@
 package com.example.eventscheduling;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.content.Intent;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.eventscheduling.client.ui.client_signIn;
 import com.example.eventscheduling.eventorg.ui.evntOrg_signIn;
-import com.muddzdev.styleabletoast.StyleableToast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-
-        ImageView imageView = findViewById(R.id.imageView2);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eventOrgIcon(v);
-            }
-        });
+        ImageView evntImage = findViewById(R.id.evnt_image);
+        ImageView clientImage = findViewById(R.id.client_imageView);
+        evntImage.setOnClickListener(this);
+        clientImage.setOnClickListener(this);
     }
-    private void eventOrgIcon(View view){
-        Intent  intent = new Intent(this, evntOrg_signIn.class);
-        startActivity(intent);
-        StyleableToast.makeText(this,"Welcome",R.style.toastStyle);
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.evnt_image:
+                Intent intent = new Intent(this, evntOrg_signIn.class);
+                startActivity(intent);
+                break;
+            case R.id.client_imageView:
+                Intent intent1 = new Intent(this, client_signIn.class);
+                startActivity(intent1);
+                break;
+            default:
+                Intent intent2 = new Intent(this, client_signIn.class);
+                startActivity(intent2);
+                break;
+        }
     }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".client.ui.client_home_frag"
+    android:background="@color/splashBackgroundColor">
+
+    <SearchView
+        android:id="@+id/searchview_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:queryHint="Click here to search"
+        android:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager_client_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/secondarycolor"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchview_client">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_client_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2C5F47"
+            app:tabTextColor="#000000"
+            app:tabBackground="@drawable/tab_layout"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:layout_margin="5dp"
+
+            >
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_search_venue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/secondarycolor"
+                android:text="Venue" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_search_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Service" />
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_search_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location" />
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.viewpager.widget.ViewPager>
+</androidx.constraintlayout.widget.ConstraintLayout>

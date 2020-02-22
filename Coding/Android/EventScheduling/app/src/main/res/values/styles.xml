@@ -7,17 +7,22 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="ratingBarStyleSmall">?android:attr/ratingBarStyleSmall</item>
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textColor"> @android:color/white</item>
 
     </style>
 
     <style name="splashScreenStyle" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/splashBackgroundColor</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
     </style>
 
     <style name="spinnerStyle" parent="@style/Widget.AppCompat.Spinner.DropDown">
-        <item name="android:background">@color/splashBackgroundColor</item>
-        <item name="android:textColor">@color/secondarycolor</item>
+        <item name="android:background">@color/secondarycolor</item>
+        <item name="android:textColor">@color/splashBackgroundColor</item>
     </style>
     <style name="nav_theme" parent = "@style/Theme.AppCompat.Light">
         <item name="android:background">@color/splashBackgroundColor</item>
@@ -40,6 +45,22 @@
     <style name="toastStyle">
         <item name="stColorBackground">@color/secondarycolor</item>
         <item name="stTextColor">@color/splashBackgroundColor</item>
+    </style>
+
+    <!--Calender Style-->
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="colorPrimary">@color/secondarycolor</item>
+    </style>
+
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/secondarycolor</item>
+        <item name="android:weekNumberColor">@android:color/holo_red_light</item>
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/secondarycolor</item>
     </style>
 
 

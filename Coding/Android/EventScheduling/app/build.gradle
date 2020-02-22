@@ -45,4 +45,6 @@ dependencies {
     //Stylable Toast
     implementation 'com.muddzdev:styleabletoast:2.2.3'
 
+    // GraphView dependency
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

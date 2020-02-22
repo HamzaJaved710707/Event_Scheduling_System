@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recyler_event_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/splashBackgroundColor"
+    android:layout_margin="3dp"
+    card_view:cardCornerRadius="15dp"
+    card_view:cardElevation="2dp">
+
+    <RelativeLayout
+        android:id="@+id/recycler_layout_client_event"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:background="@drawable/gradient_recycler4"
+        >
+
+        <TextView
+            android:id="@+id/text_client_home_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/secondarycolor"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Wedding Ceremony"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+
+

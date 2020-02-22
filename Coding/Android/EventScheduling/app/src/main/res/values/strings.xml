@@ -3,6 +3,7 @@
     <!-- String Values created by me-->
 
     <string name="app_name">EventScheduling</string>
+    <string name="createPackage">Create Package</string>
     <string name="registration">Registration</string>
     <string name="Client">Client</string>
     <string name="EventOrganizer">Event Organizer</string>
@@ -27,6 +28,8 @@
     <string name="whoAreYou">Who are you?</string>
     <string name="BusinessName">Business Name</string>
     <string name="title_activity_evnt_org_home">evntOrg_home</string>
+    <string name="search">Search</string>
+    <string name="history">History</string>
 
     <!-- Defaults values created by android studio -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -65,6 +68,13 @@
         <item>Home</item>
         <item>Packages</item>
         <item>Messages</item>
+    </array>
+
+    <!--Array list for analysis spinner-->
+    <array name="timespan">
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
     </array>
 </resources>
 

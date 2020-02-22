@@ -15,8 +15,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
+        <activity android:name=".client.ui.client_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".eventorg.ui.evntOrg_home"
             android:label="@string/title_activity_evnt_org_home"
@@ -36,9 +37,11 @@
         <activity
             android:name=".MapLocation"
             android:label="Map" />
-        <activity android:name=".eventorg.ui.evntOrg_signUp3"
-           android:label="Sign Up" />
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".eventorg.ui.evntOrg_signUp3"
+            android:label="Sign Up" />
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/splashScreenStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,8 +51,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="EventSchedulingSystem"
-            >
+            android:label="EventSchedulingSystem">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,13 +64,12 @@
             android:theme="@style/splashScreenStyle" />
         <activity
             android:name=".eventorg.ui.evntOrg_signUp"
-            android:label="Sign Up"
-           />
+            android:label="Sign Up" />
         <activity
             android:name=".eventorg.ui.evntOrg_signUp2"
-            android:label="Sign Up"
-          />
-
+            android:label="Sign Up" />
+        <activity android:name=".client.ui.client_signIn"/>
+        <activity android:name=".client.ui.client_signUp"/>
     </application>
 
 </manifest>

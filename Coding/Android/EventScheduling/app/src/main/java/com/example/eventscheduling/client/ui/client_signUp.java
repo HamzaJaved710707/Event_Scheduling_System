@@ -15,12 +15,13 @@ public class client_signUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evntorg_sign_up);
+        setContentView(R.layout.activity_client_signup);
         Button regBtn = findViewById(R.id.next_button);
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(),client_home.class);
+                startActivity(intent);
             }
         });
     }

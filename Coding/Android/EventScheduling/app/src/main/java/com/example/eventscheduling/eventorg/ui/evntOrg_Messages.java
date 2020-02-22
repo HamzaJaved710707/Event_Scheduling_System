@@ -34,14 +34,9 @@ public class evntOrg_Messages extends Fragment {
         // Inflate the layout for this fragment
 
         View rootview = inflater.inflate(R.layout.fragment_evnt_org__messages, container, false);
+        initImages(rootview);
       //  initImages(rootview);
         return  rootview;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        initImages(view);
     }
 
     public void initImages(View view){

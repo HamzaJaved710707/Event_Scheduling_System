@@ -4,9 +4,9 @@ public class MessageValues {
     private int imageResource;
     private   String messageHeader;
     private String messageDetail;
-    public MessageValues(int imgRes, String imgName, String msgDetail){
+    public MessageValues(int imgRes, String msgHeader, String msgDetail){
         imageResource = imgRes;
-        messageHeader = imgName;
+        messageHeader = msgHeader;
         messageDetail = msgDetail;
     }
     public int getImageResource(){

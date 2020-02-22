@@ -9,7 +9,6 @@
     android:id="@+id/drawer_layout"
     tools:openDrawer="start"
     android:fitsSystemWindows="true"
-
     tools:context = "com.example.eventscheduling.eventorg.ui.evntOrg_home">
     <LinearLayout
         android:layout_width="match_parent"

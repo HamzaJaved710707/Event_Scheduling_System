@@ -23,9 +23,6 @@ import com.google.android.material.navigation.NavigationView;
 
 public class evntOrg_home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private AppBarConfiguration mAppBarConfiguration;
-    String[] titles;
-    ListView listView;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
 
