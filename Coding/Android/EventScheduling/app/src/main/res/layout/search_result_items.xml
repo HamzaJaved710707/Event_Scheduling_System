@@ -7,7 +7,7 @@
         android:id="@+id/recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="589dp"
-        android:background="@color/splashBackgroundColor"
+        android:background="@color/colorPrimary"
         android:padding="4dp"
 
         android:scaleX="1">

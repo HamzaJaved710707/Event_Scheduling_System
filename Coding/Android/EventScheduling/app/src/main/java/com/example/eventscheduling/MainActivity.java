@@ -17,12 +17,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+        //Initialize views
         ImageView evntImage = findViewById(R.id.evnt_image);
         ImageView clientImage = findViewById(R.id.client_imageView);
+        // Event Listeners
         evntImage.setOnClickListener(this);
         clientImage.setOnClickListener(this);
     }
 
+    // Implementation of onClick listener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

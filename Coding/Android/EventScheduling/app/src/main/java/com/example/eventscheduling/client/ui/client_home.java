@@ -1,7 +1,9 @@
 package com.example.eventscheduling.client.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -10,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.eventscheduling.MainActivity;
 import com.example.eventscheduling.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -53,11 +56,17 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.nav_profile_client:
+            case R.id.nav_home_client:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
                         .replace(R.id.frameLayout_clientHome, new client_home_frag())
                         .commit();
                 selectTitle("Home");
+                break;
+            case R.id.nav_profile_client:
+                getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                        .replace(R.id.frameLayout_clientHome, new client_profile())
+                        .commit();
+                selectTitle("Profile");
                 break;
             case R.id.nav_search_client:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
@@ -69,6 +78,7 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
                         .replace(R.id.frameLayout_clientHome, new client_messages())
                         .commit();
+                selectTitle("Messages");
                 break;
             case R.id.nav_history_client:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
@@ -76,6 +86,14 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                         .commit();
                 selectTitle("History");
                 break;
+            case R.id.nav_share:
+                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.nav_logout_client:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+
             default:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
                         .replace(R.id.frameLayout_clientHome, new client_home_frag())

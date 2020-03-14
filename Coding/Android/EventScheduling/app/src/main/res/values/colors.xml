@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#42726A</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#3A5E59</color>
+    <color name="colorPrimaryLight">#0E8877</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="background">#43A047</color>
-    <color name= "buttonColor">#EC0A0A</color>
-    <color name="splashBackgroundColor">#3A5E59</color>
     <color name="secondarycolor">#FFFFFF</color>
     <color name="tabLayout_color1">#16C0B2</color>
-    <color name="tabLayout_color2">#992340</color>
-
 </resources>

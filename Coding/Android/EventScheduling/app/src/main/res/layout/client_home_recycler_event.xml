@@ -5,7 +5,7 @@
     android:id="@+id/recyler_event_cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@color/splashBackgroundColor"
+    card_view:cardBackgroundColor="@color/secondarycolor"
     android:layout_margin="3dp"
     card_view:cardCornerRadius="15dp"
     card_view:cardElevation="2dp">
@@ -14,8 +14,8 @@
         android:id="@+id/recycler_layout_client_event"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
-        android:background="@drawable/gradient_recycler4"
+        android:padding="10dp"
+        android:background="@color/colorPrimaryLight"
         >
 
         <TextView

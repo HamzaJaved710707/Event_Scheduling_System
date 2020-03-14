@@ -1,7 +1,6 @@
 package com.example.eventscheduling.eventorg.model;
 
 import android.content.Context;
-import android.os.TestLooperManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,6 @@ import com.example.eventscheduling.eventorg.util.PackagesValues;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class RecyclerView_Adapter_Packages extends RecyclerView.Adapter<RecyclerView_Adapter_Packages.ViewHolder>  {
     ArrayList<PackagesValues> packagesValues = new ArrayList<>();
 
@@ -37,7 +34,7 @@ public class RecyclerView_Adapter_Packages extends RecyclerView.Adapter<Recycler
     @NonNull
     @Override
     public RecyclerView_Adapter_Packages.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.package_recycler_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.evnt_org_package_recycler_item,parent,false);
         RecyclerView_Adapter_Packages.ViewHolder holder = new RecyclerView_Adapter_Packages.ViewHolder(view);
         Log.d(TAG, "onCreateViewHolder: is called");
         return holder;

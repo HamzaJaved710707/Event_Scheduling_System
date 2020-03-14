@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +38,7 @@ public class client_home_event extends Fragment {
         arrayList.add((new home_event_values("Birthday Party")));
         arrayList.add((new home_event_values("Islamic Event")));
         arrayList.add((new home_event_values("Academic Conference")));
-        arrayList.add((new home_event_values("Family Gathery")));
+        arrayList.add((new home_event_values("Family Gathering")));
         arrayList.add((new home_event_values("Seminar")));
 
         initRecyclerView(view);

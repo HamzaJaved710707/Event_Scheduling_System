@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".eventorg.ui.evntOrg_Portfolio_Videos"
-    android:background="@color/splashBackgroundColor">
+    android:background="@color/colorPrimary">
 
 
     <TextView

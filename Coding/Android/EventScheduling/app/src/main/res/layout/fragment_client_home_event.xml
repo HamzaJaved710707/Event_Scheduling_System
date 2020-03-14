@@ -11,7 +11,7 @@
     android:id="@+id/recycler_client_home_event"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:background="@color/splashBackgroundColor"
+    android:background="@color/colorPrimary"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 

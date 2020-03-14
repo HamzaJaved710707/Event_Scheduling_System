@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.model.client_recycler_event_adapter;

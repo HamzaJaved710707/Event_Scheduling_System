@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/splashBackgroundColor"
+            android:background="@color/colorPrimary"
            />
         <FrameLayout
             android:layout_width="match_parent"
@@ -33,6 +33,6 @@
     android:layout_height="match_parent"
     android:id="@+id/nav_view_id"
     android:layout_gravity = "start"
-    app:headerLayout="@layout/nav_header_evnt_org_home"
+    app:headerLayout="@layout/evnt_org_nav_header"
     app:menu="@menu/activity_evnt_org_home_drawer"/>
 </androidx.drawerlayout.widget.DrawerLayout>

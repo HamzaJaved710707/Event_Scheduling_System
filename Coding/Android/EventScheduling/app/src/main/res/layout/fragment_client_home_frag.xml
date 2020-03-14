@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".client.ui.client_home_frag"
-    android:background="@color/splashBackgroundColor">
+    android:background="@color/colorPrimary">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView2"
@@ -37,7 +37,7 @@
         android:id="@+id/viewPager_client"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/splashBackgroundColor"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView19">
@@ -46,8 +46,8 @@
             android:id="@+id/tabLayout_id_client_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabSelectedTextColor="#030303"
-            app:tabTextColor="#214583"
+            app:tabSelectedTextColor="#000000"
+            app:tabTextColor="#000000"
             app:tabBackground="@drawable/tab_layout"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
@@ -59,7 +59,7 @@
                 android:id="@+id/tab_event_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/splashBackgroundColor"
+                android:background="@color/secondarycolor"
                 android:text="Event" />
 
             <com.google.android.material.tabs.TabItem

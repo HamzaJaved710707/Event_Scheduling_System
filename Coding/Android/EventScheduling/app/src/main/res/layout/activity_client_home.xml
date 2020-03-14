@@ -15,7 +15,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/splashBackgroundColor"
+        android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:id="@+id/toolbar_client_home"
@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:id = "@+id/nav_drawer_client"
         android:layout_gravity = "start"
-        app:headerLayout="@layout/nav_header_client"
+        app:headerLayout="@layout/client_nav_header"
         app:menu="@menu/nav_menu_client"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
