@@ -37,9 +37,10 @@ public class evntOrg_signIn extends AppCompatActivity {
     EditText emailTxt;
     EditText passTxt;
     //Url to fetch data from server
-    String url = "https://eventscheduling.000webhostapp.com/android/logIn_data.php";
+    String url = "https://eventscheduling.000webhostapp.com/android/eventOrganizer/logIn_data.php";
     // This tag will be used to cancel the request
     private String tag_string_req = "string_req";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class evntOrg_signIn extends AppCompatActivity {
         //ProgressBar
         final ProgressBar progressBar = findViewById(R.id.progBar_Evnt_signIn);
         //Alert Dialog
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(evntOrg_signIn.this);
         //To disable automatic popup of keyboard on screen...
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -89,6 +90,7 @@ public class evntOrg_signIn extends AppCompatActivity {
                                                              String value = jsonObject.getString("code");
                                                              Log.d(TAG, "onResponse: " + value);
                                                              if (value.matches("1")) {
+                                                                 // IF everything is sucessfull then go to Home Activity
                                                               Intent intent = new Intent(getApplicationContext(),evntOrg_home.class);
                                                               startActivity(intent);
                                                              } else if(value.matches("0")){

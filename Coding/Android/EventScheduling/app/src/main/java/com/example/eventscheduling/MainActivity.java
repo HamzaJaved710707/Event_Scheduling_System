@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.eventscheduling.client.ui.client_signIn;
 import com.example.eventscheduling.eventorg.ui.evntOrg_signIn;
+import com.example.eventscheduling.eventorg.ui.evntOrg_signUp2;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

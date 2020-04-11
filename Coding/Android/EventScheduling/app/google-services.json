@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "353168055372",
+    "firebase_url": "https://eventscheduling.firebaseio.com",
+    "project_id": "eventscheduling",
+    "storage_bucket": "eventscheduling.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353168055372:android:dcafb139424b9046fc28e9",
+        "android_client_info": {
+          "package_name": "com.example.eventscheduling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353168055372-sl1jhp1a9psich1j235io3gv0ghb67qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtspRsDNpZqkjW8bgD0nfuoecr5jAC8Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353168055372-sl1jhp1a9psich1j235io3gv0ghb67qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

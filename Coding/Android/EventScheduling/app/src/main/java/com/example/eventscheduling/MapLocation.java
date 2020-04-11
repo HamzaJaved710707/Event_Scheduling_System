@@ -1,16 +1,22 @@
 package com.example.eventscheduling;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.eventscheduling.client.ui.client_signUp;
+import com.example.eventscheduling.eventorg.ui.evntOrg_signUp2;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,24 +27,62 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapLocation extends FragmentActivity implements OnMapReadyCallback {
+import java.util.Objects;
+
+public class MapLocation extends FragmentActivity implements OnMapReadyCallback{
     private static final String TAG = "MapLocation";
+    // variable to store values
+    public double latitude;
+    public double longitude;
     private GoogleMap mMap;
     private boolean mServicePermission = false;
-
     // Permissions which are needed for map
     private String locationPermission = Manifest.permission.ACCESS_FINE_LOCATION;
     private String coarsePermission = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private FusedLocationProviderClient fusedLocationProviderClient;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_location);
+        // Get Intent to disable button
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        //Button listener
+        ((SupportMapFragment) Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.map_id))).getMapAsync(this);
+        Button button = findViewById(R.id.select_map_button);
+
+        Intent intent = getIntent();
+        final String value = intent.getStringExtra("Value");
+        if(!value.matches("[12]")){
+            button.setVisibility(View.INVISIBLE);
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(value.matches("1")){
+                    Intent intent = new Intent(MapLocation.this, evntOrg_signUp2.class);
+                    String mLatitude = String.valueOf(latitude);
+                    String mLongitude = String.valueOf(longitude);
+                    intent.putExtra("latitude", mLatitude);
+                    intent.putExtra("longitude", mLongitude);
+                    intent.putExtra("value","1");
+                    startActivity(intent);
+                }
+                else if(value.matches("2")){
+                    Intent intent = new Intent(MapLocation.this, client_signUp.class);
+                    Log.d(TAG, "onClick: in maplocation " + latitude + longitude);
+                    String mLatitude = String.valueOf(latitude);
+                    String mLongitude = String.valueOf(longitude);
+                    intent.putExtra("latitude", mLatitude);
+                    intent.putExtra("longitude", mLongitude);
+                    intent.putExtra("value","1");
+                    startActivity(intent);
+                }
+
+            }
+        });
+
     }
 
 
@@ -71,15 +115,19 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
 
     // Function to get current location of user
     public void getLocation() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             if (mServicePermission) {
                 final Task location = fusedLocationProviderClient.getLastLocation();
+
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             Location location1 = (Location) task.getResult();
+                            longitude = Objects.requireNonNull(location1).getLongitude();
+                            latitude = Objects.requireNonNull(location1).getLatitude();
+                            Log.d(TAG, "onComplete: in Maplocation " + latitude + longitude);
                             moveCamera(new LatLng(location1.getLatitude(), location1.getLongitude()), 15f);
                         }
                     }
@@ -94,4 +142,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
     public void moveCamera(LatLng latLng, float zoom) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
+
+
+
 }

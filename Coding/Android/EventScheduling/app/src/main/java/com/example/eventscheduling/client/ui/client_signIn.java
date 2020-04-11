@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class client_signIn extends AppCompatActivity {
     private static final String TAG = "client_signIn";
-    private static String url = "https://www.eventscheduling.000webapps.com";
+    private static String url = "https://eventscheduling.000webhostapp.com/android/client/logIn_data.php";
     TextView emailTxt;
     TextView passwordTxt;
     private ProgressDialog progressDialog;

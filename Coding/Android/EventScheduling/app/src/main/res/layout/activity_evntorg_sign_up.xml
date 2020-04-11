@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     tools:context=".eventorg.ui.evntOrg_signUp">
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -121,7 +123,7 @@
         android:autofillHints=""
         android:background="@drawable/borderstyle"
         android:ems="10"
-        android:inputType="textPersonName|text|textPassword|textEmailAddress"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.359"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -151,7 +153,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
+</ScrollView>
     <TextView
         android:id="@+id/registration_text"
         android:layout_width="wrap_content"

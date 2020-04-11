@@ -8,147 +8,173 @@
     android:background="@color/colorPrimary"
     tools:context=".eventorg.ui.evntOrg_signUp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/background_layout"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        >
-
-        <TextView
-            android:id="@+id/name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/Name"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/signC_edTxt_name"
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:autofillHints=""
-            android:background="@drawable/borderstyle"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/name_text" />
-
-        <TextView
-            android:id="@+id/email_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="@string/Email"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_name" />
-
-        <EditText
-            android:id="@+id/signC_edTxt_email"
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:autofillHints=""
-            android:background="@drawable/borderstyle"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/email_text" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/MobileNumber"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_email" />
-
-        <EditText
-            android:id="@+id/signC_edTxt_mNo"
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="4dp"
-            android:autofillHints=""
-            android:background="@drawable/borderstyle"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="@string/Password"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_mNo" />
-
-        <EditText
-            android:id="@+id/signC_edTxt_pass"
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:autofillHints=""
-            android:background="@drawable/borderstyle"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <Button
-            android:id="@+id/sign2_btn_next"
-            android:layout_width="267dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="52dp"
-            android:background="@drawable/buttonlayout"
-            android:text="@string/Next"
-            android:textColor="#020202"
-            android:textSize="18sp"
-            android:textStyle="bold"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="312dp"
+            android:layout_height="482dp"
+            android:background="@drawable/background_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_pass"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registration_text">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.08" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/Name"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <EditText
+                android:id="@+id/signC_edTxt_name"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:autofillHints="user name"
+                android:background="@drawable/borderstyle"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/name_text" />
+
+            <TextView
+                android:id="@+id/email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:text="@string/Email"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_name" />
+
+            <EditText
+                android:id="@+id/signC_edTxt_email"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:autofillHints="Email address"
+                android:background="@drawable/borderstyle"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/email_text" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/MobileNumber"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_email" />
+
+            <EditText
+                android:id="@+id/signC_edTxt_mNo"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:autofillHints="Mobile Number"
+                android:background="@drawable/borderstyle"
+                android:ems="10"
+                android:inputType="phone|number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/Password"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_mNo" />
+
+            <EditText
+                android:id="@+id/signC_edTxt_pass"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:autofillHints="password"
+                android:background="@drawable/borderstyle"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <Button
+                android:id="@+id/sign2_btn_next"
+                android:layout_width="267dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/buttonlayout"
+                android:text="@string/Next"
+                android:textColor="#020202"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/client_mapView" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.08" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/Map"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/signC_edTxt_pass" />
+
+            <ImageView
+                android:id="@+id/client_mapView"
+                android:layout_width="211dp"
+                android:layout_height="118dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/textView21"
+                app:srcCompat="@mipmap/google_map_img" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
     <TextView
         android:id="@+id/registration_text"
         android:layout_width="wrap_content"
@@ -161,5 +187,15 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progBar_Client_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
