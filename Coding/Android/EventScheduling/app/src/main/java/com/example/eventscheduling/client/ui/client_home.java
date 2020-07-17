@@ -37,9 +37,9 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
         actionBarDrawerToggle.syncState();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                    .replace(R.id.frameLayout_clientHome, new client_home_frag())
+                    .replace(R.id.frameLayout_clientHome, new client_profile())
                     .commit();
-            selectTitle("Home");
+            selectTitle("Profile");
         }
     }
 
@@ -48,7 +48,9 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
 
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) { return true; }
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         // Handle your other action bar items...
         return super.onOptionsItemSelected(item);
     }
@@ -56,17 +58,22 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.nav_home_client:
-                getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                        .replace(R.id.frameLayout_clientHome, new client_home_frag())
-                        .commit();
-                selectTitle("Home");
-                break;
             case R.id.nav_profile_client:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
                         .replace(R.id.frameLayout_clientHome, new client_profile())
                         .commit();
                 selectTitle("Profile");
+                break;
+            case R.id.nav_packages_client:
+                getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                        .replace(R.id.frameLayout_clientHome, new client_packages_frag())
+                        .commit();
+                selectTitle("Packages");
+                break;
+            case R.id.nav_orders_client:
+                getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                        .replace(R.id.frameLayout_clientHome, new client_orders())
+                        .commit();
                 break;
             case R.id.nav_search_client:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
@@ -93,12 +100,12 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
             case R.id.nav_logout_client:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-
+                break;
             default:
                 getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                        .replace(R.id.frameLayout_clientHome, new client_home_frag())
+                        .replace(R.id.frameLayout_clientHome, new client_profile())
                         .commit();
-                selectTitle("Home");
+                selectTitle("Profile");
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

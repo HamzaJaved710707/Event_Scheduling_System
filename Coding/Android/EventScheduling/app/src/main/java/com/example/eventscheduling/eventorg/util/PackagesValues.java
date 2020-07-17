@@ -1,40 +1,70 @@
 package com.example.eventscheduling.eventorg.util;
 
 
+import android.text.Editable;
+
+import java.util.List;
+
 // Class to return values to packages of event Organizer
 public class PackagesValues {
-
-    private int imageResource;
+    // Variables
     private String PackageName;
-    private String packagePrice;
-    private float rating;
-    private String location;
+    private String Price;
+    private String Venue;
+    private String imageAdr;
+    private int rating;
 
-    public PackagesValues(int imgRes, String packageName, String mpackagePrice, String mlocation, float mRating) {
-        imageResource = imgRes;
+    public PackagesValues() {
+        // empty constructor for firebase recycler
+    }
+
+    // Public constructor
+    public PackagesValues(String packageName, List<String> food, List<String> services, String price, String venue, String imageAdr) {
         PackageName = packageName;
-        packagePrice = mpackagePrice;
-        location = mlocation;
-        rating = mRating;
+        Price = price;
+        Venue = venue;
+        this.imageAdr = imageAdr;
     }
 
-    public int getImageResource() {
-        return imageResource;
+    public int getRating() {
+        return rating;
     }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+// Getter and setter
 
     public String getPackageName() {
         return PackageName;
     }
 
-    public String getPackagePrice() {
-        return packagePrice;
+    public void setPackageName(String packageName) {
+        PackageName = packageName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getPrice() {
+        return Price;
     }
 
-    public float getRating() {
-        return rating;
+    public void setPrice(String price) {
+        Price = price;
+    }
+
+    public String getVenue() {
+        return Venue;
+    }
+
+    public void setVenue(String venue) {
+        Venue = venue;
+    }
+
+    public String getImageAdr() {
+        return imageAdr;
+    }
+
+    public void setImageAdr(String imageAdr) {
+        this.imageAdr = imageAdr;
     }
 }

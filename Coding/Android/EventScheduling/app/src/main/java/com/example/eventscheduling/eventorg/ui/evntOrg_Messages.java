@@ -1,6 +1,7 @@
 package com.example.eventscheduling.eventorg.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,49 +15,77 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Message;
 import com.example.eventscheduling.eventorg.util.MessageValues;
-
-import java.util.ArrayList;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 // Message Fragment to Show messages to Event organizer
 public class evntOrg_Messages extends Fragment {
     private static final String TAG = "evntOrg_Messages";
-    /// Array List to get Messages Values from messageValue class
-    ArrayList<MessageValues> arrayList = new ArrayList<>();
+    private FirebaseUser currentUser;
+    private String currentUserID;
+    private CollectionReference dbReference;
+    private FirebaseAuth mAuth;
+    private FloatingActionButton floatingActionBtn;
+    private RecyclerView_Adapter_Message adapter_message;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View rootview = inflater.inflate(R.layout.fragment_evnt_org__messages, container, false);
-        initImages(rootview);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        floatingActionBtn = rootview.findViewById(R.id.floatBtn_msg_evnt);
+        floatingActionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), evntOrg_friend_list.class));
+            }
+        });
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        currentUserID = currentUser.getUid();
+        dbReference = FirebaseFirestore.getInstance().collection("Users").document(currentUserID).collection("conversation");
+        initRecyclerView(rootview);
         return rootview;
     }
 
-    public void initImages(View view) {
-        Log.d(TAG, "initImages: is called");
-
-        // Initialize values to arrayList of MessageValues
-        arrayList.add((new MessageValues(R.mipmap.talha_img, "Talha", "Where are you?")));
-        arrayList.add((new MessageValues(R.mipmap.ahmed_img, "Ahmed", "Please send me notes...")));
-        arrayList.add((new MessageValues(R.mipmap.talmeez_img, "Talmeez", "How are you?")));
-        arrayList.add((new MessageValues(R.mipmap.hamza_img, "Hamza", "Namaz parha karo sb...")));
-        arrayList.add((new MessageValues(R.mipmap.talha_img, "Talha", "Where are you?")));
-        arrayList.add((new MessageValues(R.mipmap.ahmed_img, "Ahmed", "Please send me notes...")));
-        arrayList.add((new MessageValues(R.mipmap.talmeez_img, "Talmeez", "How are you?")));
-        arrayList.add((new MessageValues(R.mipmap.hamza_img, "Hamza", "Namaz parha karo sb...")));
-        initRecyclerView(view);
+    private void initRecyclerView(View rootview) {
+        Log.d(TAG, "initRecyclerView: start");
+        Query query = dbReference.orderBy("timeStamp", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<MessageValues> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<MessageValues>().setQuery(query, MessageValues.class).build();
+        adapter_message = new RecyclerView_Adapter_Message(getContext(), firestoreRecyclerOptions);
+        recyclerView = rootview.findViewById(R.id.message_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(rootview.getContext()));
+        recyclerView.setAdapter(adapter_message);
+        adapter_message.onItemClickListner(new RecyclerView_Adapter_Message.itemClickListenerMsgDetail() {
+            @Override
+            public void itemClickListener(DocumentSnapshot documentSnapshot, int position) {
+                String chatUserId = documentSnapshot.getId();
+                Intent intent = new Intent(getContext(), evntOrg_MessageDetail.class);
+                intent.putExtra("chatId", chatUserId);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void initRecyclerView(View view) {
-        Log.d(TAG, "initRecyclerView: is called");
-        // Initialize RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.message_recyclerview);
-        //Set adapter for recyclerView
-        RecyclerView_Adapter_Message recyclerView_adapterMessage = new RecyclerView_Adapter_Message(view.getContext(), arrayList);
-        recyclerView.setAdapter(recyclerView_adapterMessage);
+    @Override
+    public void onStart() {
+        Log.d(TAG, "onStart: ");
+        super.onStart();
+        adapter_message.startListening();
+    }
 
-        //Set Layout for recyclerView either it is horizontal or vertical
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter_message.stopListening();
     }
 }

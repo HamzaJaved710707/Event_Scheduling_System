@@ -24,19 +24,20 @@
             android:layout_marginBottom="4dp"
             android:src="@mipmap/marriage_hall_1" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/image_id"
-            android:layout_alignStart="@+id/image_id"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="212dp"
-            android:text="Bandhan Marriage Hall"
-            android:textColor="@color/secondarycolor"
-            android:textSize="16sp" />
+     <TextView
+         android:id="@+id/textView8"
+         android:layout_width="178dp"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/image_id"
+         android:layout_alignStart="@+id/image_id"
+         android:layout_alignEnd="@+id/image_id"
+         android:layout_alignParentEnd="true"
+         android:layout_marginStart="13dp"
+         android:layout_marginTop="12dp"
+         android:layout_marginEnd="208dp"
+         android:text="Bandhan Marriage Hall"
+         android:textColor="@color/secondarycolor"
+         android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -63,17 +64,19 @@
             android:textColor="@color/secondarycolor"
             android:textSize="18sp" />
 
-        <RatingBar
-            android:id="@+id/rating_bar"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_alignStart="@+id/image_id"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="256dp"
-            android:layout_marginBottom="305dp"
-            android:numStars="5"
-            android:rating="3"
-            style="?attr/ratingBarStyleSmall" />
+     <RatingBar
+         android:id="@+id/rating_bar"
+         style="?attr/ratingBarStyleSmall"
+         android:layout_width="80dp"
+         android:layout_height="20dp"
+         android:layout_below="@+id/image_id"
+         android:layout_alignStart="@+id/image_id"
+         android:layout_alignParentEnd="true"
+         android:layout_marginStart="256dp"
+         android:layout_marginTop="18dp"
+         android:layout_marginEnd="71dp"
+         android:numStars="5"
+         android:rating="3" />
 
     </RelativeLayout>
 

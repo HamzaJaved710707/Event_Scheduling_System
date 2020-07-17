@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".eventorg.ui.evntOrg_Packages">
+    tools:context=".eventorg.ui.evntOrg_Packages"
+    android:id="@+id/evntOrg_packages_frameLayout">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/package_recycler"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +20,7 @@
         app:layout_constraintVertical_bias="0.604" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_actionBar"
+        android:id="@+id/floating_AtnBar_evnt_package"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -36,4 +38,5 @@
         android:backgroundTint="@color/secondarycolor"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

@@ -61,6 +61,11 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="ok">OK</string>
+    <string name="Search">Search</string>
+    <string name="Line">Line</string>
+    <string name="hamza">Hamza</string>
+    <string name="image_about_package">Image about Package</string>
+    <string name="image_of_location_icon">Image of location icon</string>
 
     <!-- Drawer list array!-->
 
@@ -76,6 +81,39 @@
         <item>Weekly</item>
         <item>Monthly</item>
         <item>Yearly</item>
+    </array>
+    <array name="service_list">
+        <item>Catering</item>
+        <item>Decoration</item>
+        <item>Cards</item>
+    </array>
+    <array name="food_list">
+        <item>Chicken</item>
+        <item>Mutton</item>
+        <item>Beaf</item>
+    </array>
+
+
+    <array name="Business_Category">
+        <item>Event_Organizer</item>
+        <item>Venue_Provider</item>
+        <item>Caterer</item>
+        <item>Decoration</item>
+        <item>Car_Rent</item>
+        <item>Invitation_Card</item>
+    </array>
+<array name="LocationType">
+    <item>Current_Location</item>
+    <item>Random_Location</item>
+</array>
+
+    <array name="Venue_list">
+        <item>Bandhan Marriage Hall</item>
+        <item>Royal Marriage Hall</item>
+        <item>City Marriage Hall</item>
+        <item>Paradise Marriage Hall</item>
+        <item>Sanjog Marriage Hall</item>
+        <item>Makkah Marriage Hall</item>
     </array>
 </resources>
 

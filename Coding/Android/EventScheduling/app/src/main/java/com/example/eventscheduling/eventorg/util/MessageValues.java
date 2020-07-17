@@ -2,25 +2,28 @@ package com.example.eventscheduling.eventorg.util;
 
 // Class to provide data to message Adapter of Event Organizer
 public class MessageValues {
-    private int imageResource;
-    private String messageHeader;
-    private String messageDetail;
+    int imageResource;
+    String Name;
+    String message;
 
-    public MessageValues(int imgRes, String msgHeader, String msgDetail) {
-        imageResource = imgRes;
-        messageHeader = msgHeader;
-        messageDetail = msgDetail;
+    public MessageValues() {
+    }
+
+    public MessageValues( String Name, int imageResource,String message) {
+        this.Name = Name;
+        this.imageResource = imageResource;
+        this.message = message;
     }
 
     public int getImageResource() {
         return imageResource;
     }
 
-    public String getMessageHeader() {
-        return messageHeader;
+    public String getName() {
+        return Name;
     }
 
-    public String getMessageDetail() {
-        return messageDetail;
+    public String getMessage() {
+        return message;
     }
 }

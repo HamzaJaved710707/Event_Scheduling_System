@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--  Colors values  -->
     <color name="colorPrimary">#3A5E59</color>
     <color name="colorPrimaryLight">#0E8877</color>
     <color name="colorAccent">#D81B60</color>
     <color name="secondarycolor">#FFFFFF</color>
     <color name="tabLayout_color1">#16C0B2</color>
+
+
+
 </resources>

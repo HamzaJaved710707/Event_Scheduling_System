@@ -5,4 +5,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    <style name="MainActionBar.Popup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/secondarycolor</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 </resources>

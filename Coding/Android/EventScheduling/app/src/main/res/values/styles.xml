@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
@@ -9,7 +9,7 @@
         <item name="ratingBarStyleSmall">?android:attr/ratingBarStyleSmall</item>
         <item name="android:editTextColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
-        <item name="android:textColor"> @android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
 
     </style>
 
@@ -24,7 +24,13 @@
         <item name="android:background">@color/secondarycolor</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
-    <style name="nav_theme" parent = "@style/Theme.AppCompat.Light">
+    <style name="AutoCompleteStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:background">@color/secondarycolor</item>
+        <item name = "android:textColor"> @color/colorPrimary</item>
+
+    </style>
+
+    <style name="p" parent="@style/Theme.AppCompat.Light">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/secondarycolor</item>
     </style>
@@ -37,14 +43,23 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/secondarycolor</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"
-        >
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/secondarycolor</item>
     </style>
+    <style name="MainActionBar.Popup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/secondarycolor</item>
+    </style>
+
     <style name="toastStyle">
-        <item name="stColorBackground">@color/secondarycolor</item>
-        <item name="stTextColor">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/secondarycolor</item>
     </style>
 
     <!--Calender Style-->
@@ -62,6 +77,11 @@
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">@color/secondarycolor</item>
     </style>
+
+<style name="buttonStyle" parent="TextAppearance.MaterialComponents.Button">
+    <item name = "android:background">@android:color/holo_red_dark</item>
+</style>
+
 
 
 </resources>

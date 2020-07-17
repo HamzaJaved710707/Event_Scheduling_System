@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/cover_image"
+            android:id="@+id/evnt_cover_pic"
             android:layout_width="match_parent"
             android:layout_height="173dp"
             android:scaleType="fitXY"
@@ -22,14 +22,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView"
+            android:id="@+id/evnt_profile_pic"
             android:layout_width="208dp"
             android:layout_height="179dp"
             android:layout_marginTop="96dp"
             android:src="@mipmap/bandhan_marriage_profile"
-            app:layout_constraintEnd_toEndOf="@+id/cover_image"
+            app:layout_constraintEnd_toEndOf="@+id/evnt_cover_pic"
             app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="@+id/cover_image"
+            app:layout_constraintStart_toStartOf="@+id/evnt_cover_pic"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -41,10 +41,10 @@
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/circleImageView"
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
             app:layout_constraintHorizontal_bias="0.597"
-            app:layout_constraintStart_toStartOf="@+id/circleImageView"
-            app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_pic" />
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -52,8 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:rating="3.5"
-            app:layout_constraintEnd_toEndOf="@+id/circleImageView"
-            app:layout_constraintStart_toStartOf="@+id/circleImageView"
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <TextView

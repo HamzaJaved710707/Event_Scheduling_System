@@ -1,99 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="18dp"
     android:layout_margin="5dp"
+    app:cardCornerRadius="16dp"
     >
 
-    <RelativeLayout
-        android:id="@+id/recycler_layout"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recycler_constriantLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:padding="4dp">
+        android:padding="4dp"
+
+
+        >
+
 
         <ImageView
             android:id="@+id/image_id"
-            android:layout_width="385dp"
-            android:layout_height="236dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="4dp"
-            android:src="@mipmap/food_1" />
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="4dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/food_1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/image_about_package"
+           />
 
         <TextView
             android:id="@+id/pakage_name_text"
-            android:layout_width="178dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_id"
-            android:layout_alignStart="@+id/image_id"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="212dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
             android:text="Special Package"
             android:textColor="@color/secondarycolor"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_id"
+
+            />
 
         <ImageView
             android:id="@+id/location_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pakage_name_text"
-            android:layout_alignStart="@+id/textView8"
-            android:layout_marginStart="-4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="-20dp"
-            android:layout_toStartOf="@+id/location_text"
-            android:src="@drawable/ic_location" />
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pakage_name_text"
+            android:contentDescription="@string/image_of_location_icon" />
 
         <TextView
             android:id="@+id/location_text"
-            android:layout_width="174dp"
-            android:layout_height="53dp"
-            android:layout_below="@+id/image_id"
-            android:layout_alignStart="@+id/pakage_name_text"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="33dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:maxLines="1"
             android:text="Bandhan Marriage Hall"
             android:textColor="@color/secondarycolor"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/location_icon"
+            app:layout_constraintTop_toTopOf="@id/location_icon" />
+
 
         <RatingBar
             android:id="@+id/rating_bar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/price_text"
-            android:layout_alignEnd="@+id/image_id"
-            android:layout_marginStart="-126dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="-30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_toEndOf="@+id/textView8"
             android:numStars="5"
-            android:rating="3" />
+            android:rating="3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_id" />
+
 
         <TextView
             android:id="@+id/price_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_id"
-            android:layout_alignStart="@+id/image_id"
-            android:layout_alignEnd="@+id/image_id"
-            android:layout_marginStart="267dp"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:maxLines="1"
             android:text="Rs: 1200/per head"
             android:textColor="@color/secondarycolor"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rating_bar" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/view_detail_about_package"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:paddingBottom="4dp"
+            android:text="View Detail"
+            android:textColor="?android:attr/colorFocusedHighlight"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/price_text" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 

@@ -22,7 +22,7 @@
 
         >
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_id"
+            android:id="@+id/image_id_msg"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="4dp"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Line1"
-            android:layout_toRightOf="@+id/image_id"
+            android:layout_toRightOf="@+id/image_id_msg"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="4dp"
             android:textSize="12pt"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Line1"
-        android:layout_toEndOf="@+id/image_id"
+        android:layout_toEndOf="@+id/image_id_msg"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         android:textSize="10pt"

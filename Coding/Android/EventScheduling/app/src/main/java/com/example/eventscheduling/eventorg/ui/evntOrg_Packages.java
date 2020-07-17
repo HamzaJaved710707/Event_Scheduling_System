@@ -1,6 +1,11 @@
 package com.example.eventscheduling.eventorg.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,51 +13,88 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Packages;
 import com.example.eventscheduling.eventorg.util.PackagesValues;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class evntOrg_Packages extends Fragment {
     private static final String TAG = "evntOrg_Packages";
-    ArrayList<PackagesValues> arrayList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private RecyclerView_Adapter_Packages packages_adapter;
+    private FloatingActionButton floatingActionButton;
+    private FirebaseUser currentUser;
+    private String currentUserID;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
+    private CollectionReference dbReference;
 
+
+    // Oncreate View constructor of packages
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_evnt_org__packages, container, false);
+        View view = inflater.inflate(R.layout.fragment_evnt_org__packages, container, false);
+        floatingActionButton = view.findViewById(R.id.floating_AtnBar_evnt_package);
+        firestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUserID = currentUser.getUid();
+        }
+        dbReference = FirebaseFirestore.getInstance().collection("Users").document(currentUserID).collection("Packages");
+        initRecyclerView(view);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initImages(view);
+        // Floating Action button which can be used to open activity of create packages...
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), evntOrg_Package_create.class));
+            }
+        });
 
     }
-    public void initImages(View view){
-        arrayList.add(new PackagesValues(R.mipmap.food_1,"Special Package 1","Rs:1400/per head","Bandhan Marriage Hall",5));
-        arrayList.add(new PackagesValues(R.mipmap.food_2,"Shadi Package ","Rs:900/per head","Bandhan Marriage Hall",4));
-        arrayList.add(new PackagesValues(R.mipmap.food_3,"Special Package 2","Rs:1000/per head","Bandhan Marriage Hall",5));
-        arrayList.add(new PackagesValues(R.mipmap.food_4,"Local Offer","Rs:800/per head","Bandhan Marriage Hall",3));
-        arrayList.add(new PackagesValues(R.mipmap.food_5,"Limited Package","Rs:1400/per head","Bandhan Marriage Hall",5));
 
-
-        initRecyclerView(view);
-    }
-    public void initRecyclerView(View view){
+    // to initialize the adapter and recyclerview of Packages of event organizer
+    public void initRecyclerView(View view) {
         Log.d(TAG, "initRecyclerView: is called");
-        RecyclerView recyclerView =  view.findViewById(R.id.package_recycler);
-        RecyclerView_Adapter_Packages recyclerView_adapter_packages = new RecyclerView_Adapter_Packages(view.getContext(),arrayList);
-        recyclerView.setAdapter(recyclerView_adapter_packages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));}
+        recyclerView = view.findViewById(R.id.package_recycler);
+        Query query = dbReference.orderBy("PackageName", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<PackagesValues> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<PackagesValues>().setQuery(query, PackagesValues.class).build();
+        packages_adapter = new RecyclerView_Adapter_Packages(getContext(), firestoreRecyclerOptions);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(packages_adapter);
+    }
 
+    // Start listening values from server when this activity is started
+    @Override
+    public void onStart() {
+        super.onStart();
+        packages_adapter.startListening();
+    }
 
+    // stop listening values from server when this activity is stopped
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (packages_adapter != null) {
+            packages_adapter.stopListening();
+        }
 
-
+    }
 }

@@ -1,219 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".eventorg.ui.evntOrg_signUp2">
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="331dp"
-            android:layout_height="572dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/background_layout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="1.0"
-            tools:context=".eventorg.ui.evntOrg_signUp2">
-
-            <EditText
-                android:id="@+id/sign2_edTxt_bussName"
-                android:layout_width="250dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/borderstyle"
-                android:ems="10"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/business_name_text" />
-
-            <TextView
-                android:id="@+id/province_name_text"
-                android:layout_width="77dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Province"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/sign2_spin_bussCat" />
-
-            <EditText
-                android:id="@+id/sign2_edTxt_cityName"
-                android:layout_width="250dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/borderstyle"
-                android:ems="10"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/province_text" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/Area"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/sign2_edTxt_cityName" />
-
-            <EditText
-                android:id="@+id/sign2_edTxt_area"
-                android:layout_width="250dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/borderstyle"
-                android:ems="10"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <EditText
-                android:id="@+id/sign2_edTxt_province"
-                android:layout_width="243dp"
-                android:layout_height="33dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/borderstyle"
-                android:ems="10"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/province_name_text" />
-
-            <ImageView
-                android:id="@+id/map_image_id"
-                android:layout_width="278dp"
-                android:layout_height="136dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/google_map_img"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Map"
-                android:textColor="@color/secondarycolor"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/sign2_edTxt_area" />
-
-            <Button
-                android:id="@+id/sign2_btn_next"
-                android:layout_width="267dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/buttonlayout"
-                android:text="@string/Next"
-                android:textColor="#020202"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.319"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/map_image_id" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.051359516" />
-
-            <TextView
-                android:id="@+id/email_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/BusinessCategory"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/sign2_edTxt_bussName" />
-
-            <TextView
-                android:id="@+id/province_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/City"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/sign2_edTxt_province" />
-
-            <TextView
-                android:id="@+id/business_name_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/BusinessName"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/sign2_spin_bussCat"
-                android:layout_width="255dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:popupBackground="@color/colorPrimary"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/email_text" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Registration"
+        android:id="@+id/reg_txt_signUp2_evntOrg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="24dp"
-        android:text="@string/BusinessInformation"
-        android:textColor="@android:color/background_light"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/reg_txt_signUp2_evntOrg"
+        android:id="@+id/evnt_signUp_business_wrapper"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/BusinessName"
+        android:textColorHint="@color/secondarycolor"
+        app:boxStrokeColor="@color/secondarycolor"
+        android:paddingStart="16dp"
+        android:paddingEnd = "16dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/evnt_signUp_bussCat_wrapper"
+        app:endIconMode="dropdown_menu"
+        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:paddingStart="16dp"
+        android:paddingEnd = "16dp"
+        android:layout_marginTop="8dp"
+        android:textColorHint="@color/secondarycolor"
+        app:boxStrokeColor="@color/secondarycolor"
+        app:layout_constraintTop_toBottomOf="@+id/evnt_signUp_business_wrapper"
+        android:hint="@string/BusinessCategory">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/evnt_signUp2_busCat_txtView"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/evnt_signUp_bussCat_wrapper"
+        android:id="@+id/evnt_signUp_province_wrapper"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/Province"
+        android:textColorHint="@color/secondarycolor"
+        app:boxStrokeColor="@color/secondarycolor"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd = "16dp"
 
-    <ProgressBar
-        android:id="@+id/progBar_Evnt_SignUp2"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/city_layout_evntSignUp2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/City"
+        android:textColorHint="@color/secondarycolor"
+        app:boxStrokeColor="@color/secondarycolor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/evnt_signUp_province_wrapper"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd = "16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/city_layout_evntSignUp2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/SignUp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/buttonlayout"
+        android:id="@+id/btn_evntOrg_signUp2"
+        />
+
+<ProgressBar
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/progBar_Evnt_SignUp2"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    ></ScrollView>

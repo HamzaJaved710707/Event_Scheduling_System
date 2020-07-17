@@ -22,6 +22,7 @@ import com.example.eventscheduling.MainActivity;
 import com.example.eventscheduling.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class evntOrg_home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -80,9 +81,14 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
         }
         else{
             switch (item.getItemId()){
-                case R.id.action_settings:
+                case R.id.logOut:
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    mAuth.signOut();
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.search_person:
+                    Toast.makeText(this, "Search menu is selected", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
