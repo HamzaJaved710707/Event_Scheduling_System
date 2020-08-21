@@ -9,4 +9,8 @@
         <item name="android:colorBackground">@color/secondarycolor</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+    <style name = "OverflowStyle" parent = "Theme.MaterialComponents.Light">
+        <item name = "android:background"> @color/colorPrimary</item>
+    </style>
+
 </resources>

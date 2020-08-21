@@ -24,6 +24,15 @@ public class evntOrg_emailVerification extends AppCompatActivity {
         setContentView(R.layout.activity_evnt_org_email_verification);
        mAuth = FirebaseAuth.getInstance();
        user = mAuth.getCurrentUser();
+       if(user != null){
+           if(user.isEmailVerified()){
+               Intent intent = new Intent(evntOrg_emailVerification.this,evntOrg_home.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK & Intent.FLAG_ACTIVITY_CLEAR_TASK);
+              startActivity(intent);
+               finish();
+           }
+       }
+
         Button buttonExit   = findViewById(R.id.btn_email_verify);
         buttonExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +48,7 @@ public class evntOrg_emailVerification extends AppCompatActivity {
                 user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(evntOrg_emailVerification.this, "Email verification is send", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(evntOrg_emailVerification.this, "Verification mail has been send", Toast.LENGTH_SHORT).show();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {

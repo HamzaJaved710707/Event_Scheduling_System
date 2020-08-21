@@ -20,7 +20,7 @@
     <string name="Name">Name</string>
     <string name="MobileNumber">Mobile Number</string>
     <string name="BusinessInformation">Business Information</string>
-    <string name="BusinessCategory">Business Category</string>
+    <string name="BusinessCategory"> Business Category</string>
     <string name="Password">Password</string>
     <string name="forgotPassword">Forgot Password?</string>
     <string name="logo">Logo</string>
@@ -66,6 +66,7 @@
     <string name="hamza">Hamza</string>
     <string name="image_about_package">Image about Package</string>
     <string name="image_of_location_icon">Image of location icon</string>
+    <string name="delete_account">Delete Account</string>
 
     <!-- Drawer list array!-->
 
@@ -102,10 +103,10 @@
         <item>Car_Rent</item>
         <item>Invitation_Card</item>
     </array>
-<array name="LocationType">
-    <item>Current_Location</item>
-    <item>Random_Location</item>
-</array>
+    <array name="LocationType">
+        <item>Current_Location</item>
+        <item>Random_Location</item>
+    </array>
 
     <array name="Venue_list">
         <item>Bandhan Marriage Hall</item>

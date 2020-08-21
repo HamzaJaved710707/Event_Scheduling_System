@@ -1,8 +1,12 @@
 package com.example.eventscheduling.eventorg.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,11 +40,13 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evnt_org_home);
+        // toolbar setting
         Toolbar toolbar = findViewById(R.id.nav_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        // Navigation drawer setting
         NavigationView navigationView = findViewById(R.id.nav_view_id);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -69,6 +75,14 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.evnt_org_home, menu);
+        // This change the text color of overflow menu
+        for(int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(Color.BLACK), 0,     spanString.length(), 0);
+            spanString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, spanString.length(), 0);
+            item.setTitle(spanString);
+        }
         return true;
     }
 
@@ -79,16 +93,23 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         else{
+            // This switch statement will work with Overflow menu...
             switch (item.getItemId()){
                 case R.id.logOut:
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     mAuth.signOut();
                     Intent intent = new Intent(this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.search_person:
                     Toast.makeText(this, "Search menu is selected", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.setting_evntOrg:
+                    startActivity(new Intent(this, evntOrg_setting.class));
                     break;
                 default:
                     break;
@@ -170,6 +191,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+    // Function to change the title of ActionBar
     public void selectTitle(String title){
         getSupportActionBar().setTitle(title);
     }

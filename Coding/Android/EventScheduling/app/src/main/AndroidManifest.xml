@@ -16,13 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".eventorg.ui.evntOrg_Package_detail"></activity>
+        <activity android:name=".eventorg.ui.evntOrg_setting"></activity>
+        <activity android:name=".eventorg.ui.evntOrg_Package_detail" />
         <activity android:name=".eventorg.ui.evntOrg_Package_create" />
         <activity android:name=".eventorg.ui.evntOrg_emailVerification" />
         <activity android:name=".eventorg.ui.evntOrg_friend_list" />
         <activity android:name=".eventorg.ui.evntOrg_MessageDetail" />
-
-
         <activity android:name=".eventorg.mapService" />
         <activity
             android:name=".client.ui.client_home"

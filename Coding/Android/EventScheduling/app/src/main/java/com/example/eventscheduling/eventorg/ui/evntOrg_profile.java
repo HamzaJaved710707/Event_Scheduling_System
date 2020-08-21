@@ -6,10 +6,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +36,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,8 +70,12 @@ public class evntOrg_profile extends Fragment {
         cover_photo = view.findViewById(R.id.evnt_cover_pic);
         registerForContextMenu(cover_photo);
         registerForContextMenu(profile_photo);
+
         currentUser = mAuth.getCurrentUser();
-        userID = currentUser.getUid();
+        // checking whether user is null or not
+        if (currentUser != null) {
+            userID = currentUser.getUid();
+        }
         frStorage = FirebaseStorage.getInstance();
         usersPicStorageRef = frStorage.getReference("usersPictures");
         return view;
@@ -85,43 +85,52 @@ public class evntOrg_profile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        userRef = firestore.collection("Users").document(userID);
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String category  = (String) documentSnapshot.get("category");
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("Category", Context.MODE_PRIVATE);
-                Log.d(TAG, "onSuccess: user category is  "+ category);
-                switch (category) {
-                    case "Event Organizer":
-                        sharedPreferences.edit().putInt("category", 1).apply();
-                        break;
-                    case "Catering":
-                        sharedPreferences.edit().putInt("category", 2).apply();
-                        break;
-                    case "Venue Provider":
-                        sharedPreferences.edit().putInt("category", 3).apply();
-                        break;
-                    case "Decoration":
-                        sharedPreferences.edit().putInt("category", 4).apply();
-                        break;
-                    case "Car Service":
-                        sharedPreferences.edit().putInt("category", 5).apply();
-                        break;
-                    case "Invitation Cards":
-                        sharedPreferences.edit().putInt("category", 6).apply();
-                        break;
-                    default:
-                        sharedPreferences.edit().putInt("category", 0).apply();
-                        break;
+        // If user is not null then proceed
+       /* if(currentUser != null){
+            userRef = firestore.collection("Users").document(userID).collection("businessData").document("1");
+
+            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    String category = (String) documentSnapshot.get("category");
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences("Category", Context.MODE_PRIVATE);
+                    Log.d(TAG, "onSuccess: user category is  " + category);
+                    switch (category) {
+                        case "Event Organizer":
+                            sharedPreferences.edit().putInt("category", 1).apply();
+                            break;
+                        case "Catering":
+                            sharedPreferences.edit().putInt("category", 2).apply();
+                            break;
+                        case "Venue Provider":
+                            sharedPreferences.edit().putInt("category", 3).apply();
+                            break;
+                        case "Decoration":
+                            sharedPreferences.edit().putInt("category", 4).apply();
+                            break;
+                        case "Car Service":
+                            sharedPreferences.edit().putInt("category", 5).apply();
+                            break;
+                        case "Invitation Cards":
+                            sharedPreferences.edit().putInt("category", 6).apply();
+                            break;
+                        default:
+                            sharedPreferences.edit().putInt("category", 0).apply();
+                            break;
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: " + e.toString());
-            }
-        });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: " + e.toString());
+                }
+            });
+
+        }
+        else{
+            Toast.makeText(getContext(), "Please restart the application", Toast.LENGTH_LONG).show();
+        }*/
+
 
     }
 
@@ -180,15 +189,15 @@ public class evntOrg_profile extends Fragment {
                     usersPicStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Adding reference and image Name in the database of the user
-                            Map  imageData = new HashMap();
+                            // Adding reference and image Name in the database of the user
+                            Map imageData = new HashMap();
                             imageData.put("image", taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
                             firestore.collection("Users").document(userID).set(imageData);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: "+ e.toString());
+                            Log.d(TAG, "onFailure: " + e.toString());
 
                         }
                     }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -210,21 +219,21 @@ public class evntOrg_profile extends Fragment {
 
                     // Creating the reference of the image
                     usersPicStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-                    if(imageUri != null){
+                    if (imageUri != null) {
                         // Uploading image in the firestore storage
                         usersPicStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Adding reference and image Name in the database of the user
-                                Map  imageData = new HashMap();
+                                Map imageData = new HashMap();
                                 imageData.put("image", taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
                                 firestore.collection("Users").document(userID).set(imageData);
-                                Log.d(TAG, "onSuccess: "+ "Inside on Sucess listener of profile activity");
+                                Log.d(TAG, "onSuccess: " + "Inside on Sucess listener of profile activity");
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "onFailure: "+ e.toString());
+                                Log.d(TAG, "onFailure: " + e.toString());
 
                             }
                         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -234,9 +243,8 @@ public class evntOrg_profile extends Fragment {
                             }
                         });
                         Log.d(TAG, "onActivityResult: " + " Gallery option data has been received");
-                    }
-                    else{
-                        Log.d(TAG, "onActivityResult: imageURi is null" );
+                    } else {
+                        Log.d(TAG, "onActivityResult: imageURi is null");
                     }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {

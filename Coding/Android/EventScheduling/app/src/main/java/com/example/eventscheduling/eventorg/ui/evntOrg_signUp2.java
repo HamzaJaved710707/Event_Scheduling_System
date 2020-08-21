@@ -29,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class evntOrg_signUp2 extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "evntOrg_signUp2";
@@ -65,13 +64,13 @@ public class evntOrg_signUp2 extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_evnt_org_sign_up2);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mapService = new mapService(this);
+        userID = getIntent().getStringExtra("ID");
         latitude = mapService.getLatitude();
         longitude = mapService.getLongitude();
         //Initialize views
-        //  businessName = findViewById(R.id.evnt_bu);
-        //province = findViewById(R.id.sign2_edTxt_province);
-        city = findViewById(R.id.sign2_edTxt_cityName);
-        area = findViewById(R.id.sign2_edTxt_area);
+          businessName = findViewById(R.id.business_edtXt_signUp2);
+        province = findViewById(R.id.province_signUp2_edtXt);
+        city = findViewById(R.id.city_signUp2_edtXt);
         // ALertDialog
         alertDialog = new AlertDialog.Builder(evntOrg_signUp2.this);
         // ProgressBar
@@ -87,16 +86,8 @@ public class evntOrg_signUp2 extends AppCompatActivity implements View.OnClickLi
 
         busCat_AutoComp.setAdapter(busCat_ArrayAdapter);
 
-        // Initialize Firebase Authentication
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        if (user != null) {
-            userID = user.getUid();
-        }
 
-        if (!Objects.requireNonNull(user).isEmailVerified()) {
-            startActivity(new Intent(evntOrg_signUp2.this, evntOrg_emailVerification.class));
-        }
+
 
     }
 
@@ -121,10 +112,9 @@ public class evntOrg_signUp2 extends AppCompatActivity implements View.OnClickLi
         final String _businessName = businessName.getText().toString();
         final String _province = province.getText().toString();
         final String _city = city.getText().toString();
-        final String _area = area.getText().toString();
-        final String category = cat_spinner.getSelectedItem().toString();
+        final String category = busCat_AutoComp.getText().toString();
         // If user has not provided any information
-        if (_businessName.matches("") && _province.matches("") && _city.matches("") && _area.matches("")) {
+        if (_businessName.matches("") && _province.matches("") && _city.matches("") ) {
 
             alertDialog.setTitle("Alert");
             alertDialog.setMessage("Please fill the form");
@@ -142,16 +132,18 @@ public class evntOrg_signUp2 extends AppCompatActivity implements View.OnClickLi
             parameters.put("businessName", _businessName);
             parameters.put("province", _province);
             parameters.put("city", _city);
-            parameters.put("area", _area);
             parameters.put("category", category);
             parameters.put("latitude", latitude);
             parameters.put("longitude", longitude);
             parameters.put("isActive", true);
-            firebaseFirestore.collection("Users").document(userID).set(parameters)
+            firebaseFirestore.collection("Users").document(userID).collection("businessData").document("1").set(parameters)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            startActivity(new Intent(evntOrg_signUp2.this, evntOrg_home.class));
+                            Intent intent = new Intent(evntOrg_signUp2.this, evntOrg_home.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
