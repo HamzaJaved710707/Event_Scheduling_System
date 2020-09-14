@@ -13,21 +13,24 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.eventscheduling.MainActivity;
 import com.example.eventscheduling.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class client_signIn extends AppCompatActivity {
     private static final String TAG = "client_signIn";
     private static String url = "https://eventscheduling.000webhostapp.com/android/client/logIn_data.php";
     TextView emailTxt;
     TextView passwordTxt;
-    private ProgressDialog progressDialog;
     FirebaseAuth mAuth;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +65,55 @@ public class client_signIn extends AppCompatActivity {
                     Toast.makeText(client_signIn.this, "Enter your data first", Toast.LENGTH_SHORT).show();
 
                 } else {
+
+
                     progressDialog.show();
                     Log.d(TAG, "onClick: in string is called");
-                    mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            progressDialog.hide();
-                            startActivity(new Intent(client_signIn.this, client_home.class));
-                            finish();
+                            FirebaseUser currentUser = authResult.getUser();
+                            if (currentUser != null) {
+
+                                String currentUserId = currentUser.getUid();
+                                firebaseFirestore.collection("Users").document(currentUserId).get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                long field = documentSnapshot.getLong("type");
+                                                if (field == 1) {
+
+                                                    progressDialog.dismiss();
+                                                    startActivity(new Intent(client_signIn.this, client_home.class));
+                                                    finish();
+                                                } else {
+                                           Toast.makeText(client_signIn.this, "You are not client... LogIn in other module", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(client_signIn.this, MainActivity.class));
+
+                                                }
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                progressDialog.dismiss();
+
+                                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                                mAuth.signOut();
+                                                Toast.makeText(client_signIn.this, "Error", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(client_signIn.this, MainActivity.class));
+                                            }
+                                        });
+
+                            }
+
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            progressDialog.hide();
+                            progressDialog.dismiss();
                             Log.d(TAG, "onFailure: " + e.getMessage());
                             Toast.makeText(client_signIn.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }

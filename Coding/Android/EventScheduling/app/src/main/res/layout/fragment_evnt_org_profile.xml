@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <ImageView
             android:id="@+id/evnt_cover_pic"
             android:layout_width="match_parent"
@@ -28,12 +29,12 @@
             android:layout_marginTop="96dp"
             android:src="@mipmap/bandhan_marriage_profile"
             app:layout_constraintEnd_toEndOf="@+id/evnt_cover_pic"
-            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/evnt_cover_pic"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/evnt_profile_business_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -46,74 +47,66 @@
             app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
             app:layout_constraintTop_toBottomOf="@+id/evnt_profile_pic" />
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:rating="3.5"
-            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
-            app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
-            android:layout_marginTop="32dp"
-            android:text="Orders"
+            android:layout_marginTop="16dp"
+            android:text="Portfolio"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+            app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_order_icon"
+            app:layout_constraintHorizontal_bias="0.565"
+            app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_order_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_order_icon" />
+
         <TextView
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="15"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textView11"
             app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="32dp"
-        android:text="Followers"
-        android:textColor="@color/secondarycolor"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="28dp"
-        android:text="@string/messages"
-        android:textColor="@color/secondarycolor"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.767"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Followers"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_followers_icon"
+            app:layout_constraintHorizontal_bias="0.361"
+            app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_followers_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_followers_icon" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="28dp"
+            android:text="@string/messages"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_msg_icon"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_msg_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_msg_icon" />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textView9"
@@ -126,14 +119,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="12"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/textView10"
             app:layout_constraintStart_toStartOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
+        <ImageView
+            android:id="@+id/evntOrg_profile_order_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="64dp"
+            android:src="@drawable/ic_photo_lib_white"
+            app:layout_constraintEnd_toStartOf="@+id/evntOrg_profile_followers_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
+            android:onClick="Portfolio_onClick"/>
 
+        <ImageView
+            android:id="@+id/evntOrg_profile_followers_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_person_white"
+            app:layout_constraintStart_toEndOf="@+id/evntOrg_profile_order_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
+            android:onClick="Followers_onClick"/>
+
+        <ImageView
+            android:id="@+id/evntOrg_profile_msg_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_email_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.109"
+            app:layout_constraintLeft_toRightOf="@id/evntOrg_profile_followers_icon"
+            app:layout_constraintStart_toEndOf="@+id/evntOrg_profile_followers_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
+            android:onClick="Msg_onClick"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

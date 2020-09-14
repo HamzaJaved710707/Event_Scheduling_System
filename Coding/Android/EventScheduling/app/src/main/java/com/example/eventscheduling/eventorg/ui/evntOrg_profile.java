@@ -1,11 +1,7 @@
 package com.example.eventscheduling.eventorg.ui;
 
 
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,37 +13,44 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class evntOrg_profile extends Fragment {
 
     private static final String TAG = "evntOrg_profile";
+    // Request code used to show popup menu when profile picture is clicked long
     private static int PIC_CAMERA_REQ = 1;
     private static int GALLERY_REQ = 2;
     private ImageView profile_photo;
     private ImageView cover_photo;
+    private TextView business_name_txtView;
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private DocumentReference user_Profile_Ref;
     private DocumentReference userRef;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -61,6 +64,7 @@ public class evntOrg_profile extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +72,8 @@ public class evntOrg_profile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_evnt_org_profile, container, false);
         profile_photo = view.findViewById(R.id.evnt_profile_pic);
         cover_photo = view.findViewById(R.id.evnt_cover_pic);
+        // Business Name Textview
+        business_name_txtView = view.findViewById(R.id.evnt_profile_business_name);
         registerForContextMenu(cover_photo);
         registerForContextMenu(profile_photo);
 
@@ -77,7 +83,13 @@ public class evntOrg_profile extends Fragment {
             userID = currentUser.getUid();
         }
         frStorage = FirebaseStorage.getInstance();
-        usersPicStorageRef = frStorage.getReference("usersPictures");
+        usersPicStorageRef = frStorage.getReference("Event_Org/" + userID + "/Profile_Picture/");
+        // In this Document Reference 1 means Profile Picture
+        // Where 2 means Uploads or Portfolio data
+        user_Profile_Ref = firestore.collection("Users").document(userID).collection("Photos").document("1");
+        userRef = firestore.collection("Users").document(userID);
+
+
         return view;
 
     }
@@ -85,6 +97,7 @@ public class evntOrg_profile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         // If user is not null then proceed
        /* if(currentUser != null){
             userRef = firestore.collection("Users").document(userID).collection("businessData").document("1");
@@ -135,6 +148,12 @@ public class evntOrg_profile extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        loadData();
+    }
+
+    @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = requireActivity().getMenuInflater();
@@ -167,89 +186,121 @@ public class evntOrg_profile extends Fragment {
         }
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = requireActivity().getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cR.getType(uri));
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PIC_CAMERA_REQ) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    // Getting image data from ActivityResult class
-                    imageUri = data.getData();
-
-                    // Creating the reference of the image
-                    usersPicStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-
-                    // Uploading image in the firestore storage
-                    usersPicStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        if ((requestCode == PIC_CAMERA_REQ || requestCode == GALLERY_REQ) && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            // Creating the reference of the image
+            usersPicStorageRef.child(String.valueOf(System.currentTimeMillis())).putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Adding reference and image Name in the database of the user
-                            Map imageData = new HashMap();
-                            imageData.put("image", taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-                            firestore.collection("Users").document(userID).set(imageData);
+                            Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                            task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Log.d(TAG, "onSuccess: " + uri);
+                                    String uri_download = uri.toString();
+                                    Map data = new HashMap();
+                                    data.put("Name", "Profile Picture");
+                                    data.put("Link", uri_download);
+                                    user_Profile_Ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(getContext(), "Upload Sucessfull", Toast.LENGTH_SHORT).show();
+                                            Glide.with(evntOrg_profile.this).load(imageUri).into(profile_photo);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure:  " + e.getMessage());
+                                }
+                            });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: " + e.toString());
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-                        }
-                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        }
-                    });
-                    Log.d(TAG, "onActivityResult: " + " Gallery option data has been received");
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-            }
+            });
 
-        } else if (requestCode == GALLERY_REQ) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    imageUri = data.getData();
+           /* Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
 
-                    // Creating the reference of the image
-                    usersPicStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-                    if (imageUri != null) {
-                        // Uploading image in the firestore storage
-                        usersPicStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // Adding reference and image Name in the database of the user
-                                Map imageData = new HashMap();
-                                imageData.put("image", taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-                                firestore.collection("Users").document(userID).set(imageData);
-                                Log.d(TAG, "onSuccess: " + "Inside on Sucess listener of profile activity");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "onFailure: " + e.toString());
+                    // Continue with the task to get the download URL
+                    return usersPicStorageRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
 
-                            }
-                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            }
-                        });
-                        Log.d(TAG, "onActivityResult: " + " Gallery option data has been received");
                     } else {
-                        Log.d(TAG, "onActivityResult: imageURi is null");
+                        // Handle failures
+                        // ...
+                        Log.d(TAG, "onFailure: in uploading image to firebase Storage" );
+
                     }
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
-            }
+            });
+
+
+            urlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+
+                }
+            })*/
         }
     }
+
+    private void loadData() {
+        user_Profile_Ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String link = documentSnapshot.getString("Link");
+                Glide.with(evntOrg_profile.this).load(link).into(profile_photo);
+            }
+        });
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String businessName = documentSnapshot.getString("businessName");
+                business_name_txtView.setText(businessName);
+            }
+        });
+    }
+
+    // Portfolio icon click handler
+    private void Portfolio_onClick(View view) {
+        Toast.makeText(getContext(), "Portfolio icon is clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    // Followers icon click handler
+    private void Followers_onClick(View view) {
+        Toast.makeText(getContext(), "Followers icon is clicked", Toast.LENGTH_SHORT).show();
+
+    }
+
+    // Message Icon click handler
+    private void Msg_onClick(View view) {
+        Toast.makeText(getContext(), "Message icon is clicked", Toast.LENGTH_SHORT).show();
+
+    }
+
 }

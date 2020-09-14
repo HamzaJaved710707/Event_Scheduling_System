@@ -14,4 +14,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/client_floatBtn_msg_evnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:backgroundTint="@color/secondarycolor"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        />
+
+
+
 </FrameLayout>

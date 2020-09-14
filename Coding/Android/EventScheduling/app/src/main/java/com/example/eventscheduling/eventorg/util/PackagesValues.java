@@ -1,40 +1,34 @@
 package com.example.eventscheduling.eventorg.util;
 
 
-import android.text.Editable;
+import android.widget.ProgressBar;
 
-import java.util.List;
+import java.util.ArrayList;
 
 // Class to return values to packages of event Organizer
 public class PackagesValues {
     // Variables
     private String PackageName;
-    private String Price;
+    private String image;
+    private ArrayList<String> Food;
+    private ArrayList<String> Services;
     private String Venue;
-    private String imageAdr;
-    private int rating;
+    private String Price;
+
+
+
+    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price) {
+        PackageName = packageName;
+        this.image = image;
+        Food = food;
+        Services = services;
+        Venue = venue;
+        Price = price;
+    }
 
     public PackagesValues() {
         // empty constructor for firebase recycler
     }
-
-    // Public constructor
-    public PackagesValues(String packageName, List<String> food, List<String> services, String price, String venue, String imageAdr) {
-        PackageName = packageName;
-        Price = price;
-        Venue = venue;
-        this.imageAdr = imageAdr;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-// Getter and setter
 
     public String getPackageName() {
         return PackageName;
@@ -44,12 +38,28 @@ public class PackagesValues {
         PackageName = packageName;
     }
 
-    public String getPrice() {
-        return Price;
+    public String getImage() {
+        return image;
     }
 
-    public void setPrice(String price) {
-        Price = price;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public ArrayList<String> getFood() {
+        return Food;
+    }
+
+    public void setFood(ArrayList<String> food) {
+        Food = food;
+    }
+
+    public ArrayList<String> getServices() {
+        return Services;
+    }
+
+    public void setServices(ArrayList<String> services) {
+        Services = services;
     }
 
     public String getVenue() {
@@ -60,11 +70,13 @@ public class PackagesValues {
         Venue = venue;
     }
 
-    public String getImageAdr() {
-        return imageAdr;
+    public String getPrice() {
+        return Price;
     }
 
-    public void setImageAdr(String imageAdr) {
-        this.imageAdr = imageAdr;
+    public void setPrice(String price) {
+        Price = price;
     }
+
+
 }

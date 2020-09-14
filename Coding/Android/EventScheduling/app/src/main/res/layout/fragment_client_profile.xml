@@ -3,7 +3,166 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".client.ui.client_profile">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".client.ui.client_profile"
+    android:background="@color/colorPrimary">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
 
+
+        <ImageView
+            android:id="@+id/client_cover_pic"
+            android:layout_width="match_parent"
+            android:layout_height="173dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/cover_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/client_profile_pic"
+            android:layout_width="208dp"
+            android:layout_height="179dp"
+            android:layout_marginTop="96dp"
+            android:src="@mipmap/talha_img"
+            app:layout_constraintEnd_toEndOf="@+id/client_cover_pic"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/client_cover_pic"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/client_profile_business_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="User Name"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/client_profile_pic"
+            app:layout_constraintStart_toStartOf="@+id/client_profile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_pic" />
+
+        <TextView
+            android:id="@+id/client_textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Orders"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/client_profile_order_icon"
+            app:layout_constraintHorizontal_bias="0.565"
+            app:layout_constraintStart_toStartOf="@+id/client_profile_order_icon"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_order_icon" />
+
+        <TextView
+            android:id="@+id/client_textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/client_textView11"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="@+id/client_textView11"
+            app:layout_constraintTop_toBottomOf="@+id/client_textView11" />
+
+
+        <TextView
+            android:id="@+id/client_textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Friends"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/client_profile_followers_icon"
+            app:layout_constraintHorizontal_bias="0.361"
+            app:layout_constraintStart_toStartOf="@+id/client_profile_followers_icon"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_followers_icon" />
+
+        <TextView
+            android:id="@+id/client_textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="28dp"
+            android:text="@string/messages"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/client_profile_msg_icon"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="@+id/client_profile_msg_icon"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_msg_icon" />
+
+        <TextView
+            android:id="@+id/client_textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/client_textView9"
+            app:layout_constraintHorizontal_bias="0.56"
+            app:layout_constraintStart_toStartOf="@+id/client_textView9"
+            app:layout_constraintTop_toBottomOf="@+id/client_textView9" />
+
+        <TextView
+            android:id="@+id/client_textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/client_textView10"
+            app:layout_constraintStart_toStartOf="@+id/client_textView10"
+            app:layout_constraintTop_toBottomOf="@+id/client_textView10" />
+
+        <ImageView
+            android:id="@+id/client_profile_order_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="64dp"
+            android:src="@drawable/ic_photo_lib_white"
+            app:layout_constraintEnd_toStartOf="@+id/client_profile_followers_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_business_name"
+            android:onClick="Order_onClick"/>
+
+        <ImageView
+            android:id="@+id/client_profile_followers_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_person_white"
+            app:layout_constraintStart_toEndOf="@+id/client_profile_order_icon"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_business_name"
+            android:onClick="Friend_OnClick"/>
+
+        <ImageView
+            android:id="@+id/client_profile_msg_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_email_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.109"
+            app:layout_constraintLeft_toRightOf="@id/client_profile_followers_icon"
+            app:layout_constraintStart_toEndOf="@+id/client_profile_followers_icon"
+            app:layout_constraintTop_toBottomOf="@+id/client_profile_business_name"
+            android:onClick="Msg_onClick"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

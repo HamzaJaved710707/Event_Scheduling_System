@@ -15,37 +15,42 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.eventscheduling.MainActivity;
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.ui.client_home;
+import com.example.eventscheduling.client.ui.client_signIn;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class evntOrg_signIn extends AppCompatActivity {
     private static final String TAG = "evntOrg_signIn";
-    Button signInBtn;
+   Button signInBtn;
     Button registerBtn;
     EditText emailTxt;
     EditText passTxt;
     TextView forgetPassTxt;
     //Url to fetch data from server
-    String url = "https://eventscheduling.000webhostapp.com/android/eventOrganizer/logIn_data.php";
     //Firebase Authentication variable
     FirebaseAuth mAuth;
-    FirebaseUser user;
     // This tag will be used to cancel the request
-    private String tag_string_req = "string_req";
+    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
-        signInBtn = findViewById(R.id.signIn);
-        registerBtn = findViewById(R.id.registerBtn);
-        emailTxt = findViewById(R.id.email_editText);
-        passTxt = findViewById(R.id.password_editText);
-        forgetPassTxt = findViewById(R.id.forget_textView);
+        setContentView(R.layout.event_org_sign_in);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        signInBtn = findViewById(R.id.evnt_signIn);
+        registerBtn = findViewById(R.id.evnt_registerBtn);
+        emailTxt = findViewById(R.id.evnt_email_editText);
+        passTxt = findViewById(R.id.evnt_password_editText);
+        forgetPassTxt = findViewById(R.id.evnt_forget_textView);
         forgetPassTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +80,7 @@ public class evntOrg_signIn extends AppCompatActivity {
                 Log.d(TAG, "onClick: email is " + email);
                 Log.d(TAG, "onClick: password is " + password);
                 if (email.matches("") && password.matches("")) {
+                    dialog.dismiss();
                     Toast.makeText(evntOrg_signIn.this, "Enter your data first", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onClick: enter data first ");
 
@@ -83,11 +89,49 @@ public class evntOrg_signIn extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            dialog.dismiss();
-                            Intent intent = new Intent(evntOrg_signIn.this, evntOrg_home.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
+
+
+                            FirebaseUser currentUser = authResult.getUser();
+                            if (currentUser != null) {
+
+                                String currentUserId = currentUser.getUid();
+                                firebaseFirestore.collection("Users").document(currentUserId).get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                long field = documentSnapshot.getLong("type");
+                                                if (field == 0) {
+                                                    dialog.dismiss();
+                                                    Intent intent = new Intent(evntOrg_signIn.this, evntOrg_home.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(evntOrg_signIn.this, "You are not service provider... LogIn in other module", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(evntOrg_signIn.this, MainActivity.class));
+
+                                                }
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                               dialog.dismiss();
+
+                                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                                mAuth.signOut();
+                                                Toast.makeText(evntOrg_signIn.this, "Error", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(evntOrg_signIn.this, MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        });
+
+                            }
+
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {

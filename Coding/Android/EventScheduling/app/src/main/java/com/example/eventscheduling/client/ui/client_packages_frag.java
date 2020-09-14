@@ -16,13 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.model.Filter_Package_Dialog_client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 
-public class client_packages_frag extends Fragment {
+public class client_packages_frag extends Fragment implements Filter_Package_Dialog_client.ExampleDialogListener{
     private static final String TAG = "client_packages_frag";
     // variable
     private AutoCompleteTextView typeEditText;
@@ -49,41 +50,22 @@ public class client_packages_frag extends Fragment {
         if (currentUser != null) {
             currentUserID = currentUser.getUid();
         }
-
-        // Setting adapter for both autoComplete TextEdits
-        typeEditText = view.findViewById(R.id.ediText_type_package_client);
-        locationEditText = view.findViewById(R.id.location_editExt_package);
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.Business_Category));
-        ArrayAdapter<String> locationAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.LocationType));
-        typeEditText.setAdapter(typeAdapter);
-        locationEditText.setAdapter(locationAdapter);
-        filter_img = view.findViewById(R.id.filter_packages_client_img);
-        filter_rel_layout = view.findViewById(R.id.relLayout_pckage_client);
-        filter_txt = view.findViewById(R.id.filter_txt_client_package_frg);
-        // Click listener to toggle the visibility of layout of filter image or text
-        filter_txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (filter_rel_layout.getVisibility() == View.VISIBLE) {
-                    filter_rel_layout.setVisibility(View.INVISIBLE);
-                } else {
-                    filter_rel_layout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+            filter_img = view.findViewById(R.id.filter_packages_client_img);
         filter_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (filter_rel_layout.getVisibility() == View.VISIBLE) {
-                    filter_rel_layout.setVisibility(View.INVISIBLE);
-                } else {
-                    filter_rel_layout.setVisibility(View.VISIBLE);
-                }
+                openDialog();
             }
         });
         // REturning the view
         return view;
     }
+    public void openDialog() {
+        Filter_Package_Dialog_client filter_dialog = new Filter_Package_Dialog_client(client_packages_frag.this);
+        filter_dialog.show(getParentFragmentManager(), "example dialog");
+        filter_dialog.setExampleDialog(client_packages_frag.this);
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -99,4 +81,8 @@ public class client_packages_frag extends Fragment {
     }
 
 
+    @Override
+    public void applyTexts(String username, String password) {
+        Log.d(TAG, "applyTexts: in fragment"+ username + password);
+    }
 }

@@ -8,18 +8,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.util.friendList_values;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_values, friendList_Adapter.friendList_Holder> {
     private onitemClickListener listener;
     private Context context;
-
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    private String currentUserID;
     public friendList_Adapter(Context context, @NonNull FirestoreRecyclerOptions options) {
         super(options);
         this.context = context;
@@ -28,9 +33,22 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
 
     @Override
     protected void onBindViewHolder(@NonNull friendList_Holder holder, int position, @NonNull friendList_values model) {
-        holder.name.setText(model.getName());
-        holder.img.setImageResource(model.getImgUrl());
+
+        if(currentUser != null){
+        if((currentUser.getEmail()).equals(model.getEmail())){
+            holder.item_layout.setVisibility(View.INVISIBLE);
+            return;
+        }
+        else{
+
+            holder.name.setText(model.getName());
+            holder.img.setImageResource(model.getImgUrl());
+        }
+        }
+
     }
+
+
 
     @NonNull
     @Override
@@ -52,11 +70,13 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
     class friendList_Holder extends RecyclerView.ViewHolder {
         TextView name;
         ImageView img;
+        CardView  item_layout;
 
         public friendList_Holder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.recycler_text_friendList);
             img = itemView.findViewById(R.id.image_id_friendList);
+            item_layout = itemView.findViewById(R.id.friendlist_item_id);
             // Add click listener to each of the recyclerview item
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

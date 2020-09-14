@@ -46,8 +46,8 @@ public class msgDetail_adapter extends FirestoreRecyclerAdapter<msgDetail_values
         } else {
             holder.msgText.setText(model.getMessage());
             Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
-            holder.msgText.setBackgroundColor(Color.BLACK);
-            holder.msgText.setTextColor(Color.BLUE);
+            //holder.msgText.setBackgroundColor(Color.BLACK);
+           // holder.msgText.setTextColor(Color.BLUE);
             holder.layout.setHorizontalGravity(Gravity.RIGHT);
 
         }

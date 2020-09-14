@@ -12,20 +12,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.util.portfolio_pictures_values;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Portfolio_Pictures_Adapter extends RecyclerView.Adapter<Portfolio_Pictures_Adapter.ViewHolder>{
 
-    ArrayList<portfolio_pictures_values> pictures_values;
+   List<String> pictures_values;
 
     Context mContext;
     private static final String TAG = "RecyclerView_Adapter";
 
-    public Portfolio_Pictures_Adapter(Context mContext, ArrayList<portfolio_pictures_values> picValues) {
+    public Portfolio_Pictures_Adapter(Context mContext, List<String> picValues) {
         this.pictures_values = picValues;
         this.mContext = mContext;
     }
@@ -42,8 +44,8 @@ public class Portfolio_Pictures_Adapter extends RecyclerView.Adapter<Portfolio_P
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: is called");
-        portfolio_pictures_values current = pictures_values.get(position);
-        holder.image.setImageResource(current.getImageResource());
+        String current = pictures_values.get(position);
+        Glide.with(mContext).load(current).into(holder.image);
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

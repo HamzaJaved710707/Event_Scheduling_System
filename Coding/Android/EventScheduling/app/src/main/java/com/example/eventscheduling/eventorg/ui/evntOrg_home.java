@@ -1,5 +1,7 @@
 package com.example.eventscheduling.eventorg.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,13 +30,15 @@ import com.example.eventscheduling.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class evntOrg_home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
-
+    FirebaseAuth mAuth;
+    protected OnBackPressedListener onBackPressedListener;
     @Override
     protected void onCreate(Bundle savedInstanceState)
 
@@ -46,6 +51,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        setOnBackPressedListener(onBackPressedListener);
         // Navigation drawer setting
         NavigationView navigationView = findViewById(R.id.nav_view_id);
         navigationView.setNavigationItemSelectedListener(this);
@@ -60,6 +66,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
                     .commit();
             selectTitle("Profile");
         }
+        // Firebase Authentication
     }
 
     @Override
@@ -195,4 +202,63 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
     public void selectTitle(String title){
         getSupportActionBar().setTitle(title);
     }
+
+
+    public interface OnBackPressedListener {
+        void doBack();
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
+  /*  @Override
+    public void onBackPressed() {
+        if (onBackPressedListener != null)
+            onBackPressedListener.doBack();
+        else
+            super.onBackPressed();
+    }*/
+
+    @Override
+    protected void onDestroy() {
+        onBackPressedListener = null;
+        super.onDestroy();
+    }
+/// when Back button is clicked from activity
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByBackKey();
+
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+/// Logic to handle Back button trigger...
+    protected void exitByBackKey() {
+
+        AlertDialog alertbox = new AlertDialog.Builder(this)
+                .setMessage("Do you want to exit application?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        finish();
+                        //close();
+
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                })
+                .show();
+
+    }
 }
+

@@ -121,12 +121,13 @@ public class client_signUp extends AppCompatActivity {
     private void addValueToFirebase(FirebaseUser user) {
         String currentUser_id = user.getUid();
         firestoreDatabase = FirebaseFirestore.getInstance();
-        HashMap<String, String> userData = new HashMap<>();
+        HashMap userData = new HashMap<>();
         userData.put("Name", name);
-        userData.put("Type", "0");
-        userData.put("Email", emailTxt);
-        userData.put("Mobile Number", mobileNumber);
-        userData.put("Password", passTxt);
+        userData.put("type", 1);
+        userData.put("email", emailTxt);
+        userData.put("mobileNumber", mobileNumber);
+        userData.put("password", passTxt);
+        userData.put("isActive", false);
         firestoreDatabase.collection("Users").document(currentUser_id).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

@@ -67,6 +67,7 @@
     <string name="image_about_package">Image about Package</string>
     <string name="image_of_location_icon">Image of location icon</string>
     <string name="delete_account">Delete Account</string>
+    <string name="create">Create</string>
 
     <!-- Drawer list array!-->
 
@@ -115,6 +116,12 @@
         <item>Paradise Marriage Hall</item>
         <item>Sanjog Marriage Hall</item>
         <item>Makkah Marriage Hall</item>
+    </array>
+
+    <array name="caterer_services">
+        <item>Food</item>
+        <item>Man Service</item>
+        <item>Extra</item>
     </array>
 </resources>
 

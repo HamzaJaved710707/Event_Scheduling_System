@@ -28,6 +28,9 @@ public class mapService extends Service implements LocationListener {
     AlertDialog.Builder alertDialog;
     private Context context;
 
+    public mapService(){
+        
+    }
     public mapService(Context context) {
         this.context = context;
         alertDialog = new AlertDialog.Builder(context);

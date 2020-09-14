@@ -104,6 +104,7 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
                                     userData.put("timeStamp", Timestamp.now());
                                     user_collection.document(mCurrentUserId).collection("conversation").document(mChatUserId).set(userData);
                                     value++;
+                                    messageWriteField.setText("");
                                 }
                             }
                         }

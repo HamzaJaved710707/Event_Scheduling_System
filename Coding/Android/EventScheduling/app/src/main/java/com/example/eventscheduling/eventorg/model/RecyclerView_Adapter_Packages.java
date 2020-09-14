@@ -29,11 +29,10 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
 
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView_Adapter_Packages.ViewHolder holder, int position, @NonNull PackagesValues model) {
-        Glide.with(context).load(model.getImageAdr()).into(holder.imageAdr);
-        holder.packageName.setText(model.getPackageName());
+        Glide.with(context).load(model.getImage()).into(holder.image);
+        holder.   PackageName.setText(model.getPackageName());
         holder.Price.setText(model.getPrice());
         holder.venue.setText(model.getVenue());
-        holder.ratingBar.setNumStars(model.getRating());
 
     }
 
@@ -46,8 +45,8 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
 
     // Viewholder Class
     class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageAdr;
-        private TextView packageName;
+        private ImageView image;
+        private TextView    PackageName;;
         private TextView Price;
         private TextView venue;
         private RatingBar ratingBar;
@@ -55,8 +54,8 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageAdr = itemView.findViewById(R.id.image_id);
-            packageName = itemView.findViewById(R.id.pakage_name_text);
+            image = itemView.findViewById(R.id.image_id);
+            PackageName = itemView.findViewById(R.id.pakage_name_text);
             Price = itemView.findViewById(R.id.price_text);
             venue = itemView.findViewById(R.id.location_text);
             ratingBar = itemView.findViewById(R.id.rating_bar);

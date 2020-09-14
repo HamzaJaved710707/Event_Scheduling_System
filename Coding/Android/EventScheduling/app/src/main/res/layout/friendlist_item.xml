@@ -7,6 +7,7 @@
     card_view:cardElevation="4dp"
     card_view:cardCornerRadius="10dp"
     android:layout_margin="3dp"
+    android:id="@+id/friendlist_item_id"
 
     >
     <FrameLayout

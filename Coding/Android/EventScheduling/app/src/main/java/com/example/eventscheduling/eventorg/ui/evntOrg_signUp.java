@@ -1,12 +1,11 @@
 package com.example.eventscheduling.eventorg.ui;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -18,10 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.util.YesNoDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -39,6 +36,8 @@ public class evntOrg_signUp extends AppCompatActivity {
 
     // Firebase FireStore
     CollectionReference userRef = FirebaseFirestore.getInstance().collection("Users");
+    // Progress Dialog
+    ProgressDialog dialog;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String currentUserID;
@@ -75,9 +74,8 @@ public class evntOrg_signUp extends AppCompatActivity {
         email = findViewById(R.id.sign1_edTxt_email);
         mobileNumber = findViewById(R.id.sign1_edTxt_mobileNo);
         password = findViewById(R.id.sign1_edTxt_password);
-        businessName = findViewById(R.id.business_edtXt_signUp2);
-        province = findViewById(R.id.province_signUp2_edtXt);
-        city = findViewById(R.id.city_signUp2_edtXt);
+        businessName = findViewById(R.id.business_edtXt_signUp);
+        city = findViewById(R.id.city_signUp_edtXt);
         nameEdit = findViewById(R.id.sign1_edTxt_Name);
 
         // Initialize Firebase Auth
@@ -87,6 +85,8 @@ public class evntOrg_signUp extends AppCompatActivity {
         alertDialog = new AlertDialog.Builder(evntOrg_signUp.this);
         // Initialize business Category AutoComplete TextView
         busCat_AutoComp = findViewById(R.id.evnt_signUp2_busCat_txtView);
+        busCat_AutoComp.setFocusable(false);
+        busCat_AutoComp.setClickable(false);
         ArrayAdapter<String> busCat_ArrayAdapter = new ArrayAdapter<String>(evntOrg_signUp.this,
                 android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.Business_Category));
@@ -101,7 +101,8 @@ public class evntOrg_signUp extends AppCompatActivity {
         });
         // Initialize firestore variables
         mAuth = FirebaseAuth.getInstance();
-
+        // Progress Dialog
+        dialog = new ProgressDialog(evntOrg_signUp.this);
     }
 
 //Function to send registration data to server
@@ -109,11 +110,14 @@ public class evntOrg_signUp extends AppCompatActivity {
 
     private void processing() {
         Log.d(TAG, "processing:  is called ");
-        if (progressBar.isShown()) {
-            progressBar.setVisibility(View.VISIBLE);
+
+            if (!dialog.isShowing()) {
+                dialog.show();
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
             // TO disable the UI interaction while progress bar is shown on the screen
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        }
+
+
 
         nameTxt = nameEdit.getText().toString();
         emailTxt = email.getText().toString();
@@ -122,11 +126,13 @@ public class evntOrg_signUp extends AppCompatActivity {
         businessNameTxt = businessName.getText().toString();
         businessCatTxt = busCat_AutoComp.getText().toString();
         cityTxt = city.getText().toString();
-        if (nameTxt.matches("") && emailTxt.matches("") && mobileNumberTxt.matches("")
-                && passwordTxt.matches("") && businessCatTxt.matches("") && cityTxt.matches("") && passwordTxt.matches("")) {
+        if (nameTxt.matches("") || emailTxt.matches("") || mobileNumberTxt.matches("")
+                || passwordTxt.matches("") || businessCatTxt.matches("") || cityTxt.matches("") || businessNameTxt.matches("")) {
             // Undefined error occurred
-            if (progressBar.isShown()) {
-                progressBar.setVisibility(View.INVISIBLE);
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             }
             alertDialog.setTitle("Undefined Error");
             alertDialog.setMessage("Enter your data first");
@@ -146,6 +152,8 @@ public class evntOrg_signUp extends AppCompatActivity {
             userData.put("password", passwordTxt);
             userData.put("businessName", businessNameTxt);
             userData.put("businessCat", businessCatTxt);
+            userData.put("isActive", true);
+            userData.put("type", 0);
             mAuth.createUserWithEmailAndPassword(emailTxt, passwordTxt).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 // If user is sucessfully created
                 @Override
@@ -159,9 +167,16 @@ public class evntOrg_signUp extends AppCompatActivity {
                         userRef.document(currentUserID).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                // If all operations are successful then call signUp2 activity
+                                // If all operations are successful then call main activity
                                 // Also pass the value of userId through intent
+                                if (dialog.isShowing()) {
+                                    dialog.dismiss();
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                }
+
                                 Intent intent = new Intent(evntOrg_signUp.this, evntOrg_home.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("ID", currentUserID);
                                 startActivity(intent);
                             }
@@ -169,6 +184,11 @@ public class evntOrg_signUp extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                if (dialog.isShowing()) {
+                                    dialog.dismiss();
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                }
                                 currentUser = authResult.getUser();
                                 currentUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -193,20 +213,22 @@ public class evntOrg_signUp extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    /// Show alert dialog to show error message to the user
-                    new AlertDialog.Builder(getApplicationContext())
-                            .setTitle("Firebase Error")
-                            .setMessage("Something went wrong" + "/n" + "Please try again later").setOnKeyListener(new DialogInterface.OnKeyListener() {
-                        @Override
-                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                            return true;
-                        }
-                    })
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            // Specifying a listener allows you to take an action before dismissing the dialog.
-                            // The dialog is automatically dismissed when a dialog button is clicked.
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    }
+                    Log.d(TAG, "onFailure: " + e.getMessage());
+                    /// Show alert dialog to show error message to the user
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(evntOrg_signUp.this);
+                    alertDialog.setTitle("Firebase Error");
+                    alertDialog.setMessage("Some network error... " + "Please try later");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
             });
         }

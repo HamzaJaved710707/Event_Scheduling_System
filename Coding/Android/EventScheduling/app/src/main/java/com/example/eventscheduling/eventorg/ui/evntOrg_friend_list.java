@@ -11,6 +11,8 @@ import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.model.friendList_Adapter;
 import com.example.eventscheduling.eventorg.util.friendList_values;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,16 +22,23 @@ public class evntOrg_friend_list extends AppCompatActivity {
     friendList_Adapter friendList_adapter;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference dbReference = firebaseFirestore.collection("Users");
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser currentUser;
+    private String current_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evnt_friend_list);
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            current_email =currentUser.getEmail();
+        }
         initializeRecyclerView();
     }
 
     private void initializeRecyclerView() {
-        Query query = dbReference.orderBy("Type", Query.Direction.DESCENDING);
+        Query query = dbReference.whereEqualTo("type", 0);
         FirestoreRecyclerOptions<friendList_values> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<friendList_values>()
                 .setQuery(query, friendList_values.class).build();
         friendList_adapter = new friendList_Adapter(this, firestoreRecyclerOptions);

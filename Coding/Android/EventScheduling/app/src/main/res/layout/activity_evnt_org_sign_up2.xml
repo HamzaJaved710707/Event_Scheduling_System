@@ -39,7 +39,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/business_edtXt_signUp2"/>
+            android:id="@+id/business_edtXt_signUp2"
+            android:textColor="@color/secondarycolor"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -57,7 +58,8 @@
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/evnt_signUp2_busCat_txtView"/>
+            android:id="@+id/evnt_signUp2_busCat_txtView"
+            android:textColor="@color/secondarycolor"/>
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +82,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/secondarycolor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/province_signUp2_edtXt"/>
@@ -104,7 +107,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/city_signUp2_edtXt"/>
+            android:id="@+id/city_signUp2_edtXt"
+            android:textColor="@color/secondarycolor"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

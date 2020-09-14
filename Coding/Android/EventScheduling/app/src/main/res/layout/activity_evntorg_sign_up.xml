@@ -18,23 +18,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:hint="@string/Name"
+
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColorHint="@color/secondarycolor"
+            app:hintTextColor="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:counterTextColor="@color/secondarycolor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/registration_text"
-
-            >
+            app:startIconDrawable="@drawable/ic_person_white"
+            app:startIconTint="@color/secondarycolor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign1_edTxt_Name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:textColor="@color/secondarycolor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,17 +57,27 @@
             android:paddingEnd="16dp"
             android:textColorHint="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/secondarycolor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/evnt_signUp_bussCat_wrapper">
+            app:layout_constraintTop_toBottomOf="@id/evnt_signUp_bussCat_wrapper"
+            app:startIconDrawable="@drawable/ic_email_white"
+            app:startIconTint="@color/secondarycolor"
+            android:hint="@string/Email"
+            app:hintTextColor="@color/secondarycolor"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign1_edTxt_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/Email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/secondarycolor"
+
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,18 +91,26 @@
             android:hint="@string/MobileNumber"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+
             android:textColorHint="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/secondarycolor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/city_layout_evntSignUp2">
+            app:layout_constraintTop_toBottomOf="@id/city_layout_evntSignUp2"
+            app:startIconDrawable="@drawable/ic_phone_white"
+            app:startIconTint="@color/secondarycolor"
+            app:hintTextColor="@color/secondarycolor"      >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign1_edTxt_mobileNo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="14"
+                android:textColor="@color/secondarycolor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,22 +121,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/Password"
+            app:hintTextColor="@color/secondarycolor"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColorHint="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/secondarycolor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sign1_layout_mobileNo">
+            app:layout_constraintTop_toBottomOf="@id/sign1_layout_mobileNo"
+            app:startIconDrawable="@drawable/ic_password_white"
+            app:startIconTint="@color/secondarycolor"
+
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign1_edTxt_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textPassword"
-
-                />
+                android:maxLength="30"
+                android:textColor="@color/secondarycolor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,17 +154,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/BusinessName"
+            app:hintTextColor="@color/secondarycolor"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColorHint="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
-            app:layout_constraintTop_toBottomOf="@+id/sign1_layout_Name">
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:counterTextColor="@color/secondarycolor"
+            app:layout_constraintTop_toBottomOf="@+id/sign1_layout_Name"
+            app:startIconDrawable="@drawable/ic_business_white"
+            app:startIconTint="@color/secondarycolor">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/business_edtXt_signUp2"
+                android:id="@+id/business_edtXt_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="30"
+                android:textColor="@color/secondarycolor"
+
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -141,19 +184,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/BusinessCategory"
+            app:hintTextColor="@color/secondarycolor"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColorHint="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/secondarycolor"
-            app:layout_constraintTop_toBottomOf="@+id/evnt_signUp_business_wrapper">
+            app:layout_constraintTop_toBottomOf="@+id/evnt_signUp_business_wrapper"
+            app:startIconDrawable="@drawable/ic_category_white"
+            app:startIconTint="@color/secondarycolor">
 
             <AutoCompleteTextView
                 android:id="@+id/evnt_signUp2_busCat_txtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/BusinessCategory" />
+                android:clickable="false"
+                android:hint="@string/BusinessCategory"
+                android:textColor="@color/secondarycolor" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -166,19 +214,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/City"
+            app:hintTextColor="@color/secondarycolor"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColorHint="@color/secondarycolor"
             app:boxStrokeColor="@color/secondarycolor"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:counterTextColor="@color/secondarycolor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sign1_layout_email">
+            app:layout_constraintTop_toBottomOf="@+id/sign1_layout_email"
+            app:startIconDrawable="@drawable/ic_city_white"
+            app:startIconTint="@color/secondarycolor">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/city_signUp2_edtXt"
+                android:id="@+id/city_signUp_edtXt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="30"
+                android:textColor="@color/secondarycolor" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
