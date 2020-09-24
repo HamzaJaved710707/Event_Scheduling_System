@@ -29,7 +29,7 @@
             />
 
         <TextView
-            android:id="@+id/recycler_text"
+            android:id="@+id/client_order_txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Line1"
@@ -41,7 +41,7 @@
             android:textColor="@android:color/white"
            />
         <TextView
-        android:id="@+id/recycler_text_2"
+        android:id="@+id/client_orders_txt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Line1"

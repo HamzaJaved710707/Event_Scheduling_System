@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +63,6 @@ public class evntOrg_profile extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,7 +84,7 @@ public class evntOrg_profile extends Fragment {
         usersPicStorageRef = frStorage.getReference("Event_Org/" + userID + "/Profile_Picture/");
         // In this Document Reference 1 means Profile Picture
         // Where 2 means Uploads or Portfolio data
-        user_Profile_Ref = firestore.collection("Users").document(userID).collection("Photos").document("1");
+        user_Profile_Ref = firestore.collection("Users").document(userID);
         userRef = firestore.collection("Users").document(userID);
 
 
@@ -203,8 +201,7 @@ public class evntOrg_profile extends Fragment {
                                     Log.d(TAG, "onSuccess: " + uri);
                                     String uri_download = uri.toString();
                                     Map data = new HashMap();
-                                    data.put("Name", "Profile Picture");
-                                    data.put("Link", uri_download);
+                                    data.put("imgUrl", uri_download);
                                     user_Profile_Ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -234,38 +231,6 @@ public class evntOrg_profile extends Fragment {
                 }
             });
 
-           /* Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return usersPicStorageRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-
-                    } else {
-                        // Handle failures
-                        // ...
-                        Log.d(TAG, "onFailure: in uploading image to firebase Storage" );
-
-                    }
-                }
-            });
-
-
-            urlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-
-                }
-            })*/
         }
     }
 
@@ -273,17 +238,18 @@ public class evntOrg_profile extends Fragment {
         user_Profile_Ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String link = documentSnapshot.getString("Link");
+                String link = documentSnapshot.getString("imgUrl");
                 Glide.with(evntOrg_profile.this).load(link).into(profile_photo);
+                userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String businessName = documentSnapshot.getString("businessName");
+                        business_name_txtView.setText(businessName);
+                    }
+                });
             }
         });
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String businessName = documentSnapshot.getString("businessName");
-                business_name_txtView.setText(businessName);
-            }
-        });
+
     }
 
     // Portfolio icon click handler

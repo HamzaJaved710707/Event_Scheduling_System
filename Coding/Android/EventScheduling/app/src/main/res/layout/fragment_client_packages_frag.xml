@@ -7,42 +7,22 @@
     android:background="@color/colorPrimary"
     tools:context=".client.ui.client_packages_frag">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/filter_package_client_layout"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/client_package_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/cardview_shadow_start_color"
-        android:elevation="8dp">
-
-        <ImageView
-            android:id="@+id/filter_packages_client_img"
-            android:layout_width="49dp"
-            android:layout_height="52dp"
-            android:layout_margin="8dp"
-            android:contentDescription="Filter icon"
-            android:src="@mipmap/filter_icon_white"
-            android:paddingBottom="8dp"
-            app:layout_constraintEnd_toStartOf="@id/filter_txt_client_package"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/filter_txt_client_package"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/filter_packages_client_img"
-            android:textStyle="bold"
-            android:layout_marginEnd="16dp"
-            android:text="Apply Filter"
-            android:textColor="@color/secondarycolor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+        app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/client_package_flt_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_add"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

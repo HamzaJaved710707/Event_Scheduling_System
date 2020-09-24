@@ -16,24 +16,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id = "@+id/recycler_layout_order"
+        android:id = "@+id/client_order_recycler_layout_"
         android:background="@color/colorPrimary"
         android:padding="4dp"
 
         >
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_id"
+            android:id="@+id/client_order_item_img"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="4dp"
             />
 
         <TextView
-            android:id="@+id/recycler_text"
+            android:id="@+id/client_order_txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Line1"
-            android:layout_toRightOf="@+id/image_id"
+            android:layout_toRightOf="@+id/client_order_item_img"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="4dp"
             android:textSize="12pt"
@@ -41,11 +41,11 @@
             android:textColor="@android:color/white"
             />
         <TextView
-            android:id="@+id/recycler_text_2"
+            android:id="@+id/client_orders_txt2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Line1"
-            android:layout_toEndOf="@+id/image_id"
+            android:layout_toEndOf="@+id/client_order_item_img"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
             android:textSize="10pt"

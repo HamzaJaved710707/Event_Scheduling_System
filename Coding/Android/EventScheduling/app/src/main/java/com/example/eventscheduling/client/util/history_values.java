@@ -4,6 +4,7 @@ public class history_values {
     private int imageResource;
     private   String m_name;
     private String m_priceTag;
+    public history_values(){}
     public history_values(int imgRes, String name, String priceTag){
         imageResource = imgRes;
         m_name = name;

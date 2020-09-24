@@ -9,6 +9,8 @@ public class Client_Msg_Values {
         messageHeader = msgHeader;
         messageDetail = msgDetail;
     }
+    public Client_Msg_Values(){ // Empty constructor
+         }
     public int getImageResource(){
         return  imageResource;
     }

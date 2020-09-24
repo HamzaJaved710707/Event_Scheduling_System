@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.util.MessageValues;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -68,9 +67,9 @@ public class RecyclerView_Adapter_Message extends FirestoreRecyclerAdapter<Messa
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder: is called");
-            image = itemView.findViewById(R.id.image_id);
-            userName = itemView.findViewById(R.id.recycler_text);
-            message = itemView.findViewById(R.id.recycler_text_2);
+            image = itemView.findViewById(R.id.client_order_item_img);
+            userName = itemView.findViewById(R.id.client_order_txt_name);
+            message = itemView.findViewById(R.id.client_orders_txt2);
             layout = itemView.findViewById(R.id.recycler_layout);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

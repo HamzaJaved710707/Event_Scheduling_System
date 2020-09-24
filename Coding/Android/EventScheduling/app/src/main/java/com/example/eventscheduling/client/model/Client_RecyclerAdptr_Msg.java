@@ -72,9 +72,9 @@ public class Client_RecyclerAdptr_Msg extends RecyclerView.Adapter<Client_Recycl
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder: iscalled");
-            image = itemView.findViewById(R.id.image_id);
-            messageHeader = itemView.findViewById(R.id.recycler_text);
-            messageDetail = itemView.findViewById(R.id.recycler_text_2);
+            image = itemView.findViewById(R.id.client_order_item_img);
+            messageHeader = itemView.findViewById(R.id.client_order_txt_name);
+            messageDetail = itemView.findViewById(R.id.client_orders_txt2);
             layout = itemView.findViewById(R.id.recycler_layout);
 
         }

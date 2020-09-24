@@ -3,13 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/create_package_item_img"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_person"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,12 +20,15 @@
 
     <TextView
         android:id="@+id/create_package_item_txt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name of item"
-        app:layout_constraintEnd_toEndOf="@+id/create_package_item_img"
-        app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:text="Name of item"
+        android:textColor="@color/secondarycolor"
+        app:layout_constraintEnd_toEndOf="@+id/create_package_item_img"
+        app:layout_constraintHorizontal_bias="0.461"
+
         app:layout_constraintStart_toStartOf="@+id/create_package_item_img"
         app:layout_constraintTop_toBottomOf="@+id/create_package_item_img" />
 </androidx.constraintlayout.widget.ConstraintLayout>

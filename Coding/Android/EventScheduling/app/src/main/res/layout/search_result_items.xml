@@ -13,7 +13,7 @@
         android:scaleX="1">
 
         <ImageView
-            android:id="@+id/image_id"
+            android:id="@+id/client_order_item_img"
             android:layout_width="403dp"
             android:layout_height="233dp"
             android:layout_marginStart="4dp"
@@ -28,9 +28,9 @@
          android:id="@+id/textView8"
          android:layout_width="178dp"
          android:layout_height="wrap_content"
-         android:layout_below="@+id/image_id"
-         android:layout_alignStart="@+id/image_id"
-         android:layout_alignEnd="@+id/image_id"
+         android:layout_below="@+id/client_order_item_img"
+         android:layout_alignStart="@+id/client_order_item_img"
+         android:layout_alignEnd="@+id/client_order_item_img"
          android:layout_alignParentEnd="true"
          android:layout_marginStart="13dp"
          android:layout_marginTop="12dp"
@@ -69,8 +69,8 @@
          style="?attr/ratingBarStyleSmall"
          android:layout_width="80dp"
          android:layout_height="20dp"
-         android:layout_below="@+id/image_id"
-         android:layout_alignStart="@+id/image_id"
+         android:layout_below="@+id/client_order_item_img"
+         android:layout_alignStart="@+id/client_order_item_img"
          android:layout_alignParentEnd="true"
          android:layout_marginStart="256dp"
          android:layout_marginTop="18dp"

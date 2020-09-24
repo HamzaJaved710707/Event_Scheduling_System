@@ -163,6 +163,7 @@ public class evntOrg_signUp extends AppCompatActivity {
                     // if user is not null
                     if (currentUser != null) {
                         currentUserID = currentUser.getUid();
+                        userData.put("id", currentUserID);
                         // Add data about the user in firestore
                         userRef.document(currentUserID).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

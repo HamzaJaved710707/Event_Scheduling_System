@@ -1,12 +1,35 @@
 package com.example.eventscheduling.client.util;
 
 
+import java.util.ArrayList;
+
 public class client_package_values {
     private String PackageName;
-    private String Price;
+    private String price;
     private String Venue;
-    private String imageAdr;
+    private String image;
     private int rating;
+    private String businessName;
+    public client_package_values(){
+        // empty constructor for firebase
+    }
+
+    public  client_package_values(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName) {
+        PackageName = packageName;
+        this.price = price;
+        Venue = venue;
+        this.image = image;
+        this.rating = rating;
+        this.businessName = businessName;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
 
     public String getPackageName() {
         return PackageName;
@@ -17,11 +40,11 @@ public class client_package_values {
     }
 
     public String getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.price = price;
     }
 
     public String getVenue() {
@@ -33,11 +56,11 @@ public class client_package_values {
     }
 
     public String getImageAdr() {
-        return imageAdr;
+        return image;
     }
 
     public void setImageAdr(String imageAdr) {
-        this.imageAdr = imageAdr;
+        this.image = imageAdr;
     }
 
     public int getRating() {

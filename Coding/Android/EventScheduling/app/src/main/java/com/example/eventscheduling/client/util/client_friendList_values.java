@@ -3,21 +3,28 @@ package com.example.eventscheduling.client.util;
 public class client_friendList_values {
 
     String Name;
-    int imgUrl;
-    String email;
+    String imgUrl;
 
-    public String getEmail() {
-        return email;
+    String id;
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getId() {
+        return id;
     }
 
-    public client_friendList_values(String name, int imgUrl, String Email) {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
+
+    public client_friendList_values(String name, String imgUrl, String id) {
         Name = name;
         this.imgUrl = imgUrl;
-        email = Email;
+        this.id = id;
     }
 
     public client_friendList_values(){
@@ -32,11 +39,8 @@ public class client_friendList_values {
         Name = name;
     }
 
-    public int getImgUrl() {
+    public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(int imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 }

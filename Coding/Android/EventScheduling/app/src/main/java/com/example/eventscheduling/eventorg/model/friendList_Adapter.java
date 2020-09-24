@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_values, friendList_Adapter.friendList_Holder> {
     private onitemClickListener listener;
     private Context context;
@@ -69,7 +71,7 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
 
     class friendList_Holder extends RecyclerView.ViewHolder {
         TextView name;
-        ImageView img;
+        CircleImageView img;
         CardView  item_layout;
 
         public friendList_Holder(@NonNull View itemView) {

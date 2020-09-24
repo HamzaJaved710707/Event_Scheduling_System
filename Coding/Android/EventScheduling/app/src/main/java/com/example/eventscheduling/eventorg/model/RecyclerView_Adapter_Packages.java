@@ -18,9 +18,12 @@ import com.example.eventscheduling.eventorg.util.PackagesValues;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import org.w3c.dom.Text;
+
 public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<PackagesValues, RecyclerView_Adapter_Packages.ViewHolder> {
     // Variables
     Context context;
+    private onItemClickListner OnclickListener;
 // Constructor
     public RecyclerView_Adapter_Packages(Context mContext, FirestoreRecyclerOptions<PackagesValues> options) {
         super(options);
@@ -32,15 +35,25 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
         Glide.with(context).load(model.getImage()).into(holder.image);
         holder.   PackageName.setText(model.getPackageName());
         holder.Price.setText(model.getPrice());
-        holder.venue.setText(model.getVenue());
+        holder.BusinessName.setText(model.getBusinessName());
+        holder.detailText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnclickListener.onDetailButtonClick();
+            }
+        });
 
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.evnt_org_package_recycler_item, parent, false);
-       return new ViewHolder(view);
+
+
+        final View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.evnt_org_package_recycler_item, parent, false);
+      return new ViewHolder(view);
+
     }
 
     // Viewholder Class
@@ -48,20 +61,29 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
         private ImageView image;
         private TextView    PackageName;;
         private TextView Price;
-        private TextView venue;
+        private TextView BusinessName;
+        private TextView detailText;
         private RatingBar ratingBar;
         private ConstraintLayout constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image_id);
+            image = itemView.findViewById(R.id.client_order_item_img);
             PackageName = itemView.findViewById(R.id.pakage_name_text);
             Price = itemView.findViewById(R.id.price_text);
-            venue = itemView.findViewById(R.id.location_text);
+            BusinessName = itemView.findViewById(R.id.location_text);
             ratingBar = itemView.findViewById(R.id.rating_bar);
             constraintLayout = itemView.findViewById(R.id.recycler_constriantLayout);
+            detailText = itemView.findViewById(R.id.view_detail_about_package);
 
 
         }
     }
+    public interface onItemClickListner{
+        void onDetailButtonClick();
+        }
+
+        public void setOnClick(onItemClickListner clickListner){
+        this.OnclickListener = clickListner;
+        }
 }

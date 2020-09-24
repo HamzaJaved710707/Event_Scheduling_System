@@ -64,7 +64,9 @@ public class evntOrg_Messages extends Fragment {
         recyclerView = rootview.findViewById(R.id.message_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(rootview.getContext()));
+
         recyclerView.setAdapter(adapter_message);
+
         adapter_message.onItemClickListner(new RecyclerView_Adapter_Message.itemClickListenerMsgDetail() {
             @Override
             public void itemClickListener(DocumentSnapshot documentSnapshot, int position) {

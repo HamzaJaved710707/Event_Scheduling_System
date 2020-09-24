@@ -13,17 +13,26 @@ public class PackagesValues {
     private ArrayList<String> Food;
     private ArrayList<String> Services;
     private String Venue;
-    private String Price;
+    private String price;
+    private String businessName;
 
 
+    public String getBusinessName() {
+        return businessName;
+    }
 
-    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price) {
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName) {
         PackageName = packageName;
         this.image = image;
         Food = food;
         Services = services;
         Venue = venue;
-        Price = price;
+        this.price = price;
+        this.businessName = businessName;
     }
 
     public PackagesValues() {
@@ -71,11 +80,11 @@ public class PackagesValues {
     }
 
     public String getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.price = price;
     }
 
 

@@ -39,28 +39,7 @@ public class evntOrg_Package_create extends FragmentActivity {
             currentUserID = currentUser.getUid();
             firestore = FirebaseFirestore.getInstance();
             documentReference = firestore.collection("Users").document(currentUserID);
-            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    String value = documentSnapshot.getString("businessCat");
-                    if (value != null) {
-                        getCat_Value(value);
-                    } else {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        mAuth.signOut();
-                        startActivity(new Intent(evntOrg_Package_create.this, evntOrg_signIn.class));
-                    }
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(evntOrg_Package_create.this, "Please log in again", Toast.LENGTH_SHORT).show();
-                    mAuth.signOut();
-                    startActivity(new Intent(evntOrg_Package_create.this, evntOrg_signIn.class));
-
-                }
-            });
         }
     }
 
@@ -88,35 +67,7 @@ public class evntOrg_Package_create extends FragmentActivity {
 
     void getCat_Value(String value) {
         progressBar.setVisibility(View.INVISIBLE);
-        switch (value) {
 
-            case "Event_Organizer":
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_create_package_evnt, new evnt_package_create_org())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                break;
-            case "Caterer":
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_create_package_evnt, new evnt_package_create_catering())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                break;
-            case "Venue_Provider":
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_create_package_evnt, new evnt_package_create_venue())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                break;
-            case "Decoration":
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_create_package_evnt, new evnt_package_create_decoration())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                break;
-            case "Car_Rent":
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_create_package_evnt, new evnt_package_create_car())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                break;
-            case "Invitation_Card":
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_create_package_evnt, new evnt_package_create_card()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-            default:
-                break;
-
-
-        }
 
     }
 

@@ -95,7 +95,7 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
         @Override
         public boolean onNavigationItemSelected (@NonNull MenuItem menuItem){

@@ -3,9 +3,11 @@ package com.example.eventscheduling.eventorg.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.ui.client_package_detail;
+import com.example.eventscheduling.eventorg.model.DragData;
 import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Packages;
 import com.example.eventscheduling.eventorg.util.PackagesValues;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -26,7 +30,11 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Objects;
 
-public class evntOrg_Packages extends Fragment {
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+import static android.graphics.Color.WHITE;
+
+public class evntOrg_Packages extends Fragment implements RecyclerView_Adapter_Packages.onItemClickListner {
     private static final String TAG = "evntOrg_Packages";
     private RecyclerView recyclerView;
     private RecyclerView_Adapter_Packages packages_adapter;
@@ -63,9 +71,10 @@ public class evntOrg_Packages extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), evntOrg_Package_create.class));
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evnt_package_create_catering()).addToBackStack(null).commit();
             }
         });
+
 
     }
 
@@ -76,6 +85,7 @@ public class evntOrg_Packages extends Fragment {
         Query query = dbReference.orderBy("PackageName", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<PackagesValues> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<PackagesValues>().setQuery(query, PackagesValues.class).build();
         packages_adapter = new RecyclerView_Adapter_Packages(getContext(), firestoreRecyclerOptions);
+        packages_adapter.setOnClick(evntOrg_Packages.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(packages_adapter);
@@ -96,5 +106,10 @@ public class evntOrg_Packages extends Fragment {
             packages_adapter.stopListening();
         }
 
+    }
+
+    @Override
+    public void onDetailButtonClick() {
+getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evntOrg_Package_detail()).addToBackStack(null).commit();
     }
 }

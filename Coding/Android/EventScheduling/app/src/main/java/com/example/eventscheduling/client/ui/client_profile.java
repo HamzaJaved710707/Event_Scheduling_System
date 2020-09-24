@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -58,7 +59,7 @@ public class client_profile extends Fragment {
     private ImageView client_cover_photo;
     private TextView userName;
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private DocumentReference user_Profile_Ref;
+    private CollectionReference user_Profile_Ref;
     private DocumentReference userRef;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -66,8 +67,6 @@ public class client_profile extends Fragment {
     private FirebaseStorage frStorage;
     private StorageReference usersPicStorageRef;
     private Uri imageUri;
-
-
 
 
     @Override
@@ -91,7 +90,7 @@ public class client_profile extends Fragment {
         usersPicStorageRef = frStorage.getReference("Clients/" + userID + "/Profile_Picture/");
         // In this Document Reference 1 means Profile Picture
         // Where 2 means Uploads or Portfolio data
-        user_Profile_Ref = firestore.collection("Users").document(userID).collection("Photos").document("1");
+        user_Profile_Ref = firestore.collection("Users");
         userRef = firestore.collection("Users").document(userID);
 
 
@@ -102,52 +101,6 @@ public class client_profile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // If user is not null then proceed
-       /* if(currentUser != null){
-            userRef = firestore.collection("Users").document(userID).collection("businessData").document("1");
-
-            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    String category = (String) documentSnapshot.get("category");
-                    SharedPreferences sharedPreferences = getContext().getSharedPreferences("Category", Context.MODE_PRIVATE);
-                    Log.d(TAG, "onSuccess: user category is  " + category);
-                    switch (category) {
-                        case "Event Organizer":
-                            sharedPreferences.edit().putInt("category", 1).apply();
-                            break;
-                        case "Catering":
-                            sharedPreferences.edit().putInt("category", 2).apply();
-                            break;
-                        case "Venue Provider":
-                            sharedPreferences.edit().putInt("category", 3).apply();
-                            break;
-                        case "Decoration":
-                            sharedPreferences.edit().putInt("category", 4).apply();
-                            break;
-                        case "Car Service":
-                            sharedPreferences.edit().putInt("category", 5).apply();
-                            break;
-                        case "Invitation Cards":
-                            sharedPreferences.edit().putInt("category", 6).apply();
-                            break;
-                        default:
-                            sharedPreferences.edit().putInt("category", 0).apply();
-                            break;
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: " + e.toString());
-                }
-            });
-
-        }
-        else{
-            Toast.makeText(getContext(), "Please restart the application", Toast.LENGTH_LONG).show();
-        }*/
 
 
     }
@@ -208,9 +161,8 @@ public class client_profile extends Fragment {
                                     Log.d(TAG, "onSuccess: " + uri);
                                     String uri_download = uri.toString();
                                     Map data = new HashMap();
-                                    data.put("Name", "Profile Picture");
-                                    data.put("Link", uri_download);
-                                    user_Profile_Ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    data.put("imgUrl", uri_download);
+                                    user_Profile_Ref.document(userID).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(getContext(), "Upload Sucessfull", Toast.LENGTH_SHORT).show();
@@ -239,56 +191,27 @@ public class client_profile extends Fragment {
                 }
             });
 
-           /* Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return usersPicStorageRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-
-                    } else {
-                        // Handle failures
-                        // ...
-                        Log.d(TAG, "onFailure: in uploading image to firebase Storage" );
-
-                    }
-                }
-            });
-
-
-            urlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-
-                }
-            })*/
         }
     }
 
+
+
     private void loadData() {
-        user_Profile_Ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        user_Profile_Ref.document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String link = documentSnapshot.getString("Link");
+                String link = documentSnapshot.getString("imgUrl");
                 Glide.with(client_profile.this).load(link).into(client_profile_photo);
+                userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String businessName = documentSnapshot.getString("Name");
+                        userName.setText(businessName);
+                    }
+                });
             }
         });
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String businessName = documentSnapshot.getString("Name");
-                userName.setText(businessName);
-            }
-        });
+
     }
 
     // Portfolio icon click handler

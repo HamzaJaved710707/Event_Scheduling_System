@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -51,7 +52,7 @@ import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class evnt_package_create_catering extends Fragment  implements evntOrg_home.OnBackPressedListener {
+public class evnt_package_create_catering extends Fragment implements evntOrg_home.OnBackPressedListener {
 
     private static final int PIC_CAMERA_REQ = 1;
     private static final int GALLERY_REQ = 2;
@@ -80,20 +81,18 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
     private Boolean create_bol = false;
     private String doc_ref = "";
     private StorageReference img_ref;
+    private ProgressBar progressBar;
+    private MaterialButton venueBtn;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (sharedPreferences != null) {
-            if (imageUri.equals(Uri.EMPTY)) {
-                sharedPreferences.getString("URI", imageUri.toString());
-                Log.d(TAG, "onCreate: " + imageUri);
-
-            }
+    public static String getMimeType(Uri uri) {
+        String type = null;
+        String url = uri.toString();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
         }
-
-
+        Log.d(TAG, "getMimeType: " + type);
+        return type;
     }
 
 // Select food item from list
@@ -126,6 +125,20 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
         });*/
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (sharedPreferences != null) {
+            if (imageUri.equals(Uri.EMPTY)) {
+                sharedPreferences.getString("URI", imageUri.toString());
+                Log.d(TAG, "onCreate: " + imageUri);
+
+            }
+        }
+
+
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         String imageStringUri = imageUri.toString();
@@ -133,7 +146,6 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
 
         outState.putString("imageUri", imageStringUri);
     }
-
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
@@ -162,6 +174,7 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
         super.onViewCreated(view, savedInstanceState);
         sharedPreferences = view.getContext().getSharedPreferences("MY_SHARE", MODE_PRIVATE);
         preferencesEditor = sharedPreferences.edit();
+        progressBar.setVisibility(View.VISIBLE);
 
 
     }
@@ -211,6 +224,9 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
         create_btn = view.findViewById(R.id.evnt_package_creat_btn_caterer);
         imageView = view.findViewById(R.id.profilePic_create_catering);
         packageNameEdtXt = view.findViewById(R.id.evnt_package_Name_caterer_inputField);
+        price_edit = view.findViewById(R.id.evntOrg_create_package_price);
+        progressBar = view.findViewById(R.id.evnt_create_package_progressBar);
+        venueBtn = view.findViewById(R.id.venue_btn_package_evnt_create_catering);
         registerForContextMenu(imageView);
 
         ///Restore data
@@ -227,6 +243,7 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
             firebaseStorage = FirebaseStorage.getInstance();
             package_img_Ref = firebaseStorage.getReference("Event_Org/" + currentUserID + "/Packages_Photos");
             packageReference = firestore.collection("Users").document(currentUserID).collection("Packages");
+            checkCategory(view);
             create_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -379,6 +396,62 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
         return view;
     }
 
+    private void checkCategory(View view) {
+        String value;
+        firestore.collection("Users").document(currentUserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String value = documentSnapshot.getString("businessCat");
+                if (value != null) {
+                    switch (value) {
+
+                        case "Event_Organizer":
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            break;
+                        case "Caterer":
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            venueBtn.setVisibility(View.GONE);
+                            break;
+                        case "Venue_Provider":
+                            food_btn.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            break;
+                        case "Decoration":
+                            food_btn.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            venueBtn.setVisibility(View.GONE);
+                            break;
+                        case "Car_Rent":
+                            venueBtn.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            food_btn.setVisibility(View.GONE);
+
+                            break;
+                        case "Invitation_Card":
+                            venueBtn.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            food_btn.setVisibility(View.GONE);
+                        default:
+                            break;
+
+
+                    }
+                } else {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    mAuth.signOut();
+                    startActivity(new Intent(view.getContext(), evntOrg_signIn.class));
+                }
+            }
+        });
+
+
+    }
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
@@ -389,7 +462,6 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
         }
 
     }
-
 
     /// Logic to handle Back button trigger...
     protected void exitByBackKey() {
@@ -416,21 +488,18 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
                 .show();
 
 
-
-
-}
-
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(imageUri.equals(Uri.EMPTY)){
+        if (imageUri.equals(Uri.EMPTY)) {
 
             preferencesEditor.putString("URI", imageUri.toString());
-            Log.d(TAG, "ondestroy value: "+ imageUri.toString());
+            Log.d(TAG, "ondestroy value: " + imageUri.toString());
             preferencesEditor.commit();
         }
-        if( img_ref!= null){
+        if (img_ref != null) {
 
             img_ref.delete();
             Log.d(TAG, "OnDestroy: ");
@@ -463,10 +532,10 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
     @Override
     public void onDetach() {
         super.onDetach();
-              if((create_bol == false) && (img_ref!= null)){
+        if ((create_bol == false) && (img_ref != null)) {
 
             img_ref.delete();
-                  Log.d(TAG, "onDetach: ");
+            Log.d(TAG, "onDetach: ");
         }
     }
 
@@ -477,14 +546,13 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
             imageUri = data.getData();
             // Creating the reference of the image
             saveImage();
-            Log.d(TAG, "onActivityResult: "+ imageUri);
+            Log.d(TAG, "onActivityResult: " + imageUri);
         }
     }
 
-
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.camera:
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 startActivityForResult(intent, PIC_CAMERA_REQ);
@@ -497,81 +565,87 @@ public class evnt_package_create_catering extends Fragment  implements evntOrg_h
                 return true;
             default:
                 return super.onContextItemSelected(item);
-
         }
     }
 
     // Save the values of the package
-    private void savePackage(){
-        String PackageName = packageNameEdtXt.getText().toString().trim();
-        uri_download = sharedPreferences.getString("uri_download",uri_download);
-        Map data = new HashMap();
-        data.put("image", uri_download);
-        data.put("PackageName", PackageName);
-        data.put("Services", new_items_service );
-        data.put("Food", new_items_food);
-        packageReference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getContext(), "Package Successfully Created", Toast.LENGTH_SHORT).show();
-                doc_ref = documentReference.getId();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
-
-
-private void saveImage(){
-    Log.d(TAG, "saveImage: "+ imageUri);
-    package_img_Ref.child((System.currentTimeMillis() + "." + getMimeType(imageUri))).putFile(imageUri)
-            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    private void savePackage() {
+        if (!packageNameEdtXt.getText().toString().trim().equals("") && !price_edit.getText().toString().trim().equals("")) {
+            firestore.collection("Users").document(currentUserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    String PackageName = packageNameEdtXt.getText().toString().trim();
+                    String price = price_edit.getText().toString().trim();
+                    uri_download = sharedPreferences.getString("uri_download", uri_download);
+                    String businessName = documentSnapshot.getString("businessName");
+                    Map data = new HashMap();
+                    data.put("image", uri_download);
+                    data.put("PackageName", PackageName);
+                    data.put("Services", new_items_service);
+                    data.put("Food", new_items_food);
+                    data.put("price", price);
+                    data.put("businessName", businessName);
+                    packageReference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
-                        public void onSuccess(Uri uri) {
-                            Log.d(TAG, "onSuccess: " + uri);
-                           uri_download = uri.toString();
-
-                            //     Glide.with(getContext()).load(uri).into(imageView);
-                                img_ref = taskSnapshot.getStorage();
-                            preferencesEditor.putString("uri_download",uri_download);
-
-                            preferencesEditor.apply();
-                            Log.d(TAG, "Image Storage Reference" + img_ref);
-
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(getContext(), "Package Successfully Created", Toast.LENGTH_SHORT).show();
+                            doc_ref = documentReference.getId();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure:  " + e.getMessage());
+                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+
                         }
                     });
+
                 }
+
             }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
+                }
+            });
         }
-    });
 
-}
-    public static String getMimeType(Uri uri) {
-        String type = null;
-        String url = uri.toString();
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        Log.d(TAG, "getMimeType: " + type);
-        return type;
+    }
+
+    private void saveImage() {
+        Log.d(TAG, "saveImage: " + imageUri);
+        package_img_Ref.child((System.currentTimeMillis() + "." + getMimeType(imageUri))).putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                        task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Log.d(TAG, "onSuccess: " + uri);
+                                uri_download = uri.toString();
+
+                                //     Glide.with(getContext()).load(uri).into(imageView);
+                                img_ref = taskSnapshot.getStorage();
+                                preferencesEditor.putString("uri_download", uri_download);
+
+                                preferencesEditor.apply();
+                                Log.d(TAG, "Image Storage Reference" + img_ref);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure:  " + e.getMessage());
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
     }
 
     @Override

@@ -52,9 +52,9 @@ public class RecyclerView_Adapter_Order extends RecyclerView.Adapter<RecyclerVie
 
        public ViewHolder(View itemview){
            super(itemview);
-           imageResource = itemview.findViewById(R.id.image_id);
-           orderHeader = itemView.findViewById(R.id.recycler_text);
-           orderDetail = itemview.findViewById(R.id.recycler_text_2);
+           imageResource = itemview.findViewById(R.id.client_order_item_img);
+           orderHeader = itemView.findViewById(R.id.client_order_txt_name);
+           orderDetail = itemview.findViewById(R.id.client_orders_txt2);
        }
 
    };

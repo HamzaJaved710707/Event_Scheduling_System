@@ -128,6 +128,7 @@ public class client_signUp extends AppCompatActivity {
         userData.put("mobileNumber", mobileNumber);
         userData.put("password", passTxt);
         userData.put("isActive", false);
+        userData.put("id", currentUser_id);
         firestoreDatabase.collection("Users").document(currentUser_id).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
