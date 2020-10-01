@@ -25,6 +25,7 @@ import java.util.List;
 public class client_package_adapter extends RecyclerView.Adapter<client_package_adapter.ViewHolder> {
     private Context mContext;
     List<client_package_values>  packages_values = new ArrayList<>();
+    List<String> userList = new ArrayList<>();
 
     private client_package_adapter.onItemClickListner OnclickListener;
 
@@ -42,14 +43,14 @@ public class client_package_adapter extends RecyclerView.Adapter<client_package_
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(mContext).load(packages_values.get(position).getImageAdr()).into(holder.imageAdr);
+        Glide.with(mContext).load(packages_values.get(position).getImage()).into(holder.imageAdr);
         holder.packageName.setText(packages_values.get(position).getPackageName());
         holder.Price.setText(packages_values.get(position).getPrice());
         holder.businessName.setText(packages_values.get(position).getBusinessName());
         holder.detailTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OnclickListener.onDetailButtonClick();
+                OnclickListener.onDetailButtonClick(packages_values.get(position).getId(), packages_values.get(position).getUserId());
             }
         });
     }
@@ -80,10 +81,17 @@ public class client_package_adapter extends RecyclerView.Adapter<client_package_
 
     }
     public interface onItemClickListner{
-        void onDetailButtonClick();
+        void onDetailButtonClick(String id, String userId);
     }
 
     public void setOnClick(client_package_adapter.onItemClickListner clickListner){
         this.OnclickListener = clickListner;
+    }
+    public void deleteRecyclerData(){
+        packages_values.clear();
+        notifyDataSetChanged();
+    }
+    public void setUserValue(ArrayList<String> user){
+        userList = user;
     }
 }

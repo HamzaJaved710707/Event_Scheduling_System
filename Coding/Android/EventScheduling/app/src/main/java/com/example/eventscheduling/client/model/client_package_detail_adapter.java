@@ -26,14 +26,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class client_package_detail_adapter extends RecyclerView.Adapter<client_package_detail_adapter.client_package_detail_holder> {
 
 
-    List<client_package_detail_values> packageDetial = new ArrayList<>();
+    List<String> packageDetial = new ArrayList<>();
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser = mAuth.getCurrentUser();
     private client_friendList_Adapter.OnItemClicked onClick;
     private String id;
 
-    public client_package_detail_adapter(Context context, List<client_package_detail_values> list){
+    public client_package_detail_adapter(Context context, List<String> list){
         this.context = context;
         packageDetial = list;
     }
@@ -47,8 +47,8 @@ public class client_package_detail_adapter extends RecyclerView.Adapter<client_p
 
     @Override
     public void onBindViewHolder(@NonNull client_package_detail_holder holder, int position) {
-if(!packageDetial.get(position).getName().equals(null)){
-    holder.name.setText(packageDetial.get(position).getName());
+if(packageDetial.get(position) != null){
+    holder.name.setText(packageDetial.get(position));
 }
 else{
     holder.itemView.setVisibility(View.GONE);

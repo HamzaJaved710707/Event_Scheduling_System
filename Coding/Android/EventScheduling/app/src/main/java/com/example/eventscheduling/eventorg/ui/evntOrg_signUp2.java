@@ -32,7 +32,6 @@ import java.util.Map;
 
 public class evntOrg_signUp2 extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "evntOrg_signUp2";
-    private static String url = "https://eventscheduling.000webhostapp.com/android/eventOrganizer/evntOrg_reg_2.php";
     AlertDialog.Builder alertDialog;
     ProgressBar progressBar;
     // Variable to hold the map location of user

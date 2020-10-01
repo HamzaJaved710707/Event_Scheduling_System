@@ -1,6 +1,5 @@
 package com.example.eventscheduling.client.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,29 +8,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.model.Filter_Friend_Dialog;
 import com.example.eventscheduling.client.model.Filter_Package_Dialog_client;
-import com.example.eventscheduling.client.model.client_friendList_Adapter;
 import com.example.eventscheduling.client.model.client_package_adapter;
 import com.example.eventscheduling.client.util.client_package_values;
-import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Packages;
-import com.example.eventscheduling.eventorg.util.PackagesValues;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,11 +37,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
-public class client_packages_frag extends Fragment implements Filter_Package_Dialog_client.ExampleDialogListener, client_package_adapter.onItemClickListner{
+public class client_packages_frag extends Fragment implements Filter_Package_Dialog_client.ExampleDialogListener, client_package_adapter.onItemClickListner {
     private static final String TAG = "client_packages_frag";
+    RecyclerView recyclerView;
     // variable
     private AutoCompleteTextView typeEditText;
     private AutoCompleteTextView locationEditText;
@@ -64,10 +58,10 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
     private FloatingActionButton floatingActionButton;
     private CollectionReference userCollection;
     private List<client_package_values> packageList = new ArrayList<>();
-    private List<String> userList = new ArrayList<>();
+    private ArrayList<String> userList = new ArrayList<>();
     private client_package_adapter package_adapter;
-    RecyclerView recyclerView;
-
+    private TextView noDataTxt;
+private ArrayList<String> tempUserList = new ArrayList<String>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +71,7 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
         // Initialize the variables of firestore
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        noDataTxt = view.findViewById(R.id.client_package_noData_txt);
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             currentUserID = currentUser.getUid();
@@ -89,7 +84,8 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
 
                 getParentFragmentManager().beginTransaction().addToBackStack(null)
                         .replace(R.id.frameLayout_clientHome, new client_create_package())
-                        .commit();            }
+                        .commit();
+            }
         });
         // REturning the view
         recyclerView = view.findViewById(R.id.client_package_recyclerview);
@@ -116,6 +112,7 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
         return super.onOptionsItemSelected(item);
 
     }
+
     public void openDialog() {
         Filter_Package_Dialog_client filter_dialog = new Filter_Package_Dialog_client(client_packages_frag.this);
         filter_dialog.show(getParentFragmentManager(), "example dialog");
@@ -131,102 +128,926 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
 
     // Initialize the recyclerView of this fragment
     private void initRecyclerVeiw(View view) {
-       userCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        Query query = userCollection.whereEqualTo("type", 0);
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                     userList.clear();
-                     for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                         userList.add(documentSnapshot.getString("id"));
-                     }
-                     userCollection.whereIn(FieldPath.documentId(), userList).whereEqualTo("type", 0).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                         @Override
-                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for (String user: userList){
-                                userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                        for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                packageList.clear();
+                userList.clear();
+                for(QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots){
+                    userList.add(queryDocumentSnapshot.getString("id"));
+                }
+                for(String user: userList){
+                    userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            tempUserList.clear();
+                            for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                if(documentSnapshot.exists()){
                                         ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
                                         ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
-                                        packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList,serviceList, documentSnapshot.getString("venue"),documentSnapshot.getString("price"), documentSnapshot.getString("businessName") ));
-                                        }
-                                        package_adapter = new client_package_adapter(getContext(),packageList);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                                        package_adapter.setOnClick(client_packages_frag.this);
-                                        recyclerView.setAdapter(package_adapter);
-                                    }
-                                });
+                                        packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, " " , documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+
+
+                                }
                             }
-                         }
-                     });
+                            package_adapter = new client_package_adapter(getContext(), packageList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            package_adapter.setOnClick(client_packages_frag.this);
+                            recyclerView.setAdapter(package_adapter);
+                        }
+                    });
+
+                }
+
+
             }
+
         });
+
+
+
 
 
     }
 
 
     @Override
-    public void sendView(CheckedTextView evntOrg, CheckedTextView venue, CheckedTextView caterer, CheckedTextView car, CheckedTextView card) {
-            if(evntOrg.isChecked()){
-                Query query = userCollection.whereEqualTo("businessCat", "Event_Organizer").whereEqualTo("type", 0);
-                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    packageList.clear();
-                    for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+    public void sendView(CheckedTextView evntOrg, CheckedTextView venue, CheckedTextView caterer, CheckedTextView decoration, CheckedTextView card, CheckedTextView car_rent) {
+        // Only event organizer is selected
+        if (evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData(); Query query = userCollection.whereEqualTo("businessCat", "Event_Organizer").whereEqualTo("type", 0);
+            query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                packageList.clear();
+                userList.clear();
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     userList.add(documentSnapshot.getString("id"));
 
-                    }
+                }
 
-                for(String user: userList){
+                for (String user : userList) {
                     userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                 ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
                                 ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
-                                packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList,serviceList, documentSnapshot.getString("venue"),documentSnapshot.getString("price"), documentSnapshot.getString("businessName") ));
+                                packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
                             }
+                            if (packageList.size() == 0) {
+                                noDataTxt.setVisibility(View.VISIBLE);
+                            }else{
+                                noDataTxt.setVisibility(View.INVISIBLE);
+                                package_adapter = new client_package_adapter(getContext(), packageList);                            package_adapter.setOnClick(client_packages_frag.this);
 
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            recyclerView.swapAdapter(package_adapter, true);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                recyclerView.swapAdapter(package_adapter, true);
 
+                            }
 
                         }
                     });
                 }
+            });
+        }
+        // Only venue is selected
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+                Query query = userCollection.whereEqualTo("businessCat", "Venue_Provider").whereEqualTo("type", 0);
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);                            package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only caterer is selected
+        else if (!evntOrg.isChecked() && caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+                Query query = userCollection.whereEqualTo("businessCat", "Caterer").whereEqualTo("type", 0);
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    package_adapter.setOnClick(client_packages_frag.this);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only decoration is selected
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+                Query query = userCollection.whereEqualTo("businessCat", "Decoration").whereEqualTo("type", 0);
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only card invitation is selected
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData(); Query query = userCollection.whereEqualTo("businessCat", "Invitation_Card").whereEqualTo("type", 0);
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // ONly event organizer and venue provider is selected
+        else if (evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query =userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Venue_Provider"))    ;
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only event organizer and caterer is checked
+        else if (evntOrg.isChecked() && caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query =userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Caterer"))    ;
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only event organizer and decoration is selected
+        else if (evntOrg.isChecked() && !caterer.isChecked() && decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query =userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Decoration"))    ;
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // only event organizer and card is selected
+        else if (evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query =userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Invitation_Card"))    ;
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // ONly venue and caterer is checked
+        else if (!evntOrg.isChecked() && caterer.isChecked() && !decoration.isChecked() && venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query =userCollection.whereIn("businessCat", Arrays.asList("Venue_Provider", "Caterer"))    ;
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only venue and decoration is checked
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && decoration.isChecked() && venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query =userCollection.whereIn("businessCat", Arrays.asList("Venue_Provider", "Decoration"))    ;
+            query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only venue and card is checked
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && venue.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+                Query query =userCollection.whereIn("businessCat", Arrays.asList("Venue_Provider", "Invitation_Card"))    ;
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Only caterer and decoration is checked
+        else if (!evntOrg.isChecked() && caterer.isChecked() && decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Caterer", "Decoration"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // caterer and card
+        else if (!evntOrg.isChecked() && caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Caterer", "Invitation_Card"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // decoration and card
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && decoration.isChecked() && !venue.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Decoration", "Invitation_Card"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Event organier , venue , caterer
+        else if (evntOrg.isChecked() && caterer.isChecked() && !decoration.isChecked() && venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Venue_Provider","Caterer"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Event organizer , venue , decoration
+        else if (evntOrg.isChecked() && venue.isChecked() && decoration.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Venue_Provider","Decoration"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Event organizer , venue and card
+        else if (evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && venue.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Venue_Provider","Invitation_Card"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Event organizer , caterer , decoration
+        else if (evntOrg.isChecked() && caterer.isChecked() && decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Caterer","Decoration"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Event organizer , caterer , card
+        else if (evntOrg.isChecked() && caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Caterer","Invitation_Card"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+        }
+        // Event organizer , decoration, card
+        else if (evntOrg.isChecked() && decoration.isChecked() && card.isChecked()) {
+            package_adapter.deleteRecyclerData();
+            Query query = userCollection.whereIn("businessCat", Arrays.asList("Event_Organizer", "Decoration","Invitation_Card"));
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.getMessage());
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                });
+
+        }
+
+
+        // Alll categories
+        else {
+            package_adapter.deleteRecyclerData();
+                Query query = userCollection.whereEqualTo("type", 0);
+                query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    userList.clear();
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        userList.add(documentSnapshot.getString("id"));
+
+                    }
+
+                    for (String user : userList) {
+                        userCollection.document(user).collection("Packages").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                                    ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                                    packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                                }
+                                if (packageList.size() == 0) {
+                                    noDataTxt.setVisibility(View.VISIBLE);
+                                }else{
+                                    package_adapter = new client_package_adapter(getContext(), packageList);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    package_adapter.setOnClick(client_packages_frag.this);
+
+                                    recyclerView.swapAdapter(package_adapter, true);
+
+                                }
+
+
+                            }
+                        });
+                    }
                 });
             }
-            else if(venue.isChecked()){}
-            else if(caterer.isChecked()){}
-            else if(car.isChecked()){}
-            else if(card.isChecked()){}
-            else if(evntOrg.isChecked() && venue.isChecked()){}
-            else if (evntOrg.isChecked() && caterer.isChecked()){}
-            else if(evntOrg.isChecked() && car.isChecked()){}
-            else if(evntOrg.isChecked() && card.isChecked()){}
-            else if(venue.isChecked() && caterer.isChecked()){}
-            else if(venue.isChecked() && car.isChecked()){}
-            else if(venue.isChecked() && card.isChecked()){}
-            else if(caterer.isChecked() && car.isChecked()){}
-            else if(caterer.isChecked() &&  card.isChecked()){}
-            else if(car.isChecked() && card.isChecked()){}
-            else if(evntOrg.isChecked() && venue.isChecked() && caterer.isChecked()){}
-            else if (evntOrg.isChecked() && venue.isChecked() && car.isChecked()){}
-            else if (evntOrg.isChecked() && venue.isChecked() && card.isChecked()){}
-            else if (evntOrg.isChecked() && caterer.isChecked() && car.isChecked()){}
-            else if(evntOrg.isChecked() && caterer.isChecked() && card.isChecked()){}
-            else if(evntOrg.isChecked() && car.isChecked() && card.isChecked()){}
-            else if(evntOrg.isChecked() && venue.isChecked() && caterer.isChecked() && car.isChecked()){}
-            else if(evntOrg.isChecked() && venue.isChecked() && caterer.isChecked() && card.isChecked()){}
-            else{
 
-            }
+
+
 
 
     }
 
     @Override
     public void relevanceLayout() {
+
+
     }
 
     @Override
@@ -236,26 +1057,181 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
 
     @Override
     public void ratingLayout() {
+        package_adapter.deleteRecyclerData(); Query query = userCollection.whereEqualTo("type", 0);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            packageList.clear();
+            userList.clear();
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                userList.add(documentSnapshot.getString("id"));
+
+            }
+
+            for (String user : userList) {
+                Query price2query = userCollection.document(user).collection("Packages").orderBy("rating", Query.Direction.DESCENDING);
+                price2query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                            ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                            packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                        }
+                        if (packageList.size() == 0) {
+                            noDataTxt.setVisibility(View.VISIBLE);
+                        }else{
+                            package_adapter = new client_package_adapter(getContext(), packageList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            package_adapter.setOnClick(client_packages_frag.this);
+
+                            recyclerView.swapAdapter(package_adapter, true);
+
+                        }
+
+
+
+                    }
+                });
+            }
+        });
 
     }
 
     @Override
     public void price1Layout() {
+        package_adapter.deleteRecyclerData();
+        Query query = userCollection.whereEqualTo("type", 0);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            packageList.clear();
+            userList.clear();
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                userList.add(documentSnapshot.getString("id"));
+
+            }
+
+            for (String user : userList) {
+                Query price1query = userCollection.document(user).collection("Packages").orderBy("price", Query.Direction.ASCENDING);
+                price1query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                            ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                            packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                        }
+                        if (packageList.size() == 0) {
+                            noDataTxt.setVisibility(View.VISIBLE);
+                        }else{
+                            noDataTxt.setVisibility(View.INVISIBLE);
+                            package_adapter = new client_package_adapter(getContext(), packageList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            package_adapter.setOnClick(client_packages_frag.this);
+
+                            recyclerView.swapAdapter(package_adapter, true);
+
+                        }
+                    }
+                });
+
+            }
+        });
 
     }
 
     @Override
     public void price2Layout() {
+        package_adapter.deleteRecyclerData();
+        Query query = userCollection.whereEqualTo("type", 0);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            packageList.clear();
+            userList.clear();
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                userList.add(documentSnapshot.getString("id"));
+
+            }
+
+            for (String user : userList) {
+                Query price2query = userCollection.document(user).collection("Packages").orderBy("price", Query.Direction.DESCENDING);
+                price2query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                            ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+                            packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+                        }
+                        if (packageList.size() == 0) {
+                            noDataTxt.setVisibility(View.VISIBLE);
+                        }else{
+                            noDataTxt.setVisibility(View.INVISIBLE);
+                            package_adapter = new client_package_adapter(getContext(), packageList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            package_adapter.setOnClick(client_packages_frag.this);
+
+                            recyclerView.swapAdapter(package_adapter, true);
+
+                        }
+                }});
+
+        }
+            });
 
     }
 
     @Override
     public void price3Layout() {
+        package_adapter.deleteRecyclerData(); Query query = userCollection.whereEqualTo("type", 0);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            packageList.clear();
+            userList.clear();
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                userList.add(documentSnapshot.getString("id"));
+
+            }
+
+            for (String user : userList) {
+                Query price2query = userCollection.document(user).collection("Packages").orderBy("price", Query.Direction.DESCENDING);
+                price2query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            ArrayList<String> foodList = (ArrayList<String>) documentSnapshot.get("Food");
+                            ArrayList<String> serviceList = (ArrayList<String>) documentSnapshot.get("Services");
+
+                            packageList.add(new client_package_values(documentSnapshot.getString("PackageName"), documentSnapshot.getString("image"), foodList, serviceList, documentSnapshot.getString("venue"), documentSnapshot.getString("price"), documentSnapshot.getString("businessName"), documentSnapshot.getString("id"), documentSnapshot.getString("userId")));
+
+                        }
+
+                        if (packageList.size() == 0) {
+                            noDataTxt.setVisibility(View.VISIBLE);
+                        }else{
+                            noDataTxt.setVisibility(View.INVISIBLE);
+                            package_adapter = new client_package_adapter(getContext(), packageList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            package_adapter.setOnClick(client_packages_frag.this);
+
+                            recyclerView.swapAdapter(package_adapter, true);
+
+                        }
+
+                    }
+                });
+            }
+        });
 
     }
 
     @Override
-    public void onDetailButtonClick() {
+    public void onDetailButtonClick(String id, String userid) {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("packageId", id);
+            bundle.putString("userId", userid);
+            //set Fragmentclass Arguments
+            client_package_detail_default frag = new client_package_detail_default();
+            frag.setArguments(bundle);
+            getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
+                    .addToBackStack(null).commit();
+
 
     }
 }

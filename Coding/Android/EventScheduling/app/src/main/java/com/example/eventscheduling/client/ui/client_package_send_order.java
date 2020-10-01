@@ -55,6 +55,8 @@ public class client_package_send_order extends Fragment implements client_send_p
     private String packageId;
     private CollectionReference currentUser_order;
     private CollectionReference receivingUser_order;
+    private String date;
+    private Boolean isDefaultPackage = false;
 
     public client_package_send_order() {
         // Required empty public constructor
@@ -74,8 +76,10 @@ public class client_package_send_order extends Fragment implements client_send_p
         View view = inflater.inflate(R.layout.fragment_client_package_send_order, container, false);
         // Get package id
 
-        if (getArguments() != null)
+
             packageId = getArguments().getString("packageId");
+            date = getArguments().getString("date");
+            isDefaultPackage = getArguments().getBoolean("isDefault");
 
 
         recyclerView = view.findViewById(R.id.client_package_send_order_recylerview);
@@ -99,6 +103,12 @@ public class client_package_send_order extends Fragment implements client_send_p
         order_data.put("to", id);
         order_data.put("status", 0);
         order_data.put("packageId", packageId);
+        if(isDefaultPackage){
+            order_data.put("custom", false);
+        }else {
+            order_data.put("custom", true);
+        }
+        order_data.put("date", date);
         currentUser_order.add(order_data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

@@ -22,7 +22,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="32dp"
-        android:background="#ffff"
+        android:background="#FFB41F"
         app:layout_constraintEnd_toEndOf="@+id/image_rectangle"
         app:layout_constraintStart_toStartOf="@+id/image_rectangle"
         app:layout_constraintTop_toBottomOf="@+id/image_rectangle" />
@@ -52,11 +52,18 @@
         app:layout_constraintTop_toTopOf="@+id/image_rectangle"
         app:layout_constraintVertical_bias="1.0" />
 
-    <CalendarView
+    <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calender_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
+app:daysLabelsColor="@color/secondarycolor"
+        app:headerLabelColor="@color/secondarycolor"
+        app:headerColor="@color/colorPrimary"
+        app:pagesColor="@color/colorPrimary"
+        app:abbreviationsBarColor="@color/colorPrimary"
+        app:abbreviationsLabelsColor="@color/secondarycolor"
+        app:todayLabelColor="@color/design_default_color_secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

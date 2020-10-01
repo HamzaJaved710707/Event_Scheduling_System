@@ -1,0 +1,74 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	 <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   
+   
+	<!--Bootstrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" 
+	crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+	crossorigin="anonymous">
+
+	<!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="login.css">
+</head>
+<body>
+<div class="container">
+	    <div class="d-flex justify-content-center h-100">
+		   <div class="card">
+			  <div class="card-header">
+				<h3>Sign In</h3>
+			</div>
+			<div class="card-body">
+				<form>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="username" id="txt_Email"/>
+						
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						<input type="password" class="form-control" placeholder="password" id="txt_Password"/>
+					</div>
+					<div class="row align-items-center remember">
+						<input type="checkbox">Remember Me
+					</div>
+					<div class="form-group">
+						
+						<a href="dashboard.html"><div class="btn btn-danger float-right btn-default" id="btnLogin">login</div></a>
+					</br>
+					</div>
+					
+				</form>
+		  </div>
+	   </div>
+	</div>
+  </div> 
+</div>
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="/__/firebase/7.21.1/firebase-app.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="/__/firebase/7.21.1/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="/__/firebase/7.21.1/firebase-auth.js"></script>
+  <script src="/__/firebase/7.21.1/firebase-firestore.js"></script>
+<script type="login.js"></script>
+</body>
+</html>

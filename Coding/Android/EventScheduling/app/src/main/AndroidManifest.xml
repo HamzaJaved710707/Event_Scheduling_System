@@ -75,6 +75,7 @@
             android:label="Sign Up" />
         <activity android:name=".client.ui.client_signIn" />
         <activity android:name=".client.ui.client_signUp" />
+        <activity android:name=".util.ExoMediaPlayer"/>
 
         <service android:name=".eventorg.mapService" />
     </application>

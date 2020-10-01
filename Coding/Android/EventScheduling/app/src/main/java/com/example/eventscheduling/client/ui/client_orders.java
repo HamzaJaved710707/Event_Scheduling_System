@@ -46,6 +46,7 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
     private RecyclerView recyclerView;
     private client_orders_adapter orders_adapter;
     private List<String> order_user_list = new ArrayList<>();
+    private ArrayList<String> packageList = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +74,11 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
         orderCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                packageList.clear();
+                order_user_list.clear();
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     order_user_list.add(documentSnapshot.getString("to"));
+                    packageList.add(documentSnapshot.getString("packageId"));
                 }
                 for(int i= 0 ; i<= order_user_list.size(); i++){
                     dbReference.whereIn(FieldPath.documentId(), order_user_list).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -83,11 +87,12 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
                             order_list.clear();
 
                             for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                                order_list.add(new client_orders_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"), documentSnapshot.getString("id")));
+                                order_list.add(new client_orders_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"),"", "", ""));
                             }
 
                             orders_adapter = new client_orders_adapter(view.getContext(), order_list);
                             recyclerView.setHasFixedSize(true);
+                            orders_adapter.setpackageList(packageList);
                             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                             orders_adapter.setOnClick(client_orders.this::itemClick);
                             recyclerView.setAdapter(orders_adapter);
@@ -111,7 +116,14 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
 
     @Override
     public void itemClick(String id) {
-        Toast.makeText(getContext(), "Item is clicked", Toast.LENGTH_SHORT).show();
+      Bundle bundle = new Bundle();
+      bundle.putString("packageId", id);
+      bundle.putBoolean("orders", true);
+        client_package_detail_custom frag = new client_package_detail_custom();
+      frag.setArguments(bundle);
+      getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag).addToBackStack(null).commit();
+
+
     }
 }
 

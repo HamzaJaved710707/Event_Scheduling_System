@@ -23,8 +23,9 @@ public class Filter_Package_Dialog_client extends AppCompatDialogFragment implem
     private CheckedTextView eventOrg_txt;
     private CheckedTextView venue_txt;
     private CheckedTextView caterer_txt;
-    private CheckedTextView car_txt;
+    private CheckedTextView decoration;
     private CheckedTextView card_txt;
+    private CheckedTextView car_rent_txt;
     private AlertDialog.Builder builder;
     private ExampleDialogListener listener;
 
@@ -69,8 +70,10 @@ public class Filter_Package_Dialog_client extends AppCompatDialogFragment implem
         venue_txt.setOnClickListener(this);
         caterer_txt = view.findViewById(R.id.caterer_provider_txt);
         caterer_txt.setOnClickListener(this);
-        car_txt = view.findViewById(R.id.car_decoration_provider_txt);
-        car_txt.setOnClickListener(this);
+        decoration = view.findViewById(R.id.decoration_provider_txt);
+        decoration.setOnClickListener(this);
+        car_rent_txt = view.findViewById(R.id.carRent_provider_txt);
+        car_rent_txt.setOnClickListener(this);
         card_txt = view.findViewById(R.id.cardInvitation_provider_txt);
         card_txt.setOnClickListener(this);
 
@@ -85,7 +88,7 @@ public class Filter_Package_Dialog_client extends AppCompatDialogFragment implem
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.sendView(eventOrg_txt, venue_txt, caterer_txt, car_txt, card_txt);
+                        listener.sendView(eventOrg_txt, venue_txt, caterer_txt, decoration, card_txt, car_rent_txt);
                     }
                 });
         //    editTextUsername = view.findViewById(R.id.edit_username);
@@ -133,9 +136,11 @@ public class Filter_Package_Dialog_client extends AppCompatDialogFragment implem
             case R.id.caterer_provider_txt:
                 caterer_txt.toggle();
                 break;
-                case R.id.car_decoration_provider_txt:
-                    car_txt.toggle();
+                case R.id.decoration_provider_txt:
+                    decoration.toggle();
                 break;
+            case R.id.carRent_provider_txt:
+                car_rent_txt.toggle();
                 case R.id.cardInvitation_provider_txt:
                     card_txt.toggle();
                 break;
@@ -148,7 +153,7 @@ public class Filter_Package_Dialog_client extends AppCompatDialogFragment implem
     }
 
     public interface ExampleDialogListener {
-        void sendView(CheckedTextView evntOrg, CheckedTextView venue, CheckedTextView caterer, CheckedTextView car, CheckedTextView card);
+        void sendView(CheckedTextView evntOrg, CheckedTextView venue, CheckedTextView caterer, CheckedTextView decoration, CheckedTextView card, CheckedTextView car_rent);
 
         void relevanceLayout();
 

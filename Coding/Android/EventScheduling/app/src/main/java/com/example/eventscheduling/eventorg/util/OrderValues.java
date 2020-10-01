@@ -2,26 +2,41 @@ package com.example.eventscheduling.eventorg.util;
 
 // Class to return values to Order in Event organizer part
 public class OrderValues {
+    String Name;
+    String imgUrl;
+    String id;
 
-    private int imageResource;
-    private String orderHeader;
-    private String orderDetail;
-
-    public OrderValues(int imgRes, String oheader, String oDetail) {
-        imageResource = imgRes;
-        orderHeader = oheader;
-        orderDetail = oDetail;
+    public OrderValues(String name, String imgUrl, String id) {
+        Name = name;
+        this.imgUrl = imgUrl;
+        this.id = id;
     }
 
-    public int getImageResource() {
-        return imageResource;
+    public OrderValues(){}
+
+    public String getId() {
+        return id;
     }
 
-    public String getOrderHeader() {
-        return orderHeader;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getOrderDetail() {
-        return orderDetail;
+    public String getName() {
+        return Name;
     }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+
 }

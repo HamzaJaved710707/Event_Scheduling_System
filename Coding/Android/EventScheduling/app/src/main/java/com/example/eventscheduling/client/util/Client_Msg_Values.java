@@ -1,21 +1,41 @@
 package com.example.eventscheduling.client.util;
 
 public class Client_Msg_Values {
-    private int imageResource;
-    private   String messageHeader;
-    private String messageDetail;
-    public Client_Msg_Values(int imgRes, String msgHeader, String msgDetail){
-        imageResource = imgRes;
-        messageHeader = msgHeader;
-        messageDetail = msgDetail;
+    int imageResource;
+    String Name;
+    String message;
+
+    public Client_Msg_Values(int imageResource, String name, String message) {
+        this.imageResource = imageResource;
+        Name = name;
+        this.message = message;
     }
+
+    public int getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public Client_Msg_Values(){ // Empty constructor
          }
-    public int getImageResource(){
-        return  imageResource;
-    }
-    public String getMessageHeader(){
-        return messageHeader;
-    }
-    public String getMessageDetail() { return messageDetail;}
+
 }

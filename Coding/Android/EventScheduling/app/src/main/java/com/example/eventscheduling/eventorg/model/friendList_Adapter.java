@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.util.friendList_values;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -44,7 +45,7 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
         else{
 
             holder.name.setText(model.getName());
-            holder.img.setImageResource(model.getImgUrl());
+            Glide.with(context).load(model.getImgUrl()).into(holder.img);
         }
         }
 

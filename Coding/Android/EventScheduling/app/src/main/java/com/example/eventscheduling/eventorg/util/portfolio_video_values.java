@@ -4,41 +4,29 @@ package com.example.eventscheduling.eventorg.util;
 
 public class portfolio_video_values {
 
-        private int uId;
-        private String title;
-        private String mediaUrl;
-        private String mediaCoverImgUrl;
-        private String userHandle;
-        public String getUserHandle() {
-            return userHandle;
-        }
-        public void setUserHandle(String mUserHandle) {
-            this.userHandle = mUserHandle;
-        }
-        public int getId() {
-            return uId;
-        }
-        public void setId(int uId) {
-            this.uId = uId;
-        }
-        public String getTitle() {
-            return title;
-        }
-        public void setTitle(String mTitle) {
-            this.title = mTitle;
-        }
-        public String getUrl() {
-            return mediaUrl;
-        }
-        public void setUrl(String mUrl) {
-            this.mediaUrl = mUrl;
-        }
-        public String getCoverUrl() {
-            return mediaCoverImgUrl;
-        }
-        public void setCoverUrl(String mCoverUrl) {
-            this.mediaCoverImgUrl = mCoverUrl;
-        }
+    private String Name;
+    private String Link;
+
+    public portfolio_video_values(String name, String link) {
+        Name = name;
+        Link = link;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
 }
 
 

@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 // Message Fragment to Show messages to Event organizer
-public class evntOrg_Messages extends Fragment {
+public class evntOrg_Messages extends Fragment{
     private static final String TAG = "evntOrg_Messages";
     private FirebaseUser currentUser;
     private String currentUserID;
@@ -90,4 +90,5 @@ public class evntOrg_Messages extends Fragment {
         super.onStop();
         adapter_message.stopListening();
     }
+
 }

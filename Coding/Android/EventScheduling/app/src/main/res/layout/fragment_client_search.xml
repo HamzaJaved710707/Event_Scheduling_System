@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".client.ui.client_packages_frag"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context=".client.ui.client_packages_frag">
 
     <SearchView
         android:id="@+id/searchview_client"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:iconifiedByDefault="true"
         android:queryHint="Click here to search"
-        android:iconifiedByDefault="false"
+        android:searchIcon="@drawable/ic_search_white"
         app:layout_constraintEnd_toEndOf="parent"
+        android:foregroundTint="@color/secondarycolor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager_client_search"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/secondarycolor"
-        android:layout_marginTop="60dp"
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchview_client">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchview_client"
+        android:paddingEnd="16dp"
+        android:id="@+id/client_search_radio_group"
+   >
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout_client_search"
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/client_search_radioBtn_org"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#2C5F47"
-            app:tabTextColor="#000000"
-            app:tabBackground="@drawable/tab_layout"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            android:layout_margin="5dp"
+            android:layout_marginStart="16dp"
+            android:buttonTint="@color/secondarycolor"
+            android:text="Orangizer"
+            android:checked="true"
+            android:textColor="@color/secondarycolor"
+            android:paddingEnd="32dp"/>
 
-            >
+        <RadioButton
+            android:id="@+id/client_search_radioBtn_client"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:buttonTint="@color/secondarycolor"
+            android:text="Client"
+            android:textColor="@color/secondarycolor"
+          />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_search_venue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/secondarycolor"
-                android:text="Venue" />
+    </RadioGroup>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/client_search_reyclerview"
+        app:layout_constraintTop_toBottomOf="@id/client_search_radio_group"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_search_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Service" />
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_search_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Location" />
-        </com.google.android.material.tabs.TabLayout>
-    </androidx.viewpager.widget.ViewPager>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

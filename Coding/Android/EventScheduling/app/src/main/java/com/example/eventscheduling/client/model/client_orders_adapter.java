@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +28,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
     private FirebaseUser currentUser = mAuth.getCurrentUser();
     private client_orders_adapter.OnItemClicked onClick;
     private String id;
+    private ArrayList<String> packageList = new ArrayList<>();
 
     public client_orders_adapter(Context context, List<client_orders_values> list) {
 
@@ -39,14 +39,14 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
     @NonNull
     @Override
     public client_order_adapter_holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.evnt_org_order_recycler_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.client_orders_item, parent, false);
         return new client_orders_adapter.client_order_adapter_holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull client_order_adapter_holder holder, int position) {
 
-        if (currentUser.getUid().equals(order_values.get(position).getId())) {
+        if (currentUser.getUid().equals(order_values.get(position).getFrom())) {
             holder.item_layout.setVisibility(View.INVISIBLE);
         } else {
             holder.name.setText(order_values.get(position).getName());
@@ -55,7 +55,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClick.itemClick(order_values.get(position).getId());
+                    onClick.itemClick(packageList.get(position));
                 }
             });
         }
@@ -83,12 +83,15 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
 
         public client_order_adapter_holder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.client_order_txt_name);
+            name = itemView.findViewById(R.id.client_order_name);
             img = itemView.findViewById(R.id.client_order_item_img);
             item_layout = itemView.findViewById(R.id.client_order_cardView);
             detailTxt = itemView.findViewById(R.id.client_orders_txt2);
 
         }
+    }
+    public void setpackageList(ArrayList list){
+        packageList = list;
     }
 
 }

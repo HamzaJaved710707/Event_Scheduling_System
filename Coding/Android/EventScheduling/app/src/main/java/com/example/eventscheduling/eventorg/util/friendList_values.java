@@ -2,16 +2,23 @@ package com.example.eventscheduling.eventorg.util;
 
 public class friendList_values {
     String Name;
-    int imgUrl;
+    String imgUrl;
     String email;
 
     public friendList_values() {
 
     }
 
-    // Constructor for this class
-    public friendList_values(String name, int imgUrl, String email) {
-        this.Name = name;
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public friendList_values(String name, String imgUrl, String email) {
+        Name = name;
         this.imgUrl = imgUrl;
         this.email = email;
     }
@@ -32,11 +39,5 @@ public class friendList_values {
         this.Name = name;
     }
 
-    public int getImgUrl() {
-        return imgUrl;
-    }
 
-    public void setImgUrl(int imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 }

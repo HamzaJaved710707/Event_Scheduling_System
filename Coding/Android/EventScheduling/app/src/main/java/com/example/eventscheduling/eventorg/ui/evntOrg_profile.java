@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class evntOrg_profile extends Fragment {
     private FirebaseStorage frStorage;
     private StorageReference usersPicStorageRef;
     private Uri imageUri;
-
+    private ProgressBar progressBar;
     public evntOrg_profile() {
         // Required empty public constructor
     }
@@ -74,6 +75,8 @@ public class evntOrg_profile extends Fragment {
         business_name_txtView = view.findViewById(R.id.evnt_profile_business_name);
         registerForContextMenu(cover_photo);
         registerForContextMenu(profile_photo);
+        progressBar = view.findViewById(R.id.evntOrg_profile_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         currentUser = mAuth.getCurrentUser();
         // checking whether user is null or not
@@ -245,6 +248,7 @@ public class evntOrg_profile extends Fragment {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String businessName = documentSnapshot.getString("businessName");
                         business_name_txtView.setText(businessName);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }

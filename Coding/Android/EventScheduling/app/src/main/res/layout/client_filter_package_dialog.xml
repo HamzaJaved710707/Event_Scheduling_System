@@ -286,7 +286,7 @@
             android:textColor="@color/secondarycolor" />
 
         <CheckedTextView
-            android:id="@+id/car_decoration_provider_txt"
+            android:id="@+id/decoration_provider_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/caterer_provider_txt"
@@ -295,19 +295,31 @@
             android:layout_marginEnd="8dp"
             android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:checkMarkTint="@color/secondarycolor"
-            android:text="Car Decoration"
+            android:text="Decoration"
             android:textColor="@color/secondarycolor" />
         <CheckedTextView
             android:id="@+id/cardInvitation_provider_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/car_decoration_provider_txt"
+            android:layout_below="@id/decoration_provider_txt"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:checkMarkTint="@color/secondarycolor"
             android:text="Card Invitation"
+            android:textColor="@color/secondarycolor" />
+        <CheckedTextView
+            android:id="@+id/carRent_provider_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cardInvitation_provider_txt"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checkMarkTint="@color/secondarycolor"
+            android:text="Car Rent"
             android:textColor="@color/secondarycolor" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

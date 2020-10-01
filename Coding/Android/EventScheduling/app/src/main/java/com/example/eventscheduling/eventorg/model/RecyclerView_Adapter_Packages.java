@@ -68,10 +68,10 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.client_order_item_img);
+            image = itemView.findViewById(R.id.evnt_order_item_img);
             PackageName = itemView.findViewById(R.id.pakage_name_text);
             Price = itemView.findViewById(R.id.price_text);
-            BusinessName = itemView.findViewById(R.id.location_text);
+            BusinessName = itemView.findViewById(R.id.location_text_evnt_package);
             ratingBar = itemView.findViewById(R.id.rating_bar);
             constraintLayout = itemView.findViewById(R.id.recycler_constriantLayout);
             detailText = itemView.findViewById(R.id.view_detail_about_package);

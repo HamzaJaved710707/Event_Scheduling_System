@@ -1,13 +1,11 @@
 package com.example.eventscheduling.eventorg.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.ui.client_package_detail;
-import com.example.eventscheduling.eventorg.model.DragData;
 import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Packages;
 import com.example.eventscheduling.eventorg.util.PackagesValues;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -27,12 +23,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.Objects;
-
-import static android.graphics.Color.GREEN;
-import static android.graphics.Color.RED;
-import static android.graphics.Color.WHITE;
 
 public class evntOrg_Packages extends Fragment implements RecyclerView_Adapter_Packages.onItemClickListner {
     private static final String TAG = "evntOrg_Packages";
@@ -44,7 +34,7 @@ public class evntOrg_Packages extends Fragment implements RecyclerView_Adapter_P
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private CollectionReference dbReference;
-
+private ProgressBar progressBar;
 
     // Oncreate View constructor of packages
     @Override
@@ -54,6 +44,8 @@ public class evntOrg_Packages extends Fragment implements RecyclerView_Adapter_P
         View view = inflater.inflate(R.layout.fragment_evnt_org__packages, container, false);
         floatingActionButton = view.findViewById(R.id.floating_AtnBar_evnt_package);
         firestore = FirebaseFirestore.getInstance();
+        progressBar = view.findViewById(R.id.evntOrg_packages_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -89,6 +81,7 @@ public class evntOrg_Packages extends Fragment implements RecyclerView_Adapter_P
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(packages_adapter);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     // Start listening values from server when this activity is started

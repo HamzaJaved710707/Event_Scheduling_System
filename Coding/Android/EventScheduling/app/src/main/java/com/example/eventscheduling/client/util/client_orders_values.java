@@ -3,17 +3,47 @@ package com.example.eventscheduling.client.util;
 public class client_orders_values {
     String Name;
     String imgUrl;
-    String id;
+    String packageId;
+    String to;
+    String from;
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public client_orders_values(String name, String imgUrl, String packageId, String to, String from) {
+        Name = name;
+        this.imgUrl = imgUrl;
+        this.packageId = packageId;
+        this.to = to;
+        this.from = from;
+    }
 
     public client_orders_values() {
         // Empty constructor needed for firebase UI
     }
 
-    public client_orders_values(String name, String imgUrl, String id) {
-        Name = name;
-        this.imgUrl = imgUrl;
-        this.id = id;
+    public String getPackageId() {
+        return packageId;
     }
+
+    public void setPackageId(String packageId) {
+        this.packageId = packageId;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+
 
     public String getName() {
         return Name;
@@ -31,11 +61,5 @@ public class client_orders_values {
         this.imgUrl = imgUrl;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 }

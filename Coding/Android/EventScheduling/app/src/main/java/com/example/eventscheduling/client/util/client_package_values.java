@@ -5,46 +5,77 @@ import java.util.ArrayList;
 
 public class client_package_values {
     private String PackageName;
-    private String price;
-    private String Venue;
     private String image;
-    private int rating;
+    private ArrayList<String> Food;
+    private ArrayList<String> Services;
+    private String Venue;
+    private String price;
     private String businessName;
-    public client_package_values(){
-        // empty constructor for firebase
+    private String id;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
     }
 
-    public  client_package_values(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName) {
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public client_package_values() {
+    }
+
+
+    public client_package_values(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName, String id, String userId) {
         PackageName = packageName;
-        this.price = price;
-        Venue = venue;
         this.image = image;
-        this.rating = rating;
+        Food = food;
+        Services = services;
+        Venue = venue;
+        this.price = price;
         this.businessName = businessName;
-    }
-
-    public String getBusinessName() {
-        return businessName;
-    }
-
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
+        this.id = id;
+        this.userId = userId;
     }
 
     public String getPackageName() {
         return PackageName;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setPackageName(String packageName) {
         PackageName = packageName;
     }
 
-    public String getPrice() {
-        return price;
+    public String getImage() {
+        return image;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public ArrayList<String> getFood() {
+        return Food;
+    }
+
+    public void setFood(ArrayList<String> food) {
+        Food = food;
+    }
+
+    public ArrayList<String> getServices() {
+        return Services;
+    }
+
+    public void setServices(ArrayList<String> services) {
+        Services = services;
     }
 
     public String getVenue() {
@@ -55,19 +86,19 @@ public class client_package_values {
         Venue = venue;
     }
 
-    public String getImageAdr() {
-        return image;
+    public String getPrice() {
+        return price;
     }
 
-    public void setImageAdr(String imageAdr) {
-        this.image = imageAdr;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public int getRating() {
-        return rating;
+    public String getBusinessName() {
+        return businessName;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
     }
 }

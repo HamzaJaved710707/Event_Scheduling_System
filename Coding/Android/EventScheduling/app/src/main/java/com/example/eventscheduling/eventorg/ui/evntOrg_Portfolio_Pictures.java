@@ -191,7 +191,7 @@ public class evntOrg_Portfolio_Pictures extends Fragment implements View.OnClick
                                     Log.d(TAG, "onSuccess: " + uri);
                                     String uri_download = uri.toString();
                                     Map data = new HashMap();
-                                    data.put("Name", "Profile Picture");
+                                    data.put("Name", "Portfolio Picture");
                                     data.put("Link", uri_download);
                                     user_picture_collection.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override

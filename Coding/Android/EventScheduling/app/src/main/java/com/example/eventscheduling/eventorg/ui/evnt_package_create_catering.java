@@ -555,6 +555,7 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
         switch (item.getItemId()) {
             case R.id.camera:
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.setType("image/*");
                 startActivityForResult(intent, PIC_CAMERA_REQ);
                 return true;
             case R.id.gallery:
@@ -580,16 +581,21 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
                     String businessName = documentSnapshot.getString("businessName");
                     Map data = new HashMap();
                     data.put("image", uri_download);
-                    data.put("PackageName", PackageName);
-                    data.put("Services", new_items_service);
-                    data.put("Food", new_items_food);
-                    data.put("price", price);
-                    data.put("businessName", businessName);
+
                     packageReference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(getContext(), "Package Successfully Created", Toast.LENGTH_SHORT).show();
                             doc_ref = documentReference.getId();
+                            data.put("PackageName", PackageName);
+                            data.put("Services", new_items_service);
+                            data.put("Food", new_items_food);
+                            data.put("price", price);
+                            data.put("businessName", businessName);
+                            data.put("id", doc_ref);
+                            data.put("custom", false);
+                            data.put("userId", currentUserID);
+                            packageReference.document(doc_ref).set(data);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

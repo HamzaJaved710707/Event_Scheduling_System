@@ -10,7 +10,8 @@
         android:id="@+id/client_package_detail_item_img"
         android:src="@drawable/ic_add"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"/>
     <TextView
         android:id="@+id/client_package_detail_package_name"
         android:layout_width="wrap_content"

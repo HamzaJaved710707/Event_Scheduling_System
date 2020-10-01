@@ -8,6 +8,13 @@
     tools:context=".eventorg.ui.evntOrg_Packages"
     android:id="@+id/evntOrg_packages_frameLayout">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="invisible"
+        android:id="@+id/evntOrg_packages_progressBar"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/package_recycler"
         android:layout_width="match_parent"

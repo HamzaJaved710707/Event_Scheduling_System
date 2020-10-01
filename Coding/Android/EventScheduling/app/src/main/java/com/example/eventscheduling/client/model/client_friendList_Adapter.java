@@ -113,4 +113,8 @@ public class client_friendList_Adapter extends RecyclerView.Adapter<client_frien
 
         }
     }
+    public void deleteData(){
+        friendValues.clear();
+        notifyDataSetChanged();
+    }
 }

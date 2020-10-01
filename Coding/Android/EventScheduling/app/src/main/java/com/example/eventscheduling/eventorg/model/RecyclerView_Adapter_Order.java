@@ -10,17 +10,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.model.client_orders_adapter;
 import com.example.eventscheduling.eventorg.util.OrderValues;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerView_Adapter_Order extends RecyclerView.Adapter<RecyclerView_Adapter_Order.ViewHolder> {
 
-    ArrayList<OrderValues> arrayList = new ArrayList<>();
+    List<OrderValues> arrayList = new ArrayList<>();
     Context mcontext;
+    private RecyclerView_Adapter_Order.OnItemClicked onClick;
+    private ArrayList<String>  packageIdList = new ArrayList<>();
 
-    public RecyclerView_Adapter_Order(Context context, ArrayList<OrderValues>  orderArray ){
+    public RecyclerView_Adapter_Order(Context context, List<OrderValues>  orderArray ){
         arrayList = orderArray;
         mcontext = context;
     }
@@ -33,10 +38,21 @@ public class RecyclerView_Adapter_Order extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
       OrderValues current = arrayList.get(position);
-      holder.imageResource.setImageResource(current.getImageResource());
-      holder.orderHeader.setText(current.getOrderHeader());
-      holder.orderDetail.setText(current.getOrderDetail());
+        Glide.with(mcontext).load(current.getImgUrl()).into(holder.imageResource);
+      holder.orderHeader.setText(current.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClick.itemClick(current.getId(),packageIdList.get(position));
+            }
+        });
 
+    }
+    public interface OnItemClicked {
+        void itemClick(String id,String from);
+    }
+    public void setOnClick(RecyclerView_Adapter_Order.OnItemClicked onClick) {
+        this.onClick = onClick;
     }
 
     @Override
@@ -52,11 +68,14 @@ public class RecyclerView_Adapter_Order extends RecyclerView.Adapter<RecyclerVie
 
        public ViewHolder(View itemview){
            super(itemview);
-           imageResource = itemview.findViewById(R.id.client_order_item_img);
-           orderHeader = itemView.findViewById(R.id.client_order_txt_name);
-           orderDetail = itemview.findViewById(R.id.client_orders_txt2);
+           imageResource = itemview.findViewById(R.id.evntOrg_order_item_img);
+           orderHeader = itemView.findViewById(R.id.evnt_order_name);
+
        }
 
-   };
+   }
+   public void getValues(ArrayList<String> packageId){
+        packageIdList = packageId;
+   }
 
 }

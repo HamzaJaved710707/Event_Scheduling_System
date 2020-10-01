@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +26,6 @@ import com.example.eventscheduling.client.util.create_service_package_values;
 import com.example.eventscheduling.client.util.create_venue_package_values;
 import com.example.eventscheduling.eventorg.model.DragData;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,7 +44,6 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +52,6 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
-import static java.util.Calendar.MONDAY;
 
 
 public class client_create_package extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -90,9 +86,9 @@ public class client_create_package extends Fragment implements View.OnClickListe
     private create_venue_package_adapter venue_item_adapter;
     private FloatingActionButton cartBtn;
     private FloatingActionButton done_btn;
-    private List<create_food_item_values> food_list = new ArrayList<>();
-    private List<create_service_package_values> service_list = new ArrayList<>();
-    private List<create_venue_package_values> venue_list = new ArrayList<>();
+    private List<String> food_list = new ArrayList<>();
+    private List<String> service_list = new ArrayList<>();
+    private List<String> venue_list = new ArrayList<>();
     private boolean venue_counter;
     private ProgressDialog progressDialog;
     private WriteBatch food_batch;
@@ -135,7 +131,7 @@ public class client_create_package extends Fragment implements View.OnClickListe
         if (currentUser != null) {
             id = currentUser.getUid();
             random = String.valueOf(System.currentTimeMillis());
-            packageRef = firebaseFirestore.collection("Users").document(id).collection("Packages").document("0").collection("0").document(random);
+            packageRef = firebaseFirestore.collection("Users").document(id).collection("Packages").document(random);
             food_package_ref = firebaseFirestore.collection("Users").document(id).collection("Packages").document("0").collection("0").document(random).collection("food");
             service_package_ref = firebaseFirestore.collection("Users").document(id).collection("Packages").document("0").collection("0").document(random).collection("service");
             venue_package_ref = firebaseFirestore.collection("Users").document(id).collection("Packages").document("0").collection("0").document(random).collection("venue");
@@ -192,15 +188,15 @@ public class client_create_package extends Fragment implements View.OnClickListe
                         switch (state.getVal()) {
 
                             case 0:
-                                food_list.add(new create_food_item_values(state.getName(), state.getUrl()));
+                                food_list.add(state.getName());
                                 break;
                             case 1:
-                                service_list.add(new create_service_package_values(state.getName(), state.getUrl()));
+                                service_list.add(state.getName());
 
                                 break;
                             case 2:
                                 if (!venue_counter) {
-                                    venue_list.add(new create_venue_package_values(state.getName(), state.getUrl()));
+                                    venue_list.add(state.getName());
                                     venue_counter = true;
                                 } else {
                                     Toast.makeText(getContext(), "You can only add One Venue in Package", Toast.LENGTH_SHORT).show();
@@ -309,121 +305,106 @@ public class client_create_package extends Fragment implements View.OnClickListe
     }
 
     private void doneButtonFunctionality() {
-
+        Map data = new HashMap();
         progressDialog.show();
         if (food_list.isEmpty() && service_list.isEmpty() && venue_list.isEmpty()) {
             Toast.makeText(getContext(), "No item is added to cart yet", Toast.LENGTH_SHORT).show();
         } else if (!food_list.isEmpty() && !service_list.isEmpty() && venue_list.isEmpty()) {
-            int size = food_list.size();
-            for (int i = 1; i <= size; i++) {
-                create_food_item_values values = food_list.get(i - 1);
-                Log.d(TAG, "onClick: " + values);
-                food_batch.set(food_package_ref.document(), values);
+            data.clear();
+            data.put("date", sdformat.format(myCalendar.getTime()));
+            data.put("packageId", random);
+            data.put("custom", true);
+            data.put("Food", food_list);
+            packageRef.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    progressDialog.dismiss();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("packageId", random);
+                    bundle.putString("date",sdformat.format(myCalendar.getTime()));
+                    bundle.putBoolean("custom", true);
+                    //set Fragmentclass Arguments
+                    client_package_detail_custom frag = new client_package_detail_custom();
+                    frag.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
+                            .addToBackStack(null).commit();
+                }
+            });
 
-            }
         } else if (food_list.isEmpty() && !service_list.isEmpty() && venue_list.isEmpty()) {
             // Here implement service list
+                data.clear();
+            data.put("date", sdformat.format(myCalendar.getTime()));
+            data.put("packageId", random);
+            data.put("custom", true);
+                data.put("Services", service_list);
+                packageRef.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        progressDialog.dismiss();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("packageId", random);
+                        bundle.putString("date",sdformat.format(myCalendar.getTime()));
+                        bundle.putBoolean("custom", true);
+                        //set Fragmentclass Arguments
+                        client_package_detail_custom frag = new client_package_detail_custom();
+                        frag.setArguments(bundle);
+                        getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
+                                .addToBackStack(null).commit();
+                    }
+                });
 
-            int size = service_list.size();
-            for (int i = 1; i <= size; i++) {
-                create_service_package_values values = service_list.get(i - 1);
-                Log.d(TAG, "onClick: " + values);
-                service_batch.set(service_package_ref.document(), values);
 
-            }
         } else if (food_list.isEmpty() && service_list.isEmpty() && !venue_list.isEmpty()) {
-            int size = venue_list.size();
-            for (int i = 1; i <= size; i++) {
-                create_venue_package_values values = venue_list.get(i - 1);
-                Log.d(TAG, "onClick: " + values);
-                venue_batch.set(venue_package_ref.document(), values);
-            }
+            data.clear();
+            data.put("Venue", venue_list);
+            data.put("date", sdformat.format(myCalendar.getTime()));
+            data.put("packageId", random);
+            data.put("custom", true);
+            packageRef.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    progressDialog.dismiss();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("packageId", random);
+                    bundle.putString("date",sdformat.format(myCalendar.getTime()));
+                    bundle.putBoolean("custom", true);
+                    //set Fragmentclass Arguments
+                    client_package_detail_custom frag = new client_package_detail_custom();
+                    frag.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
+                            .addToBackStack(null).commit();
+                }
+            });
 
             // implement venue list
         } else {
+            data.clear();
+            data.put("date", sdformat.format(myCalendar.getTime()));
+            data.put("packageId", random);
+            data.put("custom", true);
 
-            // implement all list
-            int food_size = food_list.size();
-            for (int a = 1; a <= food_size; a++) {
-                create_food_item_values food_values = food_list.get(a - 1);
-                Log.d(TAG, "onClick: " + food_values);
-                food_batch.set(food_package_ref.document(), food_values);
-            }
-            // service
-            int service_size = service_list.size();
-            for (int b = 1; b <= service_size; b++) {
-                create_service_package_values service_values = service_list.get(b - 1);
-                Log.d(TAG, "onClick: " + service_values);
-                service_batch.set(service_package_ref.document(), service_values);
+        data.put("Food", food_list);
+        data.put("Services", service_list);
+            data.put("Venue", venue_list);
 
-            }
-            // venue
-            int size = venue_list.size();
-            for (int i = 1; i <= size; i++) {
-                create_venue_package_values values = venue_list.get(i - 1);
-                Log.d(TAG, "onClick: " + values);
-                venue_batch.set(venue_package_ref.document(), values);
-            }
-
-
-        }
-
-        food_batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
+        packageRef.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                service_batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        venue_batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // If date is set then also add it into database
-                                if(myCalendar != null){
-                                    Map data  = new HashMap();
-                                    data.put("date", sdformat.format(myCalendar.getTime()));
-                                    packageRef.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            food_batch = null;
-                                            venue_batch = null;
-                                            service_batch = null;
-                                            progressDialog.dismiss();
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("packageId", random);
-                                            //set Fragmentclass Arguments
-                                            client_package_detail frag = new client_package_detail();
-                                            frag.setArguments(bundle);
-                                            getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
-                                                    .addToBackStack(null).commit();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Error handling while saving package
-                                        }
-                                    });
-                                }
-                                else{
-                                    food_batch = null;
-                                    venue_batch = null;
-                                    service_batch = null;
-                                    progressDialog.dismiss();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("packageId", random);
-                                    //set Fragmentclass Arguments
-                                    client_package_detail frag = new client_package_detail();
-                                    frag.setArguments(bundle);
-                                    getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
-                                            .addToBackStack(null).commit();
-                                }
-
-
-                            }
-                        });
-                    }
-                });
+                progressDialog.dismiss();
+                Bundle bundle = new Bundle();
+                bundle.putString("packageId", random);
+                bundle.putString("date",sdformat.format(myCalendar.getTime()));
+                bundle.putBoolean("custom", true);                //set Fragmentclass Arguments
+                client_package_detail_custom frag = new client_package_detail_custom();
+                frag.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
+                        .addToBackStack(null).commit();
             }
         });
+        }
+
+
 
     }
 

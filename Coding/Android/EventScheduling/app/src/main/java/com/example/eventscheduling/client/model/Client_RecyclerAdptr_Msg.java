@@ -7,77 +7,82 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.eventscheduling.client.util.Client_Msg_Values;
 import com.example.eventscheduling.R;
-
-import java.util.ArrayList;
+import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Message;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Client_RecyclerAdptr_Msg extends RecyclerView.Adapter<Client_RecyclerAdptr_Msg.ViewHolder> {
+public class Client_RecyclerAdptr_Msg extends FirestoreRecyclerAdapter<Client_Msg_Values, Client_RecyclerAdptr_Msg.ViewHolder> {
 
-    ArrayList<Client_Msg_Values> messageValues = new ArrayList<>();
-
-    Context mContext;
     private static final String TAG = "RecyclerView_Adapter";
+    private RecyclerView_Adapter_Message.itemClickListenerMsgDetail listener;
+    private Context mContext;
 
-    public Client_RecyclerAdptr_Msg(Context mContext, ArrayList<Client_Msg_Values> msgValue) {
-        this.messageValues = msgValue;
-        this.mContext = mContext;
+
+    public Client_RecyclerAdptr_Msg(Context context, @NonNull FirestoreRecyclerOptions<Client_Msg_Values> options) {
+        super(options);
+        mContext = context;
     }
+
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_recyclerview_item,parent,false);
-        ViewHolder holder = new ViewHolder(view);
-        Log.d(TAG, "onCreateViewHolder: is called");
-        return holder;
+    public Client_RecyclerAdptr_Msg.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_recyclerview_item, parent, false);
+        return new Client_RecyclerAdptr_Msg.ViewHolder(view);
+    }
+
+
+
+
+    public void onItemClickListner(RecyclerView_Adapter_Message.itemClickListenerMsgDetail listener) {
+        this.listener = listener;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: is called");
-        Client_Msg_Values current = messageValues.get(position);
-        holder.image.setImageResource(current.getImageResource());
-        holder.messageHeader.setText(current.getMessageHeader());
-        holder.messageDetail.setText(current.getMessageDetail());
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: in onbindview holder");
-                Toast.makeText(mContext, "Toast", Toast.LENGTH_SHORT).show();
-            }
-        });
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Client_Msg_Values model) {
+        holder.userName.setText(model.getName());
+        Glide.with(mContext).load(model.getImageResource()).into(holder.image);
     }
 
-    @Override
-    public int getItemCount() {
-
-        Log.d(TAG, "getItemCount: is called");
-        return messageValues.size();
+    public interface itemClickListenerMsgDetail {
+        void itemClickListener(DocumentSnapshot documentSnapshot, int position);
     }
+
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
-        TextView messageHeader;
-        TextView messageDetail;
+        TextView userName;
         RelativeLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder: iscalled");
-            image = itemView.findViewById(R.id.client_order_item_img);
-            messageHeader = itemView.findViewById(R.id.client_order_txt_name);
-            messageDetail = itemView.findViewById(R.id.client_orders_txt2);
-            layout = itemView.findViewById(R.id.recycler_layout);
+            image = itemView.findViewById(R.id.image_id_msg);
+            userName = itemView.findViewById(R.id.message_item_name);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.itemClickListener(getSnapshots().getSnapshot(position), position);
+                    }
+                }
+            });
         }
+
 
     }
 }

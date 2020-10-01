@@ -19,7 +19,7 @@
 
 
         <ImageView
-            android:id="@+id/client_order_item_img"
+            android:id="@+id/evnt_order_item_img"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_margin="4dp"
@@ -42,7 +42,7 @@
             android:textColor="@color/secondarycolor"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/client_order_item_img"
+            app:layout_constraintTop_toBottomOf="@id/evnt_order_item_img"
 
             />
 
@@ -58,7 +58,7 @@
             android:contentDescription="@string/image_of_location_icon" />
 
         <TextView
-            android:id="@+id/location_text"
+            android:id="@+id/location_text_evnt_package"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -81,7 +81,7 @@
             android:numStars="5"
             android:rating="3"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/client_order_item_img" />
+            app:layout_constraintTop_toBottomOf="@id/evnt_order_item_img" />
 
 
         <TextView
