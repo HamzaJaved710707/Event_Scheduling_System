@@ -6,7 +6,7 @@ public class msgDetail_values {
     String message;
     String imgUrl;
     Boolean seen;
-    String from ;
+    String from;
     String timeStamp;
     public msgDetail_values(){
         // empty constructor needed for firebaseUI
@@ -16,7 +16,7 @@ public class msgDetail_values {
         this.message = message;
         this.seen = seen;
         this.imgUrl = imgUrl;
-        this.from  = from ;
+        this.from = from;
         this.timeStamp = timeStamp;
     }
 

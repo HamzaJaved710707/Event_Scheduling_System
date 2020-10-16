@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -77,11 +79,11 @@ public class client_signUp extends AppCompatActivity {
 
     private void processing() {
 
-        name = _name.getText().toString();
-        emailTxt = _email.getText().toString();
-        mobileNumber = _mobileNumber.getText().toString();
-        passTxt = _password.getText().toString();
-        confirmPass = _confirm_Pass.getText().toString();
+        name = _name.getText().toString().trim();
+        emailTxt = _email.getText().toString().trim();
+        mobileNumber = _mobileNumber.getText().toString().trim();
+        passTxt = _password.getText().toString().trim();
+        confirmPass = _confirm_Pass.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
         if (name.trim().matches("") && emailTxt.trim().matches("") && mobileNumber.trim().matches("") && passTxt.trim().matches("") && confirmPass.trim().matches("")) {
             if (!passTxt.matches(confirmPass)) {
@@ -120,34 +122,42 @@ public class client_signUp extends AppCompatActivity {
     // Adding data of user in firestore
     private void addValueToFirebase(FirebaseUser user) {
         String currentUser_id = user.getUid();
-        firestoreDatabase = FirebaseFirestore.getInstance();
-        HashMap userData = new HashMap<>();
-        userData.put("Name", name);
-        userData.put("type", 1);
-        userData.put("email", emailTxt);
-        userData.put("mobileNumber", mobileNumber);
-        userData.put("password", passTxt);
-        userData.put("isActive", false);
-        userData.put("id", currentUser_id);
-        firestoreDatabase.collection("Users").document(currentUser_id).set(userData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        progressBar.setVisibility(View.INVISIBLE);
-                        // If firebase task is successful then call Home activity
-                        Intent intent = new Intent(client_signUp.this, client_home.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                // Showing error message to the user
-                Log.d(TAG, "This is failure listener " + e.getMessage());
-                Toast.makeText(client_signUp.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String tokenId = instanceIdResult.getToken();
+                firestoreDatabase = FirebaseFirestore.getInstance();
+                HashMap userData = new HashMap<>();
+                userData.put("Name", name);
+                userData.put("type", 1);
+                userData.put("email", emailTxt);
+                userData.put("mobileNumber", mobileNumber);
+                userData.put("password", passTxt);
+                userData.put("isActive", false);
+                userData.put("id", currentUser_id);
+                userData.put("tokenId", tokenId);
+                firestoreDatabase.collection("Users").document(currentUser_id).set(userData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                progressBar.setVisibility(View.INVISIBLE);
+                                // If firebase task is successful then call Home activity
+                                Intent intent = new Intent(client_signUp.this, client_home.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Showing error message to the user
+                        Log.d(TAG, "This is failure listener " + e.getMessage());
+                        Toast.makeText(client_signUp.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
+
 
     }
 }

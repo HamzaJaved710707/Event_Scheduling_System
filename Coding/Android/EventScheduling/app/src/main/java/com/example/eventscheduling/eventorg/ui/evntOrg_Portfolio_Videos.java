@@ -89,8 +89,7 @@ public class evntOrg_Portfolio_Videos extends Fragment implements View.OnClickLi
     private static final int SELECT_VIDEO = 0;
     private RecyclerView recyclerView;
     private Portfolio_Videos_Adapter videos_adapter;
-
-
+    private String id;
     //
 
 
@@ -106,9 +105,16 @@ public class evntOrg_Portfolio_Videos extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.fragment_evnt_org__portfolio__videos,container, false);
         flt_btn = view.findViewById(R.id.evnt_portfolio_videos_flt_Btn);
         flt_btn.setOnClickListener(this);
+        id = getArguments().getString("id");
         currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            userID = currentUser.getUid();
+            if(id == null){
+                userID = currentUser.getUid();
+            }
+            else{
+                userID = id;
+            }
+
             usersVideoStorageRef = frStorage.getReference("Event_Org/" + userID + "/Uploads/Videos/");
             user_video_collection = firestore.collection("Users").document(userID).collection("Photos").document("2").collection("Videos");
             recyclerView = view.findViewById(R.id.evntOrg_portfolio_video_recyclerview);

@@ -1,10 +1,12 @@
 {
   "hosting": {
     "public": "public",
+      "site": "eventscheduling",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ]
   }
+
 }

@@ -43,6 +43,7 @@ public class evntOrg_Orders extends Fragment implements  RecyclerView_Adapter_Or
     // Array to initialize the values for order
    List<OrderValues> orderList = new ArrayList<>();
     private List<String> userList = new ArrayList<>();
+    private ArrayList<String> packageUser = new ArrayList<>();
     private RecyclerView recyclerView;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference dbReference = firebaseFirestore.collection("Users");
@@ -54,6 +55,7 @@ public class evntOrg_Orders extends Fragment implements  RecyclerView_Adapter_Or
     private RecyclerView_Adapter_Order order_apapter;
     private DocumentReference packageDocument;
     private ProgressBar progressBar;
+    private boolean custom = false;
     public evntOrg_Orders() {
         // Required empty public constructor
     }
@@ -80,7 +82,7 @@ public class evntOrg_Orders extends Fragment implements  RecyclerView_Adapter_Or
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: is called");
-        initOrders(view);
+        
 
 
     }
@@ -93,18 +95,21 @@ public class evntOrg_Orders extends Fragment implements  RecyclerView_Adapter_Or
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     userList.clear();
-                    packageId.clear();;
+                    packageId.clear();
+                    packageUser.clear();
 
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     userList.add(documentSnapshot.getString("from"));
                     packageId.add(documentSnapshot.getString("packageId"));
-                }
+                    packageUser.add(documentSnapshot.getString("packageUser"));
 
+                }
+                orderList.clear();
                 for(int i= 1 ; i<= userList.size(); i++){
                     dbReference.whereIn(FieldPath.documentId(), userList).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            orderList.clear();
+
 
                             for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
                                 orderList.add(new OrderValues(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"), documentSnapshot.getString("id")));
@@ -113,7 +118,7 @@ public class evntOrg_Orders extends Fragment implements  RecyclerView_Adapter_Or
                             order_apapter = new RecyclerView_Adapter_Order(view.getContext(), orderList);
                             recyclerView.setHasFixedSize(true);
                             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                            order_apapter.getValues(packageId);
+                            order_apapter.getValues(packageId, packageUser);
                             order_apapter.setOnClick(evntOrg_Orders.this::itemClick);
                             recyclerView.setAdapter(order_apapter);
                             progressBar.setVisibility(View.INVISIBLE);
@@ -135,17 +140,17 @@ public class evntOrg_Orders extends Fragment implements  RecyclerView_Adapter_Or
     }
 
     @Override
-    public void itemClick(String id,String packageId) {
-         packageDocument = dbReference.document(id).collection("Packages").document(packageId);
+    public void itemClick(String id,String packageId, String packageUserString) {
+         packageDocument = dbReference.document(packageUserString).collection("Packages").document(packageId);
         packageDocument.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Boolean custom =  documentSnapshot.getBoolean("custom");
+             custom =  documentSnapshot.getBoolean("custom");
                 if(custom){
                     getCustomPackage(packageId, id);
                 }
                 else{
-                    getDefaultPackage(packageId, id);
+                    getDefaultPackage(packageId, packageUserString);
                 }
             }
         });

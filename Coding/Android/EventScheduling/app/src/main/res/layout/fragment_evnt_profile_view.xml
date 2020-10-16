@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <ProgressBar
+            android:id="@+id/evnt_profile_view_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/evnt_view_cover_pic"
+            android:layout_width="match_parent"
+            android:layout_height="173dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/cover_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/evnt_profile_view_pic"
+            android:layout_width="208dp"
+            android:layout_height="179dp"
+            android:layout_marginTop="96dp"
+
+            android:src="@mipmap/account_person"
+            app:layout_constraintEnd_toEndOf="@+id/evnt_view_cover_pic"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@+id/evnt_view_cover_pic"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/evnt_profile_view_business_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="User Name"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_pic"
+            app:layout_constraintHorizontal_bias="0.597"
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_pic"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_pic" />
+
+        <TextView
+            android:id="@+id/evnt_view_textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/portfolio"
+            android:textColor="@color/secondarycolor"
+            android:textSize="16sp"
+
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_order_icon"
+            app:layout_constraintHorizontal_bias="0.565"
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_order_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_order_icon" />
+
+
+        <TextView
+            android:id="@+id/evnt_view_textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add Friend"
+            android:textColor="@color/secondarycolor"
+            android:textSize="16sp"
+
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_followers_icon"
+            app:layout_constraintHorizontal_bias="0.361"
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_followers_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_followers_icon" />
+
+        <TextView
+            android:id="@+id/evnt_view_textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="Message"
+            android:textColor="@color/secondarycolor"
+            android:textSize="16sp"
+
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_msg_icon"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_msg_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_msg_icon" />
+
+
+        <ImageView
+            android:id="@+id/evnt_profile_view_order_icon"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="64dp"
+            android:src="@drawable/ic_photo_lib_white"
+            app:layout_constraintEnd_toStartOf="@+id/evnt_profile_view_followers_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_business_name" />
+
+        <ImageView
+            android:id="@+id/evnt_profile_view_followers_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_person_white"
+            app:layout_constraintStart_toEndOf="@+id/evnt_profile_view_order_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_business_name" />
+
+        <ImageView
+            android:id="@+id/evnt_profile_view_msg_icon"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingEnd="32dp"
+            android:src="@drawable/ic_email_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/evnt_profile_view_followers_icon"
+            app:layout_constraintStart_toEndOf="@+id/evnt_profile_view_followers_icon"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_business_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about"
+            style="@style/sectionHeader"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/anton"
+            android:gravity="center"
+
+            android:padding="2dp"
+            android:text="About"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/evnt_view_textView9" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_businessName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="casual"
+            android:text="Business Name:"
+            android:textColor="@color/secondarycolor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_businessNameTxt"
+            android:layout_width="0dp"
+            android:layout_height="13dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/secondarycolor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/evnt_profile_view_about_businessName" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_businessCat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="casual"
+
+            android:text="Business Category: "
+            android:textColor="@color/secondarycolor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_businessNameTxt" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_businessCatTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/secondarycolor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_businessCat" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="casual"
+
+            android:text="Email: "
+            android:textColor="@color/secondarycolor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_businessCatTxt" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_business_emailTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/secondarycolor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_email" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="casual"
+
+            android:text="Mobile Number: "
+            android:textColor="@color/secondarycolor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_business_emailTxt" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/evnt_profile_view_about_business_numberTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/secondarycolor"
+
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_number" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

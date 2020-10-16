@@ -1,6 +1,7 @@
 package com.example.eventscheduling.client.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,14 +43,27 @@ public class client_msgDetail_adapter extends FirestoreRecyclerAdapter<client_ms
         String model_user = model.getFrom();
         if (model_user.equals(userID)) {
             holder.msgText.setText(model.getMessage());
-            Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            if(model.getImgUrl() != null){
+                Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            }
+            else{
+                Glide.with(context).load(R.mipmap.account_person).into(holder.userImg);
+            }
+
         } else {
             holder.msgText.setText(model.getMessage());
-            Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            if(model.getImgUrl() != null){
+                Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            }
+            else{
+                Glide.with(context).load(R.drawable.ic_person).into(holder.userImg);
+            }
+        
             //holder.msgText.setBackgroundColor(Color.BLACK);
             // holder.msgText.setTextColor(Color.BLUE);
-            holder.layout.setHorizontalGravity(Gravity.RIGHT);
 
+            holder.layout.setHorizontalGravity(Gravity.RIGHT);
+            holder.layout.setBackgroundColor(Color.MAGENTA);
         }
     }
 

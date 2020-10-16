@@ -9,7 +9,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +23,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".client.ui.client_msgDetail"></activity>
+        <activity android:name=".util.VideoCallingActivity"></activity>
+        <activity android:name=".client.ui.client_setting" />
+        <activity android:name=".client.ui.client_msgDetail" />
         <activity android:name=".client.ui.client_friendList" />
         <activity android:name=".eventorg.ui.evntOrg_setting" />
         <activity android:name=".eventorg.ui.evntOrg_Package_detail" />
@@ -28,7 +35,7 @@
         <activity android:name=".eventorg.ui.evntOrg_MessageDetail" />
         <activity android:name=".eventorg.mapService" />
         <activity android:name=".util.InternetBroadCastReceiver" />
-        <activity android:name=".client.ui.client_messages"/>
+        <activity android:name=".client.ui.client_messages" />
         <activity
             android:name=".client.ui.client_home"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -47,6 +54,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".MapLocation"
@@ -75,7 +85,7 @@
             android:label="Sign Up" />
         <activity android:name=".client.ui.client_signIn" />
         <activity android:name=".client.ui.client_signUp" />
-        <activity android:name=".util.ExoMediaPlayer"/>
+        <activity android:name=".util.ExoMediaPlayer" />
 
         <service android:name=".eventorg.mapService" />
     </application>

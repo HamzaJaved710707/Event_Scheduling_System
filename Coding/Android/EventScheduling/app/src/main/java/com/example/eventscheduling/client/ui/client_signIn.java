@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class client_signIn extends AppCompatActivity {
     private static final String TAG = "client_signIn";
@@ -31,6 +33,7 @@ public class client_signIn extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,35 +79,52 @@ public class client_signIn extends AppCompatActivity {
                             if (currentUser != null) {
 
                                 String currentUserId = currentUser.getUid();
-                                firebaseFirestore.collection("Users").document(currentUserId).get()
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                long field = documentSnapshot.getLong("type");
-                                                if (field == 1) {
+                                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                    @Override
+                                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                                         String tokenId = instanceIdResult.getToken();
+                                         firebaseFirestore.collection("Users").document(currentUserId).update("tokenId", tokenId);
+                                        firebaseFirestore.collection("Users").document(currentUserId).get()
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        long field = documentSnapshot.getLong("type");
+                                                        boolean isActive = documentSnapshot.getBoolean("isActive");
+                                                        if (field == 1) {
+                                                            if(isActive){
+                                                                progressDialog.dismiss();
+                                                                startActivity(new Intent(client_signIn.this, client_home.class));
+                                                                finish();
+                                                            }
+                                                            else{
+                                                                progressDialog.dismiss();
+                                                                Toast.makeText(client_signIn.this, "You are blocked by admin... Please connect the support center", Toast.LENGTH_LONG).show();
 
-                                                    progressDialog.dismiss();
-                                                    startActivity(new Intent(client_signIn.this, client_home.class));
-                                                    finish();
-                                                } else {
-                                           Toast.makeText(client_signIn.this, "You are not client... LogIn in other module", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(client_signIn.this, MainActivity.class));
+                                                            }
 
-                                                }
+                                                        } else {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(client_signIn.this, "You are not client... LogIn in other module", Toast.LENGTH_SHORT).show();
+                                                            startActivity(new Intent(client_signIn.this, MainActivity.class));
 
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                progressDialog.dismiss();
+                                                        }
 
-                                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                                mAuth.signOut();
-                                                Toast.makeText(client_signIn.this, "Error", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(client_signIn.this, MainActivity.class));
-                                            }
-                                        });
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        progressDialog.dismiss();
+
+                                                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                                        mAuth.signOut();
+                                                        Toast.makeText(client_signIn.this, "Error", Toast.LENGTH_SHORT).show();
+                                                        startActivity(new Intent(client_signIn.this, MainActivity.class));
+                                                    }
+                                                });
+                                    }
+                                });
+
 
                             }
 

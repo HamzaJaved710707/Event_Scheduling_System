@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class client_home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+
  {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -39,6 +40,7 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        client_profile client_profile = new client_profile();
         NavigationView navigationView = findViewById(R.id.nav_drawer_client);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout = findViewById(R.id.drawerLayout_client);
@@ -49,7 +51,7 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
             getSupportFragmentManager().beginTransaction().addToBackStack(null)
                     .replace(R.id.frameLayout_clientHome, new client_profile())
                     .commit();
-           selectTitle("Profile");
+            selectTitleOfActionBar("Profile");
         }
     }
     @Override
@@ -84,11 +86,8 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                     startActivity(intent);
                     finish();
                     break;
-                case R.id.search_person:
-                    Toast.makeText(this, "Search menu is selected", Toast.LENGTH_SHORT).show();
-                    break;
                 case R.id.setting_evntOrg:
-                    Toast.makeText(this, "Setting option is selected", Toast.LENGTH_SHORT).show();
+
                     break;
                 default:
                     break;
@@ -104,13 +103,13 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_profile())
                             .commit();
-                    selectTitle("Profile");
+                    selectTitleOfActionBar("Profile");
                     break;
                 case R.id.nav_packages_client:
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_packages_frag())
                             .commit();
-                    selectTitle("Packages");
+                    selectTitleOfActionBar("Packages");
                     break;
                 case R.id.nav_orders_client:
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
@@ -121,19 +120,19 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_search())
                             .commit();
-                    selectTitle("Search");
+                    selectTitleOfActionBar("Search");
                     break;
                 case R.id.nav_messages_client:
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_messages())
                             .commit();
-                    selectTitle("Messages");
+                    selectTitleOfActionBar("Messages");
                     break;
                 case R.id.nav_history_client:
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_history())
                             .commit();
-                    selectTitle("History");
+                    selectTitleOfActionBar("History");
                     break;
                 case R.id.nav_share:
                     Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
@@ -147,14 +146,15 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_profile())
                             .commit();
-                    selectTitle("Profile");
+                    selectTitleOfActionBar("Profile");
                     break;
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
 
-    public void selectTitle(String title) {
+
+    public void selectTitleOfActionBar(String title) {
         getSupportActionBar().setTitle(title);
     }
 

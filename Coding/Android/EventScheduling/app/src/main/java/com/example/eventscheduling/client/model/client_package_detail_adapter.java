@@ -4,24 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.util.client_friendList_values;
-import com.example.eventscheduling.client.util.client_package_detail_values;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class client_package_detail_adapter extends RecyclerView.Adapter<client_package_detail_adapter.client_package_detail_holder> {
 
@@ -33,7 +26,7 @@ public class client_package_detail_adapter extends RecyclerView.Adapter<client_p
     private client_friendList_Adapter.OnItemClicked onClick;
     private String id;
 
-    public client_package_detail_adapter(Context context, List<String> list){
+    public client_package_detail_adapter(Context context, List<String> list) {
         this.context = context;
         packageDetial = list;
     }
@@ -47,20 +40,21 @@ public class client_package_detail_adapter extends RecyclerView.Adapter<client_p
 
     @Override
     public void onBindViewHolder(@NonNull client_package_detail_holder holder, int position) {
-if(packageDetial.get(position) != null){
-    holder.name.setText(packageDetial.get(position));
-}
-else{
-    holder.itemView.setVisibility(View.GONE);
-}
-
-
+        if (packageDetial.get(position) != null) {
+            holder.name.setText(packageDetial.get(position));
+        } else {
+            holder.itemView.setVisibility(View.GONE);
         }
+
+    }
 
 
     @Override
     public int getItemCount() {
-        return packageDetial.size();
+        if (packageDetial != null) {
+            return packageDetial.size();
+        }
+        return 0;
     }
 
     static class client_package_detail_holder extends RecyclerView.ViewHolder {

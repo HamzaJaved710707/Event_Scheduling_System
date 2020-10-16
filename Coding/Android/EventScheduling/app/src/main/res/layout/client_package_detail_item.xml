@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android = "http://schemas.android.com/apk/res/android"
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
-    android:padding="4dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/colorPrimaryLight"
+    app:cardCornerRadius="16dp"
+    android:layout_margin="4dp"
     >
-    <ImageView
-        android:id="@+id/client_package_detail_item_img"
-        android:src="@drawable/ic_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"/>
+
     <TextView
+        android:padding="8dp"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/client_package_detail_package_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,4 +20,4 @@
         android:textColor="@color/secondarycolor"
         android:text="Text will be displayed here"/>
 
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

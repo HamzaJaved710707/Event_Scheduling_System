@@ -15,6 +15,8 @@ public class PackagesValues {
     private String Venue;
     private String price;
     private String businessName;
+    private String id;
+    private String userId;
 
 
     public String getBusinessName() {
@@ -25,7 +27,23 @@ public class PackagesValues {
         this.businessName = businessName;
     }
 
-    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName, String id, String userId) {
         PackageName = packageName;
         this.image = image;
         Food = food;
@@ -33,6 +51,8 @@ public class PackagesValues {
         Venue = venue;
         this.price = price;
         this.businessName = businessName;
+        this.id = id;
+        this.userId = userId;
     }
 
     public PackagesValues() {

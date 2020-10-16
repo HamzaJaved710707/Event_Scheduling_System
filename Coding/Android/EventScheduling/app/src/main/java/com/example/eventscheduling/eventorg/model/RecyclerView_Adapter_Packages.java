@@ -39,7 +39,7 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
         holder.detailText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OnclickListener.onDetailButtonClick();
+                OnclickListener.onDetailButtonClick(model.getUserId(), model.getId());
             }
         });
 
@@ -80,7 +80,7 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
         }
     }
     public interface onItemClickListner{
-        void onDetailButtonClick();
+        void onDetailButtonClick(String userId , String packageId);
         }
 
         public void setOnClick(onItemClickListner clickListner){

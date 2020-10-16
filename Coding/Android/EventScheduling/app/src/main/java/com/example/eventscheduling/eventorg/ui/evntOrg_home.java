@@ -64,7 +64,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
                     replace(R.id.fragment_test_id, new evntOrg_profile())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
-            selectTitle("Profile");
+            setTitleActionBar("Profile");
         }
         // Firebase Authentication
     }
@@ -112,9 +112,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
                     startActivity(intent);
                     finish();
                     break;
-                case R.id.search_person:
-                    Toast.makeText(this, "Search menu is selected", Toast.LENGTH_SHORT).show();
-                    break;
+
                 case R.id.setting_evntOrg:
                     startActivity(new Intent(this, evntOrg_setting.class));
                     break;
@@ -134,49 +132,49 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
                         replace(R.id.fragment_test_id, new evntOrg_profile())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Profile");
+                setTitleActionBar("Profile");
                 break;
             case R.id.nav_packages:
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.fragment_test_id, new evntOrg_Packages())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Packages");
+                setTitleActionBar("Packages");
                 break;
             case R.id.nav_orders:
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.fragment_test_id, new evntOrg_Orders())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Orders");
+                setTitleActionBar("Orders");
                 break;
             case R.id.nav_messages:
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.fragment_test_id, new evntOrg_Messages())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Messages");
+                setTitleActionBar("Messages");
                 break;
             case R.id.nav_analysis:
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.fragment_test_id, new evntOrg_Analysis())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Analysis");
+                setTitleActionBar("Analysis");
                 break;
             case R.id.nav_portfolio:
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.fragment_test_id, new evntOrg_Portfolio())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Portfolio");
+                setTitleActionBar("Portfolio");
                 break;
             case R.id.nav_calender:
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.fragment_test_id, new evntOrg_Calender())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Calender");
+                setTitleActionBar("Calender");
                 break;
             case R.id.nav_share:
                 Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
@@ -190,7 +188,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
                         replace(R.id.fragment_test_id, new evntOrg_profile())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
-                selectTitle("Profile");
+                setTitleActionBar("Profile");
                 break;
 
         }
@@ -199,7 +197,7 @@ public class evntOrg_home extends AppCompatActivity implements NavigationView.On
         return true;
     }
     // Function to change the title of ActionBar
-    public void selectTitle(String title){
+    public void setTitleActionBar(String title){
         getSupportActionBar().setTitle(title);
     }
 

@@ -124,6 +124,9 @@
         <item>Man Service</item>
         <item>Extra</item>
     </array>
+
+    <string name="agora_app_id">be47ee1a77524580b5fd5976be3f91e1</string>
+
 </resources>
 
 

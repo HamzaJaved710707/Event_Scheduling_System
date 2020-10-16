@@ -45,6 +45,13 @@ public class RecyclerView_Adapter_Message extends FirestoreRecyclerAdapter<Messa
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull MessageValues model) {
         Log.d(TAG, "onBindViewHolder: is called");
+        if(model.getImageResource() == null){
+            Glide.with(mContext).load(R.mipmap.account_person).into(holder.image);
+
+        }else{
+            Glide.with(mContext).load(model.getImageResource()).into(holder.image);
+
+        }
         holder.userName.setText(model.getName());
        // holder.message.setText(model.getMessage());
       //  Glide.with(mContext).load(model.getImageResource()).into(holder.image);
@@ -63,15 +70,13 @@ public class RecyclerView_Adapter_Message extends FirestoreRecyclerAdapter<Messa
     class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
         TextView userName;
-        TextView message;
         RelativeLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder: is called");
-            image = itemView.findViewById(R.id.client_order_item_img);
+            image = itemView.findViewById(R.id.image_id_msg);
             userName = itemView.findViewById(R.id.message_item_name);
-            message = itemView.findViewById(R.id.client_orders_txt2);
             layout = itemView.findViewById(R.id.recycler_layout);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

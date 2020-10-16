@@ -16,6 +16,7 @@ import com.example.eventscheduling.client.util.client_orders_values;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
     private client_orders_adapter.OnItemClicked onClick;
     private String id;
     private ArrayList<String> packageList = new ArrayList<>();
+    private ArrayList<String> packageUserId = new ArrayList<>();
 
     public client_orders_adapter(Context context, List<client_orders_values> list) {
 
@@ -49,13 +51,21 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
         if (currentUser.getUid().equals(order_values.get(position).getFrom())) {
             holder.item_layout.setVisibility(View.INVISIBLE);
         } else {
+            if(order_values.get(position).getImgUrl() == null){
+                Glide.with(context).load(R.mipmap.account_person).into(holder.img);
+
+            }
+            else{
+                Glide.with(context).load(order_values.get(position).getImgUrl()).into(holder.img);
+
+            }
             holder.name.setText(order_values.get(position).getName());
-            Glide.with(context).load(order_values.get(position).getImgUrl()).into(holder.img);
+
             holder.detailTxt.setText("Click here for detail");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClick.itemClick(packageList.get(position));
+                    onClick.itemClick(packageList.get(position), packageUserId.get(position));
                 }
             });
         }
@@ -71,7 +81,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
     }
 
     public interface OnItemClicked {
-      void itemClick(String id);
+      void itemClick(String id, String userID);
     }
 
     class client_order_adapter_holder extends RecyclerView.ViewHolder {
@@ -90,8 +100,9 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
 
         }
     }
-    public void setpackageList(ArrayList list){
+    public void setpackageList(ArrayList<String> list,ArrayList<String> packageUserId){
         packageList = list;
+        this.packageUserId = packageUserId;
     }
 
 }

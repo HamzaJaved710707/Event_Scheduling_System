@@ -1,177 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".eventorg.ui.evntOrg_profile"
-    android:background="@color/colorPrimary">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-<ProgressBar
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:visibility="invisible"
-    android:id="@+id/evntOrg_profile_progressBar"
-    />
-        <ImageView
-            android:id="@+id/evnt_cover_pic"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="173dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/cover_photo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            tools:context=".eventorg.ui.evntOrg_profile"
+            android:background="@color/colorPrimary"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            >
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/evnt_profile_pic"
-            android:layout_width="208dp"
-            android:layout_height="179dp"
-            android:layout_marginTop="96dp"
-            android:src="@mipmap/bandhan_marriage_profile"
-            app:layout_constraintEnd_toEndOf="@+id/evnt_cover_pic"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="@+id/evnt_cover_pic"
-            app:layout_constraintTop_toTopOf="parent" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:visibility="invisible"
+                    android:id="@+id/evntOrg_profile_progressBar"
+                    />
+                <ImageView
+                    android:id="@+id/evnt_cover_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="173dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cover_photo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/evnt_profile_business_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Bandhan Marriage Hall"
-            android:textColor="@color/secondarycolor"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
-            app:layout_constraintHorizontal_bias="0.597"
-            app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
-            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_pic" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/evnt_profile_pic"
+                    android:layout_width="208dp"
+                    android:layout_height="179dp"
+                    android:layout_marginTop="96dp"
+                    android:src="@mipmap/bandhan_marriage_profile"
+                    app:layout_constraintEnd_toEndOf="@+id/evnt_cover_pic"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="@+id/evnt_cover_pic"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Portfolio"
-            android:textColor="@color/secondarycolor"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_order_icon"
-            app:layout_constraintHorizontal_bias="0.565"
-            app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_order_icon"
-            app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_order_icon" />
+                <TextView
+                    android:id="@+id/evnt_profile_business_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="Bandhan Marriage Hall"
+                    android:textColor="@color/secondarycolor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
+                    app:layout_constraintHorizontal_bias="0.597"
+                    app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
+                    app:layout_constraintTop_toBottomOf="@+id/evnt_profile_pic" />
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/secondarycolor"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView11"
-            app:layout_constraintHorizontal_bias="0.483"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Portfolio"
+                    android:textColor="@color/secondarycolor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_portfolio_icon"
+                    app:layout_constraintHorizontal_bias="0.565"
+                    app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_portfolio_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_portfolio_icon" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/secondarycolor"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11"
+                    app:layout_constraintHorizontal_bias="0.483"
+                    app:layout_constraintStart_toStartOf="@+id/textView11"
+                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Followers"
-            android:textColor="@color/secondarycolor"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_followers_icon"
-            app:layout_constraintHorizontal_bias="0.361"
-            app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_followers_icon"
-            app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_followers_icon" />
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Followers"
+                    android:textColor="@color/secondarycolor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_followers_icon"
+                    app:layout_constraintHorizontal_bias="0.361"
+                    app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_followers_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_followers_icon" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginEnd="32dp"
             android:text="@string/messages"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/evntOrg_profile_msg_icon"
-            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/evntOrg_profile_msg_icon"
             app:layout_constraintTop_toBottomOf="@+id/evntOrg_profile_msg_icon" />
 
         <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/secondarycolor"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintHorizontal_bias="0.56"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondarycolor"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView9"
+                    app:layout_constraintHorizontal_bias="0.56"
+                    app:layout_constraintStart_toStartOf="@+id/textView9"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/secondarycolor"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView10"
-            app:layout_constraintStart_toStartOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/secondarycolor"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView10"
+                    app:layout_constraintStart_toStartOf="@+id/textView10"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <ImageView
-            android:id="@+id/evntOrg_profile_order_icon"
-            android:layout_width="32dp"
+            android:id="@+id/evntOrg_profile_portfolio_icon"
+            android:layout_width="0dp"
             android:layout_height="32dp"
-            android:layout_marginStart="64dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="64dp"
             android:src="@drawable/ic_photo_lib_white"
             app:layout_constraintEnd_toStartOf="@+id/evntOrg_profile_followers_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
-            android:onClick="Portfolio_onClick"/>
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name" />
 
-        <ImageView
-            android:id="@+id/evntOrg_profile_followers_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/ic_person_white"
-            app:layout_constraintStart_toEndOf="@+id/evntOrg_profile_order_icon"
-            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
-            android:onClick="Followers_onClick"/>
+                <ImageView
+                    android:id="@+id/evntOrg_profile_followers_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/ic_person_white"
+                    app:layout_constraintStart_toEndOf="@+id/evntOrg_profile_portfolio_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
+                    />
 
         <ImageView
             android:id="@+id/evntOrg_profile_msg_icon"
-            android:layout_width="32dp"
+            android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="64dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+         android:paddingEnd="32dp"
             android:src="@drawable/ic_email_white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.109"
             app:layout_constraintLeft_toRightOf="@id/evntOrg_profile_followers_icon"
             app:layout_constraintStart_toEndOf="@+id/evntOrg_profile_followers_icon"
-            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name"
-            android:onClick="Msg_onClick"/>
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_business_name" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>

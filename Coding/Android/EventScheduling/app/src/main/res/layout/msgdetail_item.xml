@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/msgdetail_layout">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_msg_detail"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@drawable/ic_person"/>
 
-    <TextView
-        android:id="@+id/msgText_recyclerView"
-        android:layout_width="238dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/img_msg_detail"
-        android:background="@drawable/msg_detail_background"
-        android:gravity="center"
-        android:text="message Detail"
-        android:layout_marginTop="8dp"
-android:textColor= "@color/secondarycolor"        />
+    <RelativeLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/msgdetail_layout"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_msg_detail"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_person"
+            />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/msgText_recyclerView"
+            android:layout_width="238dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_msg_detail"
+            android:background="@drawable/msg_detail_background"
+            android:gravity="center"
+            android:text="message Detail"
+            android:layout_marginTop="8dp"
+            android:textColor= "@color/secondarycolor"
+            />
+
+    </RelativeLayout>
+

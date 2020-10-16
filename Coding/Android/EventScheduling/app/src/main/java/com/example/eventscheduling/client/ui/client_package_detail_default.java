@@ -21,6 +21,7 @@ import com.example.eventscheduling.client.model.client_package_detail_adapter;
 import com.example.eventscheduling.client.util.client_package_detail_values;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -67,7 +68,6 @@ public class client_package_detail_default extends Fragment implements DatePicke
     private MaterialButton datePickerBtn;
 
     private String date;
-    private TextView dateTExtview;
     private CircleImageView packageImg;
     private TextView packageName;
     private TextView priceTxt;
@@ -75,6 +75,9 @@ public class client_package_detail_default extends Fragment implements DatePicke
     private Calendar myCalendar;
 private DatePickerDialog datePickerDialog;
     private boolean dateChecker = false;
+    private MaterialTextView empty_foodTxtView;
+    private MaterialTextView empty_service_TextView;
+    private MaterialTextView empty_venueTxtView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,10 +108,12 @@ datePickerBtn = view.findViewById(R.id.datePicker_client_package_detail);
         food_recyclerView = view.findViewById(R.id.client_package_detail_default_food_recyc);
         service_recyclerView = view.findViewById(R.id.client_package_detail_default_service_recyc);
         venue_recyclerview = view.findViewById(R.id.client_package_detail_default_venue_recyc);
-        dateTExtview = view.findViewById(R.id.date_txt_default_detail);
         packageImg = view.findViewById(R.id.client_packageDetail_default_img);
         packageName = view.findViewById(R.id.client_packagedetail_default_name);
         priceTxt = view.findViewById(R.id.price_txt_detail);
+        empty_foodTxtView = view.findViewById(R.id.client_package_detail_custom_food_empty_default);
+        empty_service_TextView = view.findViewById(R.id.client_package_detail_custom_service_empty_default);
+        empty_venueTxtView = view.findViewById(R.id.client_package_detail_custom_venue_empty_default);
         setHasOptionsMenu(true);
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -129,6 +134,7 @@ datePickerBtn = view.findViewById(R.id.datePicker_client_package_detail);
                         bundle.putString("packageId", packageId);
                         bundle.putString("date", date);
                         bundle.putBoolean("isDefault", true);
+                        bundle.putString("packageUser", packageUser);
                         client_package_send_order frag = new client_package_send_order();
                         frag.setArguments(bundle);
                         getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag)
@@ -159,9 +165,18 @@ datePickerBtn = view.findViewById(R.id.datePicker_client_package_detail);
                 Glide.with(getContext()).load(documentSnapshot.getString("image")).into(packageImg);
                 packageName.setText(documentSnapshot.getString("PackageName"));
                 priceTxt.setText(documentSnapshot.getString("price"));
+                if(foodList == null){
+                    empty_foodTxtView.setVisibility(View.VISIBLE);
+                }
+                if(serviceList == null){
+                    empty_service_TextView.setVisibility(View.VISIBLE);
+                }
+                if (venueList == null){
+                    empty_venueTxtView.setVisibility(View.VISIBLE);
+                }
                 food_detail_adapter = new client_package_detail_adapter(getContext(), foodList);
                 service_detail_adapter = new client_package_detail_adapter(getContext(), serviceList);
-              //  venue_detail_adapter = new client_package_detail_adapter(getContext(), venueList);
+              venue_detail_adapter = new client_package_detail_adapter(getContext(), venueList);
                 food_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 food_recyclerView.setAdapter(food_detail_adapter);
                 service_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

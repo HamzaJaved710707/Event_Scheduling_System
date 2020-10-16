@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class evntOrg_signIn extends AppCompatActivity {
     private static final String TAG = "evntOrg_signIn";
@@ -95,39 +97,57 @@ public class evntOrg_signIn extends AppCompatActivity {
                             if (currentUser != null) {
 
                                 String currentUserId = currentUser.getUid();
-                                firebaseFirestore.collection("Users").document(currentUserId).get()
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                long field = documentSnapshot.getLong("type");
-                                                if (field == 0) {
-                                                    dialog.dismiss();
-                                                    Intent intent = new Intent(evntOrg_signIn.this, evntOrg_home.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                    startActivity(intent);
-                                                    finish();
-                                                } else {
-                                                    Toast.makeText(evntOrg_signIn.this, "You are not service provider... LogIn in other module", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(evntOrg_signIn.this, MainActivity.class));
+                                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                    @Override
+                                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                                        String tokenId = instanceIdResult.getToken();
+                                        firebaseFirestore.collection("Users").document(currentUserId).update("tokenId", tokenId);;
+                                        firebaseFirestore.collection("Users").document(currentUserId).get()
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        long field = documentSnapshot.getLong("type");
+                                                        boolean isActive = documentSnapshot.getBoolean("isActive");
+                                                        if (field == 0) {
+                                                            if(isActive){
+                                                                dialog.dismiss();
+                                                                Intent intent = new Intent(evntOrg_signIn.this, evntOrg_home.class);
+                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                startActivity(intent);
+                                                                finish();
+                                                                
+                                                            }else{
+                                                                dialog.dismiss();
+                                                                Toast.makeText(evntOrg_signIn.this, "You are blocked by admin... Please connect support center", Toast.LENGTH_SHORT).show();
+                                                                
+                                                            }
+                                                           
+                                                        } else {
+                                                            dialog.dismiss();
+                                                            Toast.makeText(evntOrg_signIn.this, "You are not service provider... LogIn in other module", Toast.LENGTH_SHORT).show();
+                                                            startActivity(new Intent(evntOrg_signIn.this, MainActivity.class));
 
-                                                }
+                                                        }
 
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                               dialog.dismiss();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        dialog.dismiss();
 
-                                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                                mAuth.signOut();
-                                                Toast.makeText(evntOrg_signIn.this, "Error", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(evntOrg_signIn.this, MainActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        });
+                                                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                                        mAuth.signOut();
+                                                        Toast.makeText(evntOrg_signIn.this, "Error", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(evntOrg_signIn.this, MainActivity.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                });
+                                    }
+                                });
+
 
                             }
 

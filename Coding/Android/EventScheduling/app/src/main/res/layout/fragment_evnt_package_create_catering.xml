@@ -45,6 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profilePic_frame_evnt_create_catering"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Package Name"
+        app:boxBackgroundColor="@color/colorPrimaryLight"
         android:textColorHint="@color/secondarycolor">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -56,6 +57,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:backgroundTint="@color/colorPrimaryLight"
         app:strokeColor="@color/secondarycolor"
         app:strokeWidth="1dp"
         android:id="@+id/service_btn_package_evnt_create_caterer"
@@ -75,6 +77,8 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:backgroundTint="@color/colorPrimaryLight"
+
         android:id="@+id/food_btn_package_evnt_create_catering"
         app:strokeWidth="1dp"
         app:strokeColor="@color/secondarycolor"
@@ -91,6 +95,8 @@
         android:padding="16dp"
         android:textColorHint="@color/secondarycolor"/>
     <com.google.android.material.button.MaterialButton
+        android:backgroundTint="@color/colorPrimaryLight"
+
         android:id="@+id/venue_btn_package_evnt_create_catering"
         app:strokeWidth="1dp"
         app:strokeColor="@color/secondarycolor"
@@ -123,6 +129,7 @@
         app:layout_constraintTop_toBottomOf="@+id/venue_btn_package_evnt_create_catering"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Price"
+app:boxBackgroundColor="@color/colorPrimaryLight"
         android:textColorHint="@color/secondarycolor">
 
         <com.google.android.material.textfield.TextInputEditText

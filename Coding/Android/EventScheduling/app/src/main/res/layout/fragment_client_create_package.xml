@@ -2,7 +2,9 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
 >
 
@@ -11,7 +13,7 @@
         android:id="@+id/client_create_package_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/secondarycolor">
+        android:background="@color/colorPrimaryLight">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -27,7 +29,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Food Items"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/secondarycolor"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +54,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Services"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/secondarycolor"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/client_package_recyc_food_items"
@@ -77,7 +79,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Venue"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/secondarycolor"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/client_package_recyc_services"
@@ -123,7 +125,7 @@
             android:layout_margin="8dp"
 
             android:text="Date for Event"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/secondarycolor"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/client_package_recyc_venue"
@@ -141,6 +143,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/client_create_package_data_text" />
+
+        <ProgressBar
+            android:id="@+id/client_create_package_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

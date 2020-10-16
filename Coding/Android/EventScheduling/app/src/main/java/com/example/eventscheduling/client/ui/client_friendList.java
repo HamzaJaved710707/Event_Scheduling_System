@@ -1,15 +1,22 @@
 package com.example.eventscheduling.client.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class client_friendList extends AppCompatActivity implements client_friendList_Adapter.OnItemClicked, Filter_Friend_Dialog.ExampleDialogListener {
+public class client_friendList extends Fragment implements client_friendList_Adapter.OnItemClicked, Filter_Friend_Dialog.ExampleDialogListener {
     private static final String TAG = "client_friendList";
     client_friendList_Adapter friendList_adapter;
     List<client_friendList_values> friendLists = new ArrayList<>();
@@ -49,29 +56,38 @@ public class client_friendList extends AppCompatActivity implements client_frien
     private friendList_values class_values = new friendList_values();
     private List<String> tempList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+private String backStackString;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_friend_list);
-        recyclerView = findViewById(R.id.client_friend_list_recyclerview);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_client_friend_list, container, false);
+        recyclerView = view.findViewById(R.id.client_friend_list_recyclerview);
+        progressBar = view.findViewById(R.id.client_friendList_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             currentUserID = currentUser.getUid();
             friendCollection = dbReference.document(currentUserID).collection("Friends");
-            initialize_RecyclerView();
+            initialize_RecyclerView(view);
 
         }
+        return view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((client_home)getActivity()).selectTitleOfActionBar("Friends");
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.filter_menu_actionbar, menu);
-        // This change the text color of overflow menu
-        return true;
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.filter_menu_actionbar, menu);
+
     }
 
     @Override
@@ -84,7 +100,7 @@ public class client_friendList extends AppCompatActivity implements client_frien
 
     }
 
-    private void initialize_RecyclerView() {
+    private void initialize_RecyclerView(View view) {
         // This will fetch all the ids of friends in Friend collection
         friendCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -100,15 +116,16 @@ public class client_friendList extends AppCompatActivity implements client_frien
                             friendLists.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"));
+                                client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"), document.getLong("type"));
                                 friendLists.add(object);
                             }
-                            friendList_adapter = new client_friendList_Adapter(client_friendList.this, friendLists);
-                            RecyclerView recyclerView = findViewById(R.id.client_friend_list_recyclerview);
+                            friendList_adapter = new client_friendList_Adapter(getContext(), friendLists);
+
                             recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(client_friendList.this));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             friendList_adapter.setOnClick(client_friendList.this);
                             recyclerView.setAdapter(friendList_adapter);
+                            progressBar.setVisibility(View.INVISIBLE);
 
 
                         } else {
@@ -136,10 +153,10 @@ public class client_friendList extends AppCompatActivity implements client_frien
                             friendLists.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"));
+                                client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"), document.getLong("type"));
                                 friendLists.add(object);
                             }
-                            recyclerView.setLayoutManager(new LinearLayoutManager(client_friendList.this));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             friendList_adapter.setOnClick(client_friendList.this);
 
                             recyclerView.swapAdapter(friendList_adapter, true);
@@ -160,10 +177,10 @@ public class client_friendList extends AppCompatActivity implements client_frien
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 friendLists.clear();
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    client_friendList_values object = new client_friendList_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"), documentSnapshot.getString("id"));
+                    client_friendList_values object = new client_friendList_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"), documentSnapshot.getString("id"), documentSnapshot.getLong("type"));
                     friendLists.add(object);
                 }
-                recyclerView.setLayoutManager(new LinearLayoutManager(client_friendList.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 friendList_adapter.setOnClick(client_friendList.this);
 
                 recyclerView.swapAdapter(friendList_adapter, true);
@@ -181,7 +198,7 @@ public class client_friendList extends AppCompatActivity implements client_frien
     @Override
     public void onMsgIconClick(int position, String id) {
 
-        Intent intent = new Intent(client_friendList.this, client_msgDetail.class);
+        Intent intent = new Intent(getContext(), client_msgDetail.class);
         intent.putExtra("chatId", id);
         startActivity(intent);
     }
@@ -194,7 +211,7 @@ public class client_friendList extends AppCompatActivity implements client_frien
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             Log.d(TAG, "onSuccess: document exist");
-                            Toast.makeText(client_friendList.this, "You are alreading following", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "You are alreading following", Toast.LENGTH_SHORT).show();
 
                         } else {
                             Log.d(TAG, "onSuccess: does not exists");
@@ -203,7 +220,7 @@ public class client_friendList extends AppCompatActivity implements client_frien
                             friendCollection.document().set(value).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(client_friendList.this, "Added to friend List", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Added to friend List", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -215,6 +232,21 @@ public class client_friendList extends AppCompatActivity implements client_frien
                 Log.d(TAG, e.getMessage());
             }
         });
+
+    }
+
+    @Override
+    public void onLayoutClick(String id, long type) {
+        if(type == 1){
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            client_profile_view profile_view = new client_profile_view();
+            profile_view.setArguments(bundle);
+            getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, profile_view).addToBackStack(backStackString).commit();
+        }
+        else if(type == 0){
+            // Show profile of client
+        }
 
     }
 
@@ -236,7 +268,7 @@ public class client_friendList extends AppCompatActivity implements client_frien
 
     public void openDialog() {
         Filter_Friend_Dialog filter_dialog = new Filter_Friend_Dialog(client_friendList.this);
-        filter_dialog.show(getSupportFragmentManager(), "example dialog");
+        filter_dialog.show(getParentFragmentManager(), "example dialog");
         filter_dialog.setExampleDialog(client_friendList.this);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.eventscheduling.eventorg.ui;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,6 +84,8 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
     private StorageReference img_ref;
     private ProgressBar progressBar;
     private MaterialButton venueBtn;
+    private Dialog mOverlayDialog;
+
 
     public static String getMimeType(Uri uri) {
         String type = null;
@@ -227,6 +230,7 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
         price_edit = view.findViewById(R.id.evntOrg_create_package_price);
         progressBar = view.findViewById(R.id.evnt_create_package_progressBar);
         venueBtn = view.findViewById(R.id.venue_btn_package_evnt_create_catering);
+
         registerForContextMenu(imageView);
 
         ///Restore data
@@ -572,6 +576,8 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
     // Save the values of the package
     private void savePackage() {
         if (!packageNameEdtXt.getText().toString().trim().equals("") && !price_edit.getText().toString().trim().equals("")) {
+            progressBar.setVisibility(View.VISIBLE);
+            mOverlayDialog.show();
             firestore.collection("Users").document(currentUserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -596,6 +602,8 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
                             data.put("custom", false);
                             data.put("userId", currentUserID);
                             packageReference.document(doc_ref).set(data);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            mOverlayDialog.dismiss();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -619,6 +627,8 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
 
     private void saveImage() {
         Log.d(TAG, "saveImage: " + imageUri);
+        progressBar.setVisibility(View.VISIBLE);
+        mOverlayDialog.show();
         package_img_Ref.child((System.currentTimeMillis() + "." + getMimeType(imageUri))).putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -636,6 +646,8 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
 
                                 preferencesEditor.apply();
                                 Log.d(TAG, "Image Storage Reference" + img_ref);
+                                progressBar.setVisibility(View.INVISIBLE);
+                                mOverlayDialog.dismiss();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {

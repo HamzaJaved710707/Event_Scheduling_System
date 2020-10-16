@@ -51,7 +51,7 @@ public class Client_RecyclerAdptr_Msg extends FirestoreRecyclerAdapter<Client_Ms
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Client_Msg_Values model) {
         holder.userName.setText(model.getName());
-        Glide.with(mContext).load(model.getImageResource()).into(holder.image);
+        Glide.with(mContext).load(R.mipmap.account_person).into(holder.image);
     }
 
     public interface itemClickListenerMsgDetail {

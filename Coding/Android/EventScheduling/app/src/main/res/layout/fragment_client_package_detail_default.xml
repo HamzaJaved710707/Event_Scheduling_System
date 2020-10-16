@@ -52,12 +52,22 @@
                 android:gravity="start"
                 android:text="Food Item"
                 android:textColor="@color/secondarycolor" />
-
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data"
+                android:layout_below="@id/food_txt_default"
+                android:textColor="@color/secondarycolor"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:id="@+id/client_package_detail_custom_food_empty_default"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/food_txt_default"
                 android:src="@drawable/arrow_down_white" />
+
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -85,6 +95,16 @@
                 android:gravity="start"
                 android:text="Services"
                 android:textColor="@color/secondarycolor" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data"
+                android:layout_below="@id/service_txt_default"
+                android:textColor="@color/secondarycolor"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:id="@+id/client_package_detail_custom_service_empty_default"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -119,7 +139,16 @@
                 android:gravity="start"
                 android:text="Venue"
                 android:textColor="@color/secondarycolor" />
-
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data"
+                android:layout_below="@id/venue_txt_default"
+                android:textColor="@color/secondarycolor"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:id="@+id/client_package_detail_custom_venue_empty_default"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,37 +165,8 @@
             app:layout_constraintTop_toBottomOf="@+id/venue_txt_relativeView" />
 
 
-        <RelativeLayout
-            android:id="@+id/date_txt_default_relativeView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/client_package_detail_default_venue_recyc">
-
-            <TextView
-                android:id="@+id/date_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Date"
-                android:textColor="@color/secondarycolor" />
 
 
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/date_txt_default_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/secondarycolor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_txt_default_relativeView" />
 
         <RelativeLayout
             android:id="@+id/price_txt_default_relativeView"
@@ -176,26 +176,29 @@
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_txt_default_relativeView">
+            app:layout_constraintTop_toBottomOf="@id/client_package_detail_default_venue_recyc">
 
             <TextView
                 android:id="@+id/price_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="Price"
+                android:text="Price (Rs:)"
                 android:textColor="@color/secondarycolor" />
 
 
         </RelativeLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+            android:elevation="8dp"
+            android:gravity="center_horizontal"
             android:id="@+id/price_txt_detail"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:padding="8dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:background="@color/colorPrimary"
             android:textColor="@color/secondarycolor"
+            android:text="12"
+            android:backgroundTint="@color/colorPrimaryLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/price_txt_default_relativeView" />
@@ -206,8 +209,8 @@
     app:layout_constraintTop_toBottomOf="@id/price_txt_detail"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:backgroundTint="@color/secondarycolor"
-    android:textColor="@color/colorPrimary"
+    android:backgroundTint="@color/colorPrimaryLight"
+    android:textColor="@color/secondarycolor"
     android:text="Select Date for Order"
     />
         <com.google.android.material.button.MaterialButton

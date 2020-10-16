@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@color/colorPrimary"
+tools:context=".client.ui.client_profile_view">
+
+<ProgressBar
+    android:id="@+id/client_profile_view_progressBar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="invisible"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<ImageView
+    android:id="@+id/client_view_cover_pic"
+    android:layout_width="match_parent"
+    android:layout_height="173dp"
+    android:scaleType="fitXY"
+    android:src="@mipmap/cover_photo"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/client_profile_view_pic"
+    android:layout_width="208dp"
+    android:layout_height="179dp"
+    android:layout_marginTop="96dp"
+
+    android:src="@mipmap/account_person"
+    app:layout_constraintEnd_toEndOf="@+id/client_view_cover_pic"
+    app:layout_constraintHorizontal_bias="0.497"
+    app:layout_constraintStart_toStartOf="@+id/client_view_cover_pic"
+    app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/client_profile_view_business_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="User Name"
+        android:textColor="@color/secondarycolor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/client_profile_view_pic"
+        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintStart_toStartOf="@+id/client_profile_view_pic"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_pic" />
+
+    <TextView
+        android:id="@+id/client_view_textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Call  "
+        android:textColor="@color/secondarycolor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/client_profile_view_order_icon"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="@+id/client_profile_view_order_icon"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_order_icon" />
+
+
+    <TextView
+        android:id="@+id/client_view_textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Add Friend"
+        android:textColor="@color/secondarycolor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/client_profile_view_followers_icon"
+        app:layout_constraintHorizontal_bias="0.361"
+        app:layout_constraintStart_toStartOf="@+id/client_profile_view_followers_icon"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_followers_icon" />
+
+    <TextView
+        android:id="@+id/client_view_textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Message"
+        android:textColor="@color/secondarycolor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/client_profile_view_msg_icon"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/client_profile_view_msg_icon"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_msg_icon" />
+
+
+    <ImageView
+        android:id="@+id/client_profile_view_order_icon"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
+        android:src="@drawable/video_call_white"
+        app:layout_constraintEnd_toStartOf="@+id/client_profile_view_followers_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_business_name" />
+
+    <ImageView
+        android:id="@+id/client_profile_view_followers_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_person_white"
+        app:layout_constraintStart_toEndOf="@+id/client_profile_view_order_icon"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_business_name" />
+
+    <ImageView
+        android:id="@+id/client_profile_view_msg_icon"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingEnd="32dp"
+        android:src="@drawable/ic_email_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/client_profile_view_followers_icon"
+        app:layout_constraintStart_toEndOf="@+id/client_profile_view_followers_icon"
+        app:layout_constraintTop_toBottomOf="@+id/client_profile_view_business_name" />
+<com.google.android.material.textview.MaterialTextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="About"
+    android:padding="2dp"
+    android:background="@color/colorPrimaryLight"
+    android:textColor="@color/secondarycolor"
+    android:gravity="center"
+
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/client_view_textView9"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginTop="16dp"
+    android:textSize="18sp"
+android:id="@+id/client_profile_view_about"
+    android:textStyle="bold"/>
+<com.google.android.material.textview.MaterialTextView
+    android:layout_width="wrap_content"
+    android:id="@+id/client_profile_view_about_email"
+    android:layout_height="wrap_content"
+    android:text="Email:"
+    app:layout_constraintTop_toBottomOf="@id/client_profile_view_about"
+    app:layout_constraintStart_toStartOf="parent"
+    android:textColor="@color/secondarycolor"
+    android:layout_marginTop="8dp"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:layout_marginStart="16dp"
+    />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/client_profile_view_about_emailTxt"
+        app:layout_constraintTop_toBottomOf="@id/client_profile_view_about_email"
+        app:layout_constraintStart_toEndOf="@id/client_profile_view_about_email"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/secondarycolor"
+        />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/client_profile_view_about_number"
+        android:layout_height="wrap_content"
+        android:text="Mobile Number: "
+        app:layout_constraintTop_toBottomOf="@id/client_profile_view_about_emailTxt"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:textColor="@color/secondarycolor"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/client_profile_view_about_numberTxt"
+        app:layout_constraintTop_toBottomOf="@id/client_profile_view_about_number"
+        app:layout_constraintStart_toEndOf="@id/client_profile_view_about_emailTxt"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/secondarycolor"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

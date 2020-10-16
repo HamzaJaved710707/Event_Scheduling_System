@@ -1,7 +1,6 @@
 package com.example.eventscheduling.eventorg.model;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class msgDetail_adapter extends FirestoreRecyclerAdapter<msgDetail_values, msgDetail_adapter.msgDetail_holder> {
 
     Context context;
-   FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public msgDetail_adapter(Context context, @NonNull FirestoreRecyclerOptions<msgDetail_values> options) {
         super(options);
@@ -34,22 +33,29 @@ public class msgDetail_adapter extends FirestoreRecyclerAdapter<msgDetail_values
     @Override
     protected void onBindViewHolder(@NonNull msgDetail_holder holder, int position, @NonNull msgDetail_values model) {
         String userID = "";
-        if(mAuth != null){
+        if (mAuth != null) {
             FirebaseUser current_user = mAuth.getCurrentUser();
-           userID  = current_user.getUid();
+            userID = current_user.getUid();
         }
 
+        holder.msgText.setText(model.getMessage());
         String model_user = model.getFrom();
         if (model_user.equals(userID)) {
-            holder.msgText.setText(model.getMessage());
-            Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            if (model.getImgUrl() == null) {
+                holder.userImg.setImageResource(R.mipmap.account_person);
+            } else {
+                Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            }
+            holder.layout.setForegroundGravity(Gravity.END);
         } else {
-            holder.msgText.setText(model.getMessage());
-            Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            if (model.getImgUrl() == null) {
+                holder.userImg.setImageResource(R.drawable.ic_person);
+            } else {
+                Glide.with(context).load(model.getImgUrl()).into(holder.userImg);
+            }
+            holder.msgText.setBackgroundResource(R.drawable.msg_detail_background_second);
             //holder.msgText.setBackgroundColor(Color.BLACK);
-           // holder.msgText.setTextColor(Color.BLUE);
-            holder.layout.setHorizontalGravity(Gravity.RIGHT);
-
+            // holder.msgText.setTextColor(Color.BLUE);
         }
     }
 
@@ -70,6 +76,7 @@ public class msgDetail_adapter extends FirestoreRecyclerAdapter<msgDetail_values
             msgText = itemView.findViewById(R.id.msgText_recyclerView);
             userImg = itemView.findViewById(R.id.img_msg_detail);
             layout = itemView.findViewById(R.id.msgdetail_layout);
+
         }
     }
 }

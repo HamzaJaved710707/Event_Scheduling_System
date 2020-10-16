@@ -1,10 +1,12 @@
 package com.example.eventscheduling.client.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -45,11 +48,18 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
     private List<client_orders_values> order_list = new ArrayList<>();
     private RecyclerView recyclerView;
     private client_orders_adapter orders_adapter;
-    private List<String> order_user_list = new ArrayList<>();
+    private ArrayList<String> order_user_list = new ArrayList<>();
     private ArrayList<String> packageList = new ArrayList<>();
+    private ProgressBar progressBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((client_home)getActivity()).selectTitleOfActionBar("Orders");
 
     }
 
@@ -59,6 +69,9 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_client_orders, container, false);
         currentUser = mAuth.getCurrentUser();
+        progressBar = view.findViewById(R.id.client_order_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         if(currentUser != null){
             currentUserID = currentUser.getUid();
             orderCollection = dbReference.document(currentUserID).collection("Orders");
@@ -76,15 +89,17 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 packageList.clear();
                 order_user_list.clear();
+                order_list.clear();
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     order_user_list.add(documentSnapshot.getString("to"));
                     packageList.add(documentSnapshot.getString("packageId"));
+
                 }
-                for(int i= 0 ; i<= order_user_list.size(); i++){
-                    dbReference.whereIn(FieldPath.documentId(), order_user_list).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                for(int i= 0 ; i< order_user_list.size(); i++){
+                    String value = order_user_list.get(i);
+                    dbReference.whereIn(FieldPath.documentId(), Collections.singletonList(value)).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            order_list.clear();
 
                             for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
                                 order_list.add(new client_orders_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"),"", "", ""));
@@ -92,10 +107,11 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
 
                             orders_adapter = new client_orders_adapter(view.getContext(), order_list);
                             recyclerView.setHasFixedSize(true);
-                            orders_adapter.setpackageList(packageList);
+                            orders_adapter.setpackageList(packageList, order_user_list);
                             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                             orders_adapter.setOnClick(client_orders.this::itemClick);
                             recyclerView.setAdapter(orders_adapter);
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -115,10 +131,11 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
 
 
     @Override
-    public void itemClick(String id) {
+    public void itemClick(String Packageid, String userId) {
       Bundle bundle = new Bundle();
-      bundle.putString("packageId", id);
+      bundle.putString("packageId", Packageid);
       bundle.putBoolean("orders", true);
+      bundle.putString("userId",userId);
         client_package_detail_custom frag = new client_package_detail_custom();
       frag.setArguments(bundle);
       getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag).addToBackStack(null).commit();

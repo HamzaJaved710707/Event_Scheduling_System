@@ -1,6 +1,7 @@
 package com.example.eventscheduling.eventorg.ui;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +40,7 @@ public class evntOrg_signUp extends AppCompatActivity {
     // Firebase FireStore
     CollectionReference userRef = FirebaseFirestore.getInstance().collection("Users");
     // Progress Dialog
-    ProgressDialog dialog;
+
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String currentUserID;
@@ -64,6 +67,8 @@ public class evntOrg_signUp extends AppCompatActivity {
     // Map to send data to firestore
     private Map userData;
 
+    private Dialog mOverlayDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,11 @@ public class evntOrg_signUp extends AppCompatActivity {
         // Initialize Firebase Auth
         //ProgressBar
         progressBar = findViewById(R.id.progBar_evnt_signUp1);
+        progressBar.setVisibility(View.INVISIBLE );
+        mOverlayDialog = new Dialog(evntOrg_signUp.this, android.R.style.Theme_Panel); //display an invisible overlay dialog to prevent user interaction and pressing back
+        mOverlayDialog.setCancelable(false);
+
+
         //Alert Dialog
         alertDialog = new AlertDialog.Builder(evntOrg_signUp.this);
         // Initialize business Category AutoComplete TextView
@@ -102,7 +112,7 @@ public class evntOrg_signUp extends AppCompatActivity {
         // Initialize firestore variables
         mAuth = FirebaseAuth.getInstance();
         // Progress Dialog
-        dialog = new ProgressDialog(evntOrg_signUp.this);
+
     }
 
 //Function to send registration data to server
@@ -111,29 +121,24 @@ public class evntOrg_signUp extends AppCompatActivity {
     private void processing() {
         Log.d(TAG, "processing:  is called ");
 
-            if (!dialog.isShowing()) {
-                dialog.show();
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
+            progressBar.setVisibility(View.VISIBLE);
+            mOverlayDialog.show();
             // TO disable the UI interaction while progress bar is shown on the screen
 
 
 
-        nameTxt = nameEdit.getText().toString();
-        emailTxt = email.getText().toString();
-        mobileNumberTxt = mobileNumber.getText().toString();
-        passwordTxt = password.getText().toString();
-        businessNameTxt = businessName.getText().toString();
-        businessCatTxt = busCat_AutoComp.getText().toString();
-        cityTxt = city.getText().toString();
+        nameTxt = nameEdit.getText().toString().trim();
+        emailTxt = email.getText().toString().trim();
+        mobileNumberTxt = mobileNumber.getText().toString().trim();
+        passwordTxt = password.getText().toString().trim();
+        businessNameTxt = businessName.getText().toString().trim();
+        businessCatTxt = busCat_AutoComp.getText().toString().trim();
+        cityTxt = city.getText().toString().trim();
         if (nameTxt.matches("") || emailTxt.matches("") || mobileNumberTxt.matches("")
                 || passwordTxt.matches("") || businessCatTxt.matches("") || cityTxt.matches("") || businessNameTxt.matches("")) {
             // Undefined error occurred
-            if (dialog.isShowing()) {
-                dialog.dismiss();
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-            }
+           progressBar.setVisibility(View.INVISIBLE);
+           mOverlayDialog.dismiss();
             alertDialog.setTitle("Undefined Error");
             alertDialog.setMessage("Enter your data first");
             alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -145,68 +150,71 @@ public class evntOrg_signUp extends AppCompatActivity {
             alertDialog.show();
 
         } else {
-            userData = new HashMap();
-            userData.put("Name", nameTxt);
-            userData.put("email", emailTxt);
-            userData.put("mobileNumber", mobileNumberTxt);
-            userData.put("password", passwordTxt);
-            userData.put("businessName", businessNameTxt);
-            userData.put("businessCat", businessCatTxt);
-            userData.put("isActive", true);
-            userData.put("type", 0);
-            mAuth.createUserWithEmailAndPassword(emailTxt, passwordTxt).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                // If user is sucessfully created
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
                 @Override
-                public void onSuccess(final AuthResult authResult) {
-                    // Get the user ID
-                    currentUser = authResult.getUser();
-                    // if user is not null
-                    if (currentUser != null) {
-                        currentUserID = currentUser.getUid();
-                        userData.put("id", currentUserID);
-                        // Add data about the user in firestore
-                        userRef.document(currentUserID).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // If all operations are successful then call main activity
-                                // Also pass the value of userId through intent
-                                if (dialog.isShowing()) {
-                                    dialog.dismiss();
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                }
-
-                                Intent intent = new Intent(evntOrg_signUp.this, evntOrg_home.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("ID", currentUserID);
-                                startActivity(intent);
-                            }
-                            // IF
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (dialog.isShowing()) {
-                                    dialog.dismiss();
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                }
-                                currentUser = authResult.getUser();
-                                currentUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    String tokenId = instanceIdResult.getToken();
+                    userData = new HashMap();
+                    userData.put("Name", nameTxt);
+                    userData.put("email", emailTxt);
+                    userData.put("mobileNumber", mobileNumberTxt);
+                    userData.put("password", passwordTxt);
+                    userData.put("businessName", businessNameTxt);
+                    userData.put("businessCat", businessCatTxt);
+                    userData.put("isActive", true);
+                    userData.put("type", 0);
+                    userData.put("tokenId", tokenId);
+                    mAuth.createUserWithEmailAndPassword(emailTxt, passwordTxt).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        // If user is sucessfully created
+                        @Override
+                        public void onSuccess(final AuthResult authResult) {
+                            // Get the user ID
+                            currentUser = authResult.getUser();
+                            // if user is not null
+                            if (currentUser != null) {
+                                currentUserID = currentUser.getUid();
+                                userData.put("id", currentUserID);
+                                // Add data about the user in firestore
+                                userRef.document(currentUserID).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        startActivity(new Intent(evntOrg_signUp.this, evntOrg_signIn.class));
-                                        Toast.makeText(evntOrg_signUp.this, "Try again...", Toast.LENGTH_SHORT).show();
+                                        // If all operations are successful then call main activity
+                                        // Also pass the value of userId through intent
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        mOverlayDialog.dismiss();
+
+                                        Intent intent = new Intent(evntOrg_signUp.this, evntOrg_home.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK & Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra("ID", currentUserID);
+                                        startActivity(intent);
                                     }
+                                    // IF
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        startActivity(new Intent(evntOrg_signUp.this, evntOrg_signIn.class));
-                                        Toast.makeText(evntOrg_signUp.this, "Try again", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        mOverlayDialog.dismiss();
+                                        currentUser = authResult.getUser();
+                                        currentUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                startActivity(new Intent(evntOrg_signUp.this, evntOrg_signIn.class));
+                                                Toast.makeText(evntOrg_signUp.this, "Try again...", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                startActivity(new Intent(evntOrg_signUp.this, evntOrg_signIn.class));
+                                                Toast.makeText(evntOrg_signUp.this, "Try again", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
                                 });
                             }
-                        });
-                    }
+                }
+            });
+
+
 
 
                 }
@@ -214,11 +222,8 @@ public class evntOrg_signUp extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                    }
+                    progressBar.setVisibility(View.INVISIBLE);
+                    mOverlayDialog.dismiss();
                     Log.d(TAG, "onFailure: " + e.getMessage());
                     /// Show alert dialog to show error message to the user
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(evntOrg_signUp.this);
@@ -235,7 +240,5 @@ public class evntOrg_signUp extends AppCompatActivity {
         }
     }
 
-    private void addUserData(String id) {
 
-    }
 }

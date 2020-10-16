@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,11 +22,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_values, friendList_Adapter.friendList_Holder> {
-    private onitemClickListener listener;
-    private Context context;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
+    private onitemClickListener listener;
+    private Context context;
     private String currentUserID;
+
     public friendList_Adapter(Context context, @NonNull FirestoreRecyclerOptions options) {
         super(options);
         this.context = context;
@@ -37,20 +37,30 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
     @Override
     protected void onBindViewHolder(@NonNull friendList_Holder holder, int position, @NonNull friendList_values model) {
 
-        if(currentUser != null){
-        if((currentUser.getEmail()).equals(model.getEmail())){
-            holder.item_layout.setVisibility(View.INVISIBLE);
-            return;
-        }
-        else{
+        if (currentUser != null) {
+            if ((currentUser.getEmail()).equals(model.getEmail())) {
+                holder.item_layout.setVisibility(View.INVISIBLE);
+                return;
+            } else {
+                if (model.getImgUrl() == null) {
+                    Glide.with(context).load(R.mipmap.account_person).into(holder.img);
 
-            holder.name.setText(model.getName());
-            Glide.with(context).load(model.getImgUrl()).into(holder.img);
-        }
+                } else {
+                    Glide.with(context).load(model.getImgUrl()).into(holder.img);
+                }
+
+                holder.name.setText(model.getName());
+
+            }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                listener.itemClick(model.getId(), model.getType());
+                }
+            });
         }
 
     }
-
 
 
     @NonNull
@@ -67,13 +77,13 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
 
     // Interface to implement onClickListener for recyclerView
     public interface onitemClickListener {
-        void itemClick(DocumentSnapshot documentSnapshot, int position);
+        void itemClick(String id, long type);
     }
 
     class friendList_Holder extends RecyclerView.ViewHolder {
         TextView name;
         CircleImageView img;
-        CardView  item_layout;
+        CardView item_layout;
 
         public friendList_Holder(@NonNull View itemView) {
             super(itemView);
@@ -81,17 +91,7 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
             img = itemView.findViewById(R.id.image_id_friendList);
             item_layout = itemView.findViewById(R.id.friendlist_item_id);
             // Add click listener to each of the recyclerview item
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int postion = getAdapterPosition();
-                    //Check weather item postion is null
-                    if (postion != RecyclerView.NO_POSITION && listener != null) {
-                        // Calling method of interface declared above
-                        listener.itemClick(getSnapshots().getSnapshot(postion), postion);
-                    }
-                }
-            });
+
         }
     }
 }

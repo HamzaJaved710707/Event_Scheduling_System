@@ -1,7 +1,10 @@
 package com.example.eventscheduling.eventorg.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.model.msgDetail_adapter;
 import com.example.eventscheduling.eventorg.util.msgDetail_values;
+import com.example.eventscheduling.util.VideoCallingActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,6 +44,7 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
     private DocumentReference chatUserDocRef;
     private DocumentReference currentUserDocRef;
     private String mChatUserId;
+    private String mChatUserTokenId;
     private ImageView sendView;
     private EditText messageWriteField;
     private ImageView addMessageImgView;
@@ -51,6 +56,7 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
     private LinearLayoutManager linearLayoutManager;
     private int value = 1;
     private String chatUserName;
+    private String currentUserName;
 
 
     @Override
@@ -62,6 +68,7 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
         mCurrentUserId = Objects.requireNonNull(mCurrentuser).getUid();
         // Get intent from Message Activity from document snapshot
         mChatUserId = getIntent().getStringExtra("chatId");
+        mChatUserTokenId = getIntent().getStringExtra("tokenId");
         // Initialize Views
         sendView = findViewById(R.id.messageSendImg);
         messageWriteField = findViewById(R.id.messageWriteEdt);
@@ -84,36 +91,70 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.message_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() ==R.id.video_btn_menu){
+            Intent intent = new Intent(evntOrg_MessageDetail.this, VideoCallingActivity.class);
+            intent.putExtra("userId", mChatUserId);
+            intent.putExtra("tokenId",mChatUserTokenId);
+            startActivity(intent);
+        }
+        return true;
+    }
+
     private void sendMessage() {
+
         Log.d(TAG, "Click on send button");
         String data = messageWriteField.getText().toString();
         data = data.trim();
         if (!data.matches("")) {
+            if(value == 1) {
+                user_collection.document(mCurrentUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        currentUserName = documentSnapshot.getString("Name");
+                        user_collection.document(mChatUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful() && task.getResult() != null) {
 
-
-                    user_collection.document(mChatUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful() && task.getResult() !=  null){
-                                if(value == 1) {
                                     chatUserName = task.getResult().getString("Name");
                                     Log.d(TAG, "onComplete: " + chatUserName);
                                     Map userData = new HashMap();
                                     userData.put("Name", chatUserName);
                                     userData.put("Id", mChatUserId);
-                                    userData.put("timeStamp", Timestamp.now());
+                                    userData.put("timeStamp", System.currentTimeMillis());
+                                    Map userData2 = new HashMap();
+                                    userData2.put("Name", currentUserName);
+                                    userData2.put("Id", mCurrentUserId);
+                                    userData2.put("timeStamp", System.currentTimeMillis());
                                     user_collection.document(mCurrentUserId).collection("conversation").document(mChatUserId).set(userData);
+                                    user_collection.document(mChatUserId).collection("conversation").document(mCurrentUserId).set(userData2);
                                     value++;
                                     messageWriteField.setText("");
+
                                 }
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: " + e.toString());
-                        }
-                    });
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: " + e.toString());
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
 
 
 
@@ -122,7 +163,7 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
             chatData.put("message", data);
             chatData.put("seen", false);
             chatData.put("from", mChatUserId);
-            chatData.put("timeStamp", Timestamp.now());
+            chatData.put("timeStamp", System.currentTimeMillis());
             chat_Collection_Reference.document(mCurrentUserId).collection(mChatUserId).document().set(chatData);
             chat_Collection_Reference.document(mChatUserId).collection(mCurrentUserId).document().set(chatData);
 
@@ -172,4 +213,5 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
         super.onStop();
         msg_adapter.stopListening();
     }
+
 }

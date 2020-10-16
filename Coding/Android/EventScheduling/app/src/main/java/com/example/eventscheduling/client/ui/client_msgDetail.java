@@ -17,6 +17,7 @@ import com.example.eventscheduling.client.util.client_msgDetail_values;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +52,7 @@ public class client_msgDetail extends AppCompatActivity implements View.OnClickL
     private int value = 1;
     private String chatUserName;
     private RecyclerView recyclerView;
-
+    private String currentUserName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,44 +123,57 @@ public class client_msgDetail extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "Click on send button");
         String data = messageWriteField.getText().toString();
         data = data.trim();
-        if (!data.matches("")) {
-
-
-            user_collection.document(mChatUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        if(value == 1) {
+            user_collection.document(mCurrentUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        if (value == 1) {
-                            chatUserName = task.getResult().getString("Name");
-                            Log.d(TAG, "onComplete: " + chatUserName);
-                            Map userData = new HashMap();
-                            userData.put("Name", chatUserName);
-                            userData.put("Id", mChatUserId);
-                          userData.put("timeStamp", Timestamp.now());
-                            user_collection.document(mCurrentUserId).collection("conversation").document(mChatUserId).set(userData);
-                            value++;
-                            messageWriteField.setText("");
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    currentUserName = documentSnapshot.getString("Name");
+                    user_collection.document(mChatUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+
+                                chatUserName = task.getResult().getString("Name");
+                                Log.d(TAG, "onComplete: " + chatUserName);
+                                Map userData = new HashMap();
+                                userData.put("Name", chatUserName);
+                                userData.put("Id", mChatUserId);
+                                userData.put("timeStamp", Timestamp.now());
+                                Map userData2 = new HashMap();
+                                userData2.put("Name", currentUserName);
+                                userData2.put("Id", mCurrentUserId);
+                                userData2.put("timeStamp",System.currentTimeMillis() );
+                                user_collection.document(mCurrentUserId).collection("conversation").document(mChatUserId).set(userData);
+                                user_collection.document(mChatUserId).collection("conversation").document(mCurrentUserId).set(userData2);
+                                value++;
+                                messageWriteField.setText("");
+
+                            }
                         }
-                    }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.toString());
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: " + e.toString());
+
                 }
             });
-
-
+        }
             Map chatData = new HashMap();
             chatData.put("message", data);
             chatData.put("seen", false);
             chatData.put("from", mChatUserId);
-           chatData.put("timeStamp", Timestamp.now());
+           chatData.put("timeStamp",System.currentTimeMillis());
             chat_Collection_Reference.document(mCurrentUserId).collection(mChatUserId).document().set(chatData);
             chat_Collection_Reference.document(mChatUserId).collection(mCurrentUserId).document().set(chatData);
 
 
-        }
+
     }
 
 

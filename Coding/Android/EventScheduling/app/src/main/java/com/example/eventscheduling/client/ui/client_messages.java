@@ -1,6 +1,7 @@
 package com.example.eventscheduling.client.ui;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class client_messages extends Fragment {
     private CollectionReference dbReference;
 private RecyclerView recyclerView;
 private Client_RecyclerAdptr_Msg adapter_message;
+private String backStack;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +66,8 @@ private Client_RecyclerAdptr_Msg adapter_message;
         floatingActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), client_friendList.class));
+                getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, new client_friendList()).addToBackStack(backStack).commit();
+
             }
         });
     }
@@ -95,6 +98,7 @@ private Client_RecyclerAdptr_Msg adapter_message;
     @Override
     public void onStart() {
         super.onStart();
+        ((client_home)getActivity()).selectTitleOfActionBar("Messages");
         adapter_message.startListening();
     }
 

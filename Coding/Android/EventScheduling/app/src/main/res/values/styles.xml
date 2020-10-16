@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="ratingBarStyleSmall">?android:attr/ratingBarStyleSmall</item>
         <item name="android:editTextColor">@color/colorPrimary</item>
-        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/secondarycolor</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
@@ -80,6 +80,17 @@
 <style name="buttonStyle" parent="TextAppearance.MaterialComponents.Button">
     <item name = "android:background">@android:color/holo_red_dark</item>
 </style>
+
+    <style name="sectionHeader"   parent="android:Widget.Holo.Light.TextView">
+        <item name="android:drawableBottom">@drawable/section_header</item>
+        <item name="android:drawableTop">@drawable/section_header</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
 
 

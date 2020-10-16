@@ -14,7 +14,8 @@
         android:layout_margin="10dp"
         android:iconifiedByDefault="true"
         android:queryHint="Click here to search"
-        android:searchIcon="@drawable/ic_search_white"
+        android:background="@color/secondarycolor"
+        android:searchIcon="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
         android:foregroundTint="@color/secondarycolor"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +62,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
+    <ProgressBar
+        android:theme="@style/ProgressBarStyle"
+        android:id="@+id/client_search_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

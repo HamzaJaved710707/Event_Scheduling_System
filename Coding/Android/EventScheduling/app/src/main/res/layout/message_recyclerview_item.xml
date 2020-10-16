@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id = "@+id/recycler_layout"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryLight"
         android:padding="4dp"
 
         >
@@ -40,17 +40,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
            />
-        <TextView
-        android:id="@+id/client_orders_txt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Line1"
-        android:layout_toEndOf="@+id/image_id_msg"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:textSize="10pt"
-        android:textColor="@android:color/white"
-        />
+
 
 
     </RelativeLayout>

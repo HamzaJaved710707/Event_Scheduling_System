@@ -54,7 +54,12 @@ public class client_friendList_Adapter extends RecyclerView.Adapter<client_frien
             holder.item_layout.setVisibility(View.INVISIBLE);
         } else {
             holder.name.setText(friendValues.get(position).getName());
-            Glide.with(context).load(friendValues.get(position).getImgUrl()).into(holder.img);
+            if(friendValues.get(position).getImgUrl() == null){
+                Glide.with(context).load(R.mipmap.account_person).into(holder.img);
+            }else{
+                Glide.with(context).load(friendValues.get(position).getImgUrl()).into(holder.img);
+            }
+
             holder.msgIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -70,6 +75,12 @@ public class client_friendList_Adapter extends RecyclerView.Adapter<client_frien
             });
 
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            onClick.onLayoutClick(friendValues.get(position).getId(), friendValues.get(position).getType());
+            }
+        });
 
 
     }
@@ -94,6 +105,7 @@ public class client_friendList_Adapter extends RecyclerView.Adapter<client_frien
         void onMsgIconClick(int position, String id);
 
         void onFriendIconClick(int position, String id);
+        void onLayoutClick(String id, long type);
     }
 
     class client_friendList_Holder extends RecyclerView.ViewHolder {

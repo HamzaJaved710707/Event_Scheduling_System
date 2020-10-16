@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class client_package_send_order extends Fragment implements client_send_package_adapter.OnItemClicked, Filter_Friend_Dialog.ExampleDialogListener {
     private static final String TAG = "package_send_order";
-    client_send_package_adapter friendList_adapter;
+    private client_send_package_adapter friendList_adapter;
     List<client_friendList_values> friendLists = new ArrayList<>();
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference dbReference = firebaseFirestore.collection("Users");
@@ -57,6 +57,7 @@ public class client_package_send_order extends Fragment implements client_send_p
     private CollectionReference receivingUser_order;
     private String date;
     private Boolean isDefaultPackage = false;
+    private String packageUser;
 
     public client_package_send_order() {
         // Required empty public constructor
@@ -80,7 +81,7 @@ public class client_package_send_order extends Fragment implements client_send_p
             packageId = getArguments().getString("packageId");
             date = getArguments().getString("date");
             isDefaultPackage = getArguments().getBoolean("isDefault");
-
+            packageUser = getArguments().getString("packageUser");
 
         recyclerView = view.findViewById(R.id.client_package_send_order_recylerview);
         setHasOptionsMenu(true);
@@ -103,6 +104,7 @@ public class client_package_send_order extends Fragment implements client_send_p
         order_data.put("to", id);
         order_data.put("status", 0);
         order_data.put("packageId", packageId);
+        order_data.put("packageUser", packageUser);
         if(isDefaultPackage){
             order_data.put("custom", false);
         }else {
@@ -167,29 +169,31 @@ public class client_package_send_order extends Fragment implements client_send_p
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     tempList.add(documentSnapshot.getString("id"));
                 }
-                dbReference.whereIn(FieldPath.documentId(), tempList).whereEqualTo("type", 0).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            friendLists.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"));
-                                friendLists.add(object);
+                if (tempList.size() != 0) {
+                    dbReference.whereIn(FieldPath.documentId(), tempList).whereEqualTo("type", 0).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                friendLists.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"), document.getLong("type"));
+                                    friendLists.add(object);
+                                }
+                                friendList_adapter = new client_send_package_adapter(getContext(), friendLists);
+
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                friendList_adapter.setOnClick(client_package_send_order.this);
+                                recyclerView.setAdapter(friendList_adapter);
+
+
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                            friendList_adapter = new client_send_package_adapter(getContext(), friendLists);
-
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            friendList_adapter.setOnClick(client_package_send_order.this);
-                            recyclerView.setAdapter(friendList_adapter);
-
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -219,9 +223,12 @@ public class client_package_send_order extends Fragment implements client_send_p
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 friendLists.clear();
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    client_friendList_values object = new client_friendList_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"), documentSnapshot.getString("id"));
+                    client_friendList_values object = new client_friendList_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"), documentSnapshot.getString("id"), documentSnapshot.getLong("type"));
                     friendLists.add(object);
                 }
+                friendList_adapter = new client_send_package_adapter(getContext(), friendLists);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 friendList_adapter.setOnClick(client_package_send_order.this);
 
@@ -230,6 +237,7 @@ public class client_package_send_order extends Fragment implements client_send_p
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, e.getMessage());
 
             }
         });

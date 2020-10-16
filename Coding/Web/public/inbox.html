@@ -1,171 +1,173 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-    crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+    <link rel="title icon" href="images/title-img.png">
+    <!--bootstrap CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!--fontawesome CDN-->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+    <!--google font CDN-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <!--link of external stylesheet-->
     <link rel="stylesheet" href="inbox.css">
-    <title>chat</title>
-  </head>
-  <body>
-    
-        <div class="container">
+
+    <style rel="stylesheet" type="text/css">
+        @keyframes progress {
+            0% {
+                clip-path: polygon(50% 50%, 50% 150%, 50% 150%, 50% 150%, 50% 150%, 50% 150%);
+            }
+            25% {
+                clip-path: polygon(50% 50%, -50% 50%, 50% 150%, 50% 150%, 50% 150%, 50% 150%);
+            }
+            50% {
+                clip-path: polygon(50% 50%, 50% -50%, -50% 50%, 50% 150%, 50% 150%, 50% 150%);
+            }
+            75% {
+                clip-path: polygon(50% 50%, 150% 50%, 50% -50%, -50% 50%, 50% 150%, 50% 150%);
+            }
+            100% {
+                clip-path: polygon(50% 50%, 50% 150%, 150% 50%, 50% -50%, -50% 50%, 50% 150%);
+            }
+        }
+        
+        .progress {
+            width: 7rem;
+            height: 7rem;
+            border: 1rem solid #5dc7fc;
+            box-sizing: border-box;
+            border-radius: 50%;
+            animation: progress 2s linear infinite;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            z-index: 1;
+            background: transparent;
+        }
+    </style>
+    <link rel="stylesheet" href="cute-alert.css" />
+</head>
+
+<body>
+    <!-- navbar main part -->
+    <nav class="navbar navbar-expand-md navbar-light">
+        <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#myNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- sidebar "appName adminName and Profile pic" profile/inbox/charts/tables/setting/documentation -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
+                        <a href="#" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border">EventSchedulingSystem</a>
+                        <div class="bottom-border pb-3">
+                            <img src="images/admin.jpeg" width="50" class="rounded-circle mr-3">
+                            <a href="#" class="text-white">Ahmed Jamal</a>
+                        </div>
+                        <ul class="navbar-nav flex-column mt-4">
+                            <li class="nav-item"><a href="dashboard.html" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
+                            <li class="nav-item"><a href="profile.html" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-user text-light fa-lg mr-3"></i>Profile</a></li>
+                            <li class="nav-item"><a href="inbox.html" class="nav-link text-white p-3 mb-2 current"><i class="fas fa-envelope text-light fa-lg mr-3"></i>Inbox</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-file-alt text-light fa-lg mr-3"></i>Documentation</a></li>
+                            <li class="nav-item nav-link text-white p-3 mb-2 sidebar-link" onClick="logOut()">Log Out</li>
+                        </ul>
+                    </div>
+                    <!-- end of sidebar -->
+
+                    <!-- top-nav Dashboard//search//-->
+                    <div class="col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 mx-auto" style="width:200px;">
+                                <h4 class="text-light text-uppercase mb-0">Inbox</h4>
+                            </div>
+                            <!--start of chat icon// bell icon// logout-->
+                            <div class="col-md-3">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item icon-parent"><a href="inbox.html" class="nav-link icon-bullet"><i class="fas fa-comments text-muted fa-lg"></i></a></li>
+                                    <li class="nav-item icon-parent"><a href="#" class="nav-link icon-bullet"><i class="fas fa-bell text-muted fa-lg"></i></a></li>
+                                    <li class="nav-item ml-md-auto"><a href="#" class="nav-link" data-toggle="modal" onClick="logOut()"><i class="fas fa-sign-out-alt text-danger fa-lg"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of top-nav -->
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
         <h3 class=" text-center">Messaging</h3>
         <div class="messaging">
-              <div class="inbox_msg">
+            <div class="inbox_msg">
                 <div class="inbox_people">
-                  <div class="headind_srch">
-                    <div class="recent_heading">
-                      <h4>Recent</h4>
-                    </div>
-                    <div class="srch_bar">
-                      <div class="stylish-input-group">
-                        <input type="text" class="search-bar"  placeholder="Search" >
-                        <span class="input-group-addon">
+                    <div class="headind_srch">
+                        <div class="recent_heading">
+                            <h4>Recent</h4>
+                        </div>
+                        <div class="srch_bar">
+                            <div class="stylish-input-group">
+                                <input type="text" class="search-bar" placeholder="Search" onClick="getUserCollection()">
+                                <span class="input-group-addon">
                         <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                         </span> </div>
-                    </div>
-                  </div>
-                  <div class="inbox_chat">
-                    <div class="chat_list active_chat">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Hamza Javed <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                          me.</p>
                         </div>
-                      </div>
                     </div>
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Talha Tarar <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                            me.</p>
-                        
-                        </div>
-                      </div>
+                    <div class="inbox_chat" id="contact_inbox_chat">
                     </div>
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Ahmed Jamal <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                            me.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Hamza Qamar <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                            me.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Talmeez haider <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                            me.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Zain Shah <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                            me.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <div class="chat_ib">
-                          <h5>Wajahat Saleem <span class="chat_date">Dec 25</span></h5>
-                          <p>Admin kindly help
-                            me.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div class="mesgs">
-                  <div class="msg_history">
-                    <div class="incoming_msg">
-                      <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                      <div class="received_msg">
-                        <div class="received_withd_msg">
-                          <p>Test which is a new approach to have all
-                            solutions</p>
-                          <span class="time_date"> 11:01 AM    |    June 9</span></div>
-                      </div>
-                    </div>
-                    <div class="outgoing_msg">
-                      <div class="sent_msg">
-                        <p>Test which is a new approach to have all
-                          solutions</p>
-                        <span class="time_date"> 11:01 AM    |    June 9</span> </div>
-                    </div>
-                    <div class="incoming_msg">
-                      <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                      <div class="received_msg">
-                        <div class="received_withd_msg">
-                          <p>Test, which is a new approach to have</p>
-                          <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
-                      </div>
-                    </div>
-                    <div class="outgoing_msg">
-                      <div class="sent_msg">
-                        <p>Apollo University, Delhi, India Test</p>
-                        <span class="time_date"> 11:01 AM    |    Today</span> </div>
-                    </div>
-                    <div class="incoming_msg">
-                      <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                      <div class="received_msg">
-                        <div class="received_withd_msg">
-                          <p>We work directly with our designers and suppliers,
-                            and sell direct to you, which means quality, exclusive
-                            products, at a price anyone can afford.</p>
-                          <span class="time_date"> 11:01 AM    |    Today</span></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="type_msg">
-                    <div class="input_msg_write">
-                      <input type="text" class="write_msg" placeholder="Type a message" />
-                      <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              
-              <p class="text-center top_spac"> Design by <a target="_blank" href="https://web.facebook.com/talha.tarar.1/">talha tarar</a></p>
-              
-            </body>
-            </html>
+                    <div class="msg_history" id="id_msg_history">
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  </body>
+
+                    </div>
+
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <input type="text" class="write_msg" id="type_msg_editText" laceholder="Type a message" />
+                            <button class="msg_send_btn" onClick="sendMessage()" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="progress" id="progress_id"></div>
+
+
+</body>
+
+</html>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="/__/firebase/7.21.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/7.21.1/firebase-analytics.js"></script>
+<script src="/__/firebase/7.21.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+<script src="inbox.js"></script>
+<script src="cute-alert.js">
+</script>
+</body>
+
 </html>

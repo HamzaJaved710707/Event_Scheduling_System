@@ -64,21 +64,11 @@ public class evntOrg_Portfolio_Pictures extends Fragment implements View.OnClick
     private FirebaseStorage frStorage;
     private StorageReference usersPicStorageRef;
     private Uri imageUri;
-
+private String id;
     public evntOrg_Portfolio_Pictures() {
         // Required empty public constructor
     }
 //// Get the type of extension of photo
-    public static String getMimeType(Uri uri) {
-        String type = null;
-        String url = uri.toString();
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        Log.d(TAG, "getMimeType: " + type);
-        return type;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,9 +78,17 @@ public class evntOrg_Portfolio_Pictures extends Fragment implements View.OnClick
         flt_btn = view.findViewById(R.id.evnt_portfolio_pictures_flt_Btn);
         flt_btn.setOnClickListener(this);
         currentUser = mAuth.getCurrentUser();
+        assert getArguments() != null;
+        id = getArguments().getString("id");
         // checking whether user is null or not
         if (currentUser != null) {
-            userID = currentUser.getUid();
+            if(id == null){
+                userID = currentUser.getUid();
+            }
+            else{
+                userID = id;
+            }
+
         }
         firestore = FirebaseFirestore.getInstance();
         frStorage = FirebaseStorage.getInstance();
@@ -117,6 +115,7 @@ public class evntOrg_Portfolio_Pictures extends Fragment implements View.OnClick
 
     public void initPictures(final View view) {
         Log.d(TAG, "initPictures: ");
+        arrayList.clear();
         user_picture_collection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -148,7 +147,7 @@ public class evntOrg_Portfolio_Pictures extends Fragment implements View.OnClick
                 String[] colors = {"Camera", "Gallery"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Pick a color");
+                builder.setTitle("Select Picture");
                 builder.setItems(colors, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -180,7 +179,7 @@ public class evntOrg_Portfolio_Pictures extends Fragment implements View.OnClick
         if ((requestCode == PIC_CAMERA_REQ || requestCode == GALLERY_REQ) && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             // Creating the reference of the image
-            usersPicStorageRef.child(System.currentTimeMillis() + "." + getMimeType(imageUri)).putFile(imageUri)
+            usersPicStorageRef.child(Long.toString(System.currentTimeMillis())).putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

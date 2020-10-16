@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id = "@+id/recycler_layout_friendList"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryLight"
         android:padding="2dp"
 
         >

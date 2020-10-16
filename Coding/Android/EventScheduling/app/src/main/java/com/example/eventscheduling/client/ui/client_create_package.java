@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -29,7 +30,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.ar.sceneform.SceneView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -56,7 +56,6 @@ import static android.graphics.Color.RED;
 
 public class client_create_package extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    SceneView model3D;
     RecyclerView food_item_recyclerView;
     RecyclerView services_item_recyclerView;
     RecyclerView venue_item_recyclerView;
@@ -98,6 +97,7 @@ public class client_create_package extends Fragment implements View.OnClickListe
     private MaterialButton data_picker_btn;
     private DocumentReference packageRef;
     private Calendar myCalendar ;
+    private ProgressBar progressBar;
  // Date checker boolean
     private Boolean dateChecker = false;
 
@@ -123,6 +123,8 @@ public class client_create_package extends Fragment implements View.OnClickListe
         food_batch = firebaseFirestore.batch();
         service_batch = firebaseFirestore.batch();
         venue_batch = firebaseFirestore.batch();
+        progressBar = view.findViewById(R.id.client_create_package_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         // Progress Dialog
         progressDialog = new ProgressDialog(getContext());
         // counter to check user can only add one venue item
@@ -259,6 +261,7 @@ public class client_create_package extends Fragment implements View.OnClickListe
         venue_item_adapter = new create_venue_package_adapter(getContext(), firestoreRecyclerOptions);
         venue_item_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         venue_item_recyclerView.setAdapter(venue_item_adapter);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

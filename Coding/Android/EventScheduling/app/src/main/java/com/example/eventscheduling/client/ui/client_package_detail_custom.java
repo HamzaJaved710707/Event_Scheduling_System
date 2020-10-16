@@ -15,6 +15,7 @@ import com.example.eventscheduling.client.model.client_package_detail_adapter;
 import com.example.eventscheduling.client.util.client_package_detail_values;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -59,7 +60,9 @@ public class client_package_detail_custom extends Fragment {
     private Boolean checkFrag= false;
     private MaterialButton cancelBtn;
     private String packageUser;
-
+    private MaterialTextView empty_foodTxtview;
+private MaterialTextView empty_serviceTxtView;
+private MaterialTextView empty_venueTxtView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +86,10 @@ public class client_package_detail_custom extends Fragment {
             venue_recyclerview = view.findViewById(R.id.client_package_detail_venue_recyc);
             cancelBtn = view.findViewById(R.id.client_package_detail_cancel_btn);
             dateTExtview = view.findViewById(R.id.date_txt_detail);
+            empty_foodTxtview = view.findViewById(R.id.client_package_detail_custom_food_empty);
+            empty_serviceTxtView = view.findViewById(R.id.client_package_detail_custom_service_empty);
+            empty_venueTxtView = view.findViewById(R.id.client_package_detail_custom_venue_empty);
+
             setHasOptionsMenu(true);
             currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
@@ -124,10 +131,6 @@ public class client_package_detail_custom extends Fragment {
         return view;
     }
 
-    private void init_Default_Recyclerview() {
-
-
-    }
 
     private void initialize_RecyclerView() {
         customCollection.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -137,6 +140,15 @@ public class client_package_detail_custom extends Fragment {
                 serviceList = (ArrayList<String>) documentSnapshot.get("Services");
                 venueList = (ArrayList<String>) documentSnapshot.get("Venue");
                 date = documentSnapshot.getString("date");
+             if(foodList == null){
+                 empty_foodTxtview.setVisibility(View.VISIBLE);
+             }
+              if(serviceList == null){
+                  empty_serviceTxtView.setVisibility(View.VISIBLE);
+              }
+              if(venueList == null){
+                  empty_venueTxtView.setVisibility(View.VISIBLE);
+              }
                 food_detail_adapter = new client_package_detail_adapter(getContext(), foodList);
                 service_detail_adapter = new client_package_detail_adapter(getContext(), serviceList);
                 venue_detail_adapter = new client_package_detail_adapter(getContext(), venueList);

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.ui.client_package_detail_default;
 import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Packages;
 import com.example.eventscheduling.eventorg.util.PackagesValues;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -102,7 +103,12 @@ private ProgressBar progressBar;
     }
 
     @Override
-    public void onDetailButtonClick() {
-getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evntOrg_Package_detail()).addToBackStack(null).commit();
+    public void onDetailButtonClick(String userId, String packageId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("userId", userId);
+        bundle.putString("packageId",  packageId);
+        client_package_detail_default  frag = new client_package_detail_default();
+        frag.setArguments(bundle);
+getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id,frag).addToBackStack(null).commit();
     }
 }

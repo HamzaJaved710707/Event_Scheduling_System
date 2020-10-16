@@ -1,13 +1,16 @@
 package com.example.eventscheduling.client.ui;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -55,7 +58,7 @@ public class client_search extends Fragment implements  client_friendList_Adapte
     private String searchTXt;
     private RecyclerView recyclerView;
 private RadioGroup radioGroup;
-
+private ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,7 +75,9 @@ private RadioGroup radioGroup;
             recyclerView = view.findViewById(R.id.client_search_reyclerview);
 
         }
+        progressBar = view.findViewById(R.id.client_search_progressBar);
 searchView = view.findViewById(R.id.searchview_client);
+
         friendList_adapter = new client_friendList_Adapter(getContext(), friendLists);
 
         // For changing the color of search icon in searchview
@@ -91,7 +96,8 @@ searchView = view.findViewById(R.id.searchview_client);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                checkBtnId(radioGroup.getCheckedRadioButtonId(), query);
+                progressBar.setVisibility(View.VISIBLE);
+                checkBtnId(radioGroup.getCheckedRadioButtonId(), query.trim());
 
                 Log.d(TAG, "onQueryTextSubmit: " + query);
                 return true;
@@ -136,7 +142,7 @@ searchView = view.findViewById(R.id.searchview_client);
                                 friendLists.clear();
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
-                                    client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"));
+                                    client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"), document.getLong("type"));
                                     friendLists.add(object);
                                 }
                                 friendList_adapter = new client_friendList_Adapter(getContext(), friendLists);
@@ -144,13 +150,19 @@ searchView = view.findViewById(R.id.searchview_client);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                 friendList_adapter.setOnClick(client_search.this);
                                 recyclerView.setAdapter(friendList_adapter);
-
+                                progressBar.setVisibility(View.INVISIBLE);
 
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                         }
                     });
+                }
+                else{
+                    Toast.makeText(getContext(), "No such record found... Try with different query", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+
                 }
 
             }
@@ -182,7 +194,7 @@ searchView = view.findViewById(R.id.searchview_client);
                                 friendLists.clear();
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
-                                    client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"));
+                                    client_friendList_values object = new client_friendList_values(document.getString("Name"), document.getString("imgUrl"), document.getString("id"), document.getLong("type"));
                                     friendLists.add(object);
                                 }
                                 friendList_adapter = new client_friendList_Adapter(getContext(), friendLists);
@@ -190,7 +202,7 @@ searchView = view.findViewById(R.id.searchview_client);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                                 friendList_adapter.setOnClick(client_search.this);
                                 recyclerView.setAdapter(friendList_adapter);
-
+                                progressBar.setVisibility(View.INVISIBLE);
 
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -215,6 +227,11 @@ searchView = view.findViewById(R.id.searchview_client);
 
     @Override
     public void onFriendIconClick(int position, String id) {
+
+    }
+
+    @Override
+    public void onLayoutClick(String id, long type) {
 
     }
 }

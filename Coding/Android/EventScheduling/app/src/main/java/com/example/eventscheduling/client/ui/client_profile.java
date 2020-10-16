@@ -1,14 +1,12 @@
 package com.example.eventscheduling.client.ui;
 
 
+import android.app.ActionBar;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -17,12 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.eventorg.ui.evntOrg_profile;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,18 +40,14 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class client_profile extends Fragment {
-
-
-    public client_profile() {
-        // Required empty public constructor
-    }
+public class client_profile extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "client_profile";
     // Request code used to show popup menu when profile picture is clicked long
@@ -67,7 +65,40 @@ public class client_profile extends Fragment {
     private FirebaseStorage frStorage;
     private StorageReference usersPicStorageRef;
     private Uri imageUri;
+    private ProgressBar progressBar;
+    private Dialog mOverlayDialog;
+    private String addToStackString;
+    private ImageView order_image;
+    private ImageView friend_image;
+    private ImageView message_image;
 
+    public client_profile() {
+        // Required empty public constructor
+    }
+
+
+    /// Implements ONClick listener
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.client_profile_order_icon:
+
+                getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, new client_orders()).addToBackStack(addToStackString).commit();
+
+                break;
+            case R.id.client_profile_followers_icon:
+                getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, new client_friendList()).addToBackStack(addToStackString).commit();
+
+                break;
+            case R.id.client_profile_msg_icon:
+                getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, new client_messages()).addToBackStack(addToStackString).commit();
+
+                break;
+            default:
+                return;
+
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,11 +107,21 @@ public class client_profile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_client_profile, container, false);
         client_profile_photo = view.findViewById(R.id.client_profile_pic);
         client_cover_photo = view.findViewById(R.id.client_cover_pic);
+        progressBar = view.findViewById(R.id.client_profile_progressBar);
+        mOverlayDialog = new Dialog(view.getContext(), android.R.style.Theme_Panel); //display an invisible overlay dialog to prevent user interaction and pressing back
+        mOverlayDialog.setCancelable(false);
+        mOverlayDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
         // Business Name Textview
         userName = view.findViewById(R.id.client_profile_business_name);
         registerForContextMenu(client_cover_photo);
         registerForContextMenu(client_profile_photo);
-
+        friend_image = view.findViewById(R.id.client_profile_followers_icon);
+        friend_image.setOnClickListener(this);
+        order_image = view.findViewById(R.id.client_profile_order_icon);
+        order_image.setOnClickListener(this);
+        message_image = view.findViewById(R.id.client_profile_msg_icon);
+        message_image.setOnClickListener(this);
         currentUser = mAuth.getCurrentUser();
         // checking whether user is null or not
         if (currentUser != null) {
@@ -92,25 +133,14 @@ public class client_profile extends Fragment {
         // Where 2 means Uploads or Portfolio data
         user_Profile_Ref = firestore.collection("Users");
         userRef = firestore.collection("Users").document(userID);
-
+        loadData(view);
 
         return view;
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        loadData();
-    }
-
+// When user long press the profile image context menu will be shown
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -125,6 +155,7 @@ public class client_profile extends Fragment {
         }
     }
 
+// Open camera or gallery to choose picture for profile of user
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -143,7 +174,7 @@ public class client_profile extends Fragment {
 
         }
     }
-
+// When user select some file from gallery or camera result ... then this method will be called
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -194,19 +225,37 @@ public class client_profile extends Fragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((client_home)getActivity()).selectTitleOfActionBar("Profile");
+
+    }
 
 
-    private void loadData() {
+
+    // Automatically display data when this activity loads
+    private void loadData(View view) {
         user_Profile_Ref.document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                 String link = documentSnapshot.getString("imgUrl");
-                Glide.with(client_profile.this).load(link).into(client_profile_photo);
+                if(link != null){
+                    Glide.with(client_profile.this).load(link).into(client_profile_photo);
+                }
+                else{
+                    Glide.with(client_profile.this).load(R.mipmap.account_person).into(client_profile_photo);
+                }
+
                 userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String businessName = documentSnapshot.getString("Name");
                         userName.setText(businessName);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        mOverlayDialog.dismiss();
+
                     }
                 });
             }
@@ -214,21 +263,6 @@ public class client_profile extends Fragment {
 
     }
 
-    // Portfolio icon click handler
-    private void Order_onClick(View view) {
-        Toast.makeText(getContext(), "Order icon is clicked", Toast.LENGTH_SHORT).show();
-    }
 
-    // Followers icon click handler
-    private void Friend_OnClick(View view) {
-        Toast.makeText(getContext(), "Followers icon is clicked", Toast.LENGTH_SHORT).show();
-
-    }
-
-    // Message Icon click handler
-    private void Msg_onClick(View view) {
-        Toast.makeText(getContext(), "Message icon is clicked", Toast.LENGTH_SHORT).show();
-
-    }
 
 }

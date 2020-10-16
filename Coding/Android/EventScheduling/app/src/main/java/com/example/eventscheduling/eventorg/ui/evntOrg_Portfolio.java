@@ -19,8 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 public class evntOrg_Portfolio extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
-    PagerAdapter pagerAdapter;
-    Toolbar toolbar;
+String id;
     TabItem videoTab;
     TabItem pictureTab;
     @Override
@@ -36,9 +35,10 @@ public class evntOrg_Portfolio extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewPager = view.findViewById(R.id.viewPager_id);
         tabLayout = view.findViewById(R.id.tabLayout_id);
+        id = getArguments().getString("id");
         videoTab = view.findViewById(R.id.tab_videos);
         pictureTab = view.findViewById(R.id.tab_pictures);
-        ViewPager_Adpt_Portfolio viewPage_adpt = new ViewPager_Adpt_Portfolio(getChildFragmentManager(),tabLayout.getTabCount());
+        ViewPager_Adpt_Portfolio viewPage_adpt = new ViewPager_Adpt_Portfolio(getChildFragmentManager(),tabLayout.getTabCount(), id);
         viewPager.setAdapter(viewPage_adpt);
         tabLayout.setupWithViewPager(viewPager);
         setUpText();
@@ -46,6 +46,12 @@ public class evntOrg_Portfolio extends Fragment {
     public void setUpText(){
         tabLayout.getTabAt(0).setText("Pictures");
         tabLayout.getTabAt(1).setText("Videos");
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((evntOrg_home)getActivity()).setTitleActionBar("Portfolio");
 
     }
 

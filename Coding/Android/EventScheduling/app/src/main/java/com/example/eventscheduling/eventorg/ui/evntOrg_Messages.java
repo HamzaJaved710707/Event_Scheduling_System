@@ -34,6 +34,7 @@ public class evntOrg_Messages extends Fragment{
     private FloatingActionButton floatingActionBtn;
     private RecyclerView_Adapter_Message adapter_message;
     private RecyclerView recyclerView;
+    private String addBackStack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +46,7 @@ public class evntOrg_Messages extends Fragment{
         floatingActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), evntOrg_friend_list.class));
+               getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evntOrg_friend_list()).addToBackStack(addBackStack).commit();
             }
         });
         mAuth = FirebaseAuth.getInstance();
@@ -55,6 +56,7 @@ public class evntOrg_Messages extends Fragment{
         initRecyclerView(rootview);
         return rootview;
     }
+
 
     private void initRecyclerView(View rootview) {
         Log.d(TAG, "initRecyclerView: start");
@@ -71,8 +73,10 @@ public class evntOrg_Messages extends Fragment{
             @Override
             public void itemClickListener(DocumentSnapshot documentSnapshot, int position) {
                 String chatUserId = documentSnapshot.getId();
+                String tokenId = documentSnapshot.getString("tokenId");
                 Intent intent = new Intent(getContext(), evntOrg_MessageDetail.class);
                 intent.putExtra("chatId", chatUserId);
+                intent.putExtra("tokenId", tokenId);
                 startActivity(intent);
             }
         });
@@ -82,6 +86,7 @@ public class evntOrg_Messages extends Fragment{
     public void onStart() {
         Log.d(TAG, "onStart: ");
         super.onStart();
+        ((evntOrg_home)getActivity()).setTitleActionBar("Messages");
         adapter_message.startListening();
     }
 

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -36,9 +37,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
-   implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -54,21 +56,20 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
     //Stylable Toast
-    implementation 'com.muddzdev:styleabletoast:2.2.3'
+    implementation 'com.muddzdev:styleabletoast:2.2.4'
 
     // GraphView dependency
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    // Volley library
-    implementation 'com.android.volley:volley:1.1.1'
 
 // Firebase dependencies
     implementation 'com.google.firebase:firebase-storage:19.1.0'
 
-   implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
-   implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
-
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
     implementation 'com.google.firebase:firebase-functions:19.0.0'
 
     //Exo player
@@ -76,10 +77,13 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
 
-    ///SceneForm
+    ///Agora.io
+    implementation 'io.agora.rtc:full-sdk:3.1.2'
 
 
-    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.15.0"
     // Material CalenderView Library
     implementation 'com.applandeo:material-calendar-view:1.7.0'
+
+// Check EditText wether empty or not
+    compile 'com.github.shree-vastava:ValidUtil:v1.0'
 }

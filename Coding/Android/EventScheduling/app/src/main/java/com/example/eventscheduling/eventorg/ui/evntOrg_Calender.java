@@ -1,5 +1,6 @@
 package com.example.eventscheduling.eventorg.ui;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -55,11 +57,20 @@ public class evntOrg_Calender extends Fragment {
     private String currentUserId;
     private FirebaseAuth mAuth;
     private CollectionReference orderCollection;
+    private ProgressBar progressBar;
+    private Dialog mOverDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_evnt_org__calender, container, false);
+        progressBar = view.findViewById(R.id.evntOrg_calendar_progressBar);
+        mOverDialog = new Dialog(view.getContext(), android.R.style.Theme_Panel);
+        mOverDialog.setCancelable(false);
+
+        progressBar.setVisibility(View.VISIBLE);
+        mOverDialog.show();
+
         calendarView = view.findViewById(R.id.calender_view);
         mAuth = FirebaseAuth.getInstance() ;
         currentUser = mAuth.getCurrentUser();
@@ -132,6 +143,9 @@ public class evntOrg_Calender extends Fragment {
         }
 
         calendarView.setEvents(eventDay);
+        progressBar.setVisibility(View.INVISIBLE);
+        mOverDialog.dismiss();
+
 
     }
 }

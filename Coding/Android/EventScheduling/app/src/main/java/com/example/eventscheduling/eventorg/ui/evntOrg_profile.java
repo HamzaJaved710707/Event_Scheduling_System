@@ -1,6 +1,7 @@
 package com.example.eventscheduling.eventorg.ui;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ import java.util.Map;
 import static android.app.Activity.RESULT_OK;
 
 
-public class evntOrg_profile extends Fragment {
+public class evntOrg_profile extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "evntOrg_profile";
     // Request code used to show popup menu when profile picture is clicked long
@@ -59,6 +60,11 @@ public class evntOrg_profile extends Fragment {
     private StorageReference usersPicStorageRef;
     private Uri imageUri;
     private ProgressBar progressBar;
+    private Dialog mOverlayDialog;
+    private String addToStackString;
+    private ImageView followers_image;
+    private ImageView messages_image;
+    private ImageView portfolio_image;
     public evntOrg_profile() {
         // Required empty public constructor
     }
@@ -75,9 +81,17 @@ public class evntOrg_profile extends Fragment {
         business_name_txtView = view.findViewById(R.id.evnt_profile_business_name);
         registerForContextMenu(cover_photo);
         registerForContextMenu(profile_photo);
+        portfolio_image = view.findViewById(R.id.evntOrg_profile_portfolio_icon);
+        portfolio_image.setOnClickListener(this);
+        messages_image = view.findViewById(R.id.evntOrg_profile_msg_icon);
+        messages_image.setOnClickListener(this);
+        followers_image = view.findViewById(R.id.evntOrg_profile_followers_icon);
+        followers_image.setOnClickListener(this);
         progressBar = view.findViewById(R.id.evntOrg_profile_progressBar);
         progressBar.setVisibility(View.VISIBLE);
-
+        mOverlayDialog = new Dialog(view.getContext(), android.R.style.Theme_Panel); //display an invisible overlay dialog to prevent user interaction and pressing back
+        mOverlayDialog.setCancelable(false);
+        mOverlayDialog.show();
         currentUser = mAuth.getCurrentUser();
         // checking whether user is null or not
         if (currentUser != null) {
@@ -151,6 +165,7 @@ public class evntOrg_profile extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        ((evntOrg_home)getActivity()).setTitleActionBar("Profile");
         loadData();
     }
 
@@ -205,7 +220,7 @@ public class evntOrg_profile extends Fragment {
                                     String uri_download = uri.toString();
                                     Map data = new HashMap();
                                     data.put("imgUrl", uri_download);
-                                    user_Profile_Ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    user_Profile_Ref.update("imgUrl", uri_download).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(getContext(), "Upload Sucessfull", Toast.LENGTH_SHORT).show();
@@ -242,13 +257,19 @@ public class evntOrg_profile extends Fragment {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String link = documentSnapshot.getString("imgUrl");
-                Glide.with(evntOrg_profile.this).load(link).into(profile_photo);
+                if(link != null){
+                    Glide.with(evntOrg_profile.this).load(link).into(profile_photo);
+                }else{
+                    Glide.with(evntOrg_profile.this).load(R.mipmap.account_person).into(profile_photo);
+                }
+
                 userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String businessName = documentSnapshot.getString("businessName");
                         business_name_txtView.setText(businessName);
                         progressBar.setVisibility(View.INVISIBLE);
+                        mOverlayDialog.dismiss();
                     }
                 });
             }
@@ -256,21 +277,24 @@ public class evntOrg_profile extends Fragment {
 
     }
 
-    // Portfolio icon click handler
-    private void Portfolio_onClick(View view) {
-        Toast.makeText(getContext(), "Portfolio icon is clicked", Toast.LENGTH_SHORT).show();
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.evntOrg_profile_followers_icon:
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evntOrg_friend_list()).addToBackStack(addToStackString).commit();
+
+                break;
+            case R.id.evntOrg_profile_msg_icon:
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evntOrg_Messages()).addToBackStack(addToStackString).commit();
+
+                break;
+            case R.id.evntOrg_profile_portfolio_icon:
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new evntOrg_Portfolio()).addToBackStack(addToStackString).commit();
+
+                break;
+            default:
+                return;
+        }
     }
-
-    // Followers icon click handler
-    private void Followers_onClick(View view) {
-        Toast.makeText(getContext(), "Followers icon is clicked", Toast.LENGTH_SHORT).show();
-
-    }
-
-    // Message Icon click handler
-    private void Msg_onClick(View view) {
-        Toast.makeText(getContext(), "Message icon is clicked", Toast.LENGTH_SHORT).show();
-
-    }
-
 }
