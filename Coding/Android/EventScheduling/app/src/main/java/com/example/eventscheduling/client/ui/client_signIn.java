@@ -115,16 +115,7 @@ public class client_signIn extends BaseActivity implements SinchService.StartFai
                                                                 mOverlayDialog.dismiss();
                                                                 startActivity(new Intent(client_signIn.this, client_home.class));
                                                                 finish();
-                                                                if (!currentUserId.equals(getSinchServiceInterface().getUserName())) {
-                                                                    getSinchServiceInterface().stopClient();
-                                                                }
 
-                                                                if (!getSinchServiceInterface().isStarted()) {
-                                                                    getSinchServiceInterface().startClient(currentUserId);
-
-                                                                } else {
-                                                                    openPlaceCallActivity();
-                                                                }
                                                             }
                                                             else{
                                                                 progressDialog.dismiss();
@@ -184,7 +175,7 @@ mOverlayDialog.dismiss();
 
     @Override
     public void onStartFailed(SinchError error) {
-        
+
     }
 
     @Override

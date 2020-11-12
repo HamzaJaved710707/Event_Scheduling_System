@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
@@ -29,6 +30,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.ui.client_packages_frag;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -924,22 +926,39 @@ mOverlayDialog.dismiss();
                     String businessName = documentSnapshot.getString("businessName");
                     Map data = new HashMap();
                     data.clear();
-                    data.put("image", uri_download);
+
                     data.put("PackageName", PackageName);
-                    data.put("Services", new_items_service);
-                    data.put("Food", new_items_food);
-                    data.put("price", price);
-                    data.put("businessName", businessName);
-                    data.put("id", doc_ref);
-                    data.put("custom", false);
-                    data.put("userId", currentUserID);
-                    data.put("venue",new_items_venue);
+
                     packageReference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(getContext(), "Package Successfully Created", Toast.LENGTH_SHORT).show();
+                            data.clear();
+                            doc_ref = documentReference.getId();
+                            data.put("image", uri_download);
+                            data.put("Services", new_items_service);
+                            data.put("Food", new_items_food);
+                            data.put("price", price);
+                            data.put("businessName", businessName);
+                            data.put("id", doc_ref);
+                            data.put("custom", false);
+                            data.put("userId", currentUserID);
+                            data.put("venue",new_items_venue);
                             progressBar.setVisibility(View.INVISIBLE);
                             mOverlayDialog.dismiss();
+                            packageReference.document(documentReference.getId()).update(data).addOnSuccessListener(new OnSuccessListener() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    Toast.makeText(getContext(), "Package Created Successfully", Toast.LENGTH_SHORT).show();
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, new client_packages_frag()).addToBackStack(null).commit();
+                                        }
+                                    },2000);
+                                }
+                            });
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {

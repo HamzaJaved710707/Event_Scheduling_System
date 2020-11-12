@@ -192,9 +192,8 @@ public class client_profile extends Fragment implements View.OnClickListener {
                                 public void onSuccess(Uri uri) {
                                     Log.d(TAG, "onSuccess: " + uri);
                                     String uri_download = uri.toString();
-                                    Map data = new HashMap();
-                                    data.put("imgUrl", uri_download);
-                                    user_Profile_Ref.document(userID).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                    user_Profile_Ref.document(userID).update("imgUrl",uri_download).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(getContext(), "Upload Sucessfull", Toast.LENGTH_SHORT).show();
