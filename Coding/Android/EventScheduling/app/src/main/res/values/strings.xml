@@ -124,9 +124,11 @@
         <item>Man Service</item>
         <item>Extra</item>
     </array>
-
+<string-array name="evnt_service">
+</string-array>
     <string name="agora_app_id">be47ee1a77524580b5fd5976be3f91e1</string>
-
+    <string name="no_data">No Data</string>
+    <string name="addToBackStack"></string>
 </resources>
 
 

@@ -65,7 +65,9 @@ public class msgDetail_adapter extends FirestoreRecyclerAdapter<msgDetail_values
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.msgdetail_item, parent, false);
         return new msgDetail_holder(view);
     }
-
+public void item_delete_swap(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+}
     class msgDetail_holder extends RecyclerView.ViewHolder {
         TextView msgText;
         ImageView userImg;

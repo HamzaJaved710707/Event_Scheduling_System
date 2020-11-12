@@ -7,7 +7,13 @@
     <color name="colorAccent">#D81B60</color>
     <color name="secondarycolor">#FFFFFF</color>
     <color name="tabLayout_color1">#16C0B2</color>
+    <color name="calender_pending_clr">#FFB41F</color>
 
-
-
+<!--Rating dialog color-->
+    <color name="starColor">#45b9ad</color>
+    <color name="noteDescriptionTextColor">#45b9ad</color>
+    <color name="titleTextColor">#FFFFFF</color>
+    <color name="descriptionTextColor">#A6FFFFFF</color>
+    <color name="commentTextColor">#FFFFFF</color>
+    <color name="hintTextColor">#55000000</color>
 </resources>

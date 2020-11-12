@@ -15,17 +15,25 @@ window.onload = function() {
         .get()
         .then(function(querySnapshot) {
             var htmlValue = '';
+            var counter = 0;
             querySnapshot.forEach(function(doc) {
-
+                counter++;
                 var val = doc.data();
-                htmlValue += '<tr >';
-                htmlValue += '<th>' + val.id + '</th>';
+                htmlValue += '<tr>';
+                htmlValue += '<th>' + counter + '</th>';
                 htmlValue += '<td>' + val.Name + '</td>';
                 htmlValue += '<td>' + 'Service Provider' + '</td>';
-
+                htmlValue += ' <td  data-userid=' + val.id + '  onClick= "LayoutClick(this)"><button type="button" class="btn btn-success btn-sm">View Profile</button></td>';
 
                 htmlValue += ' <td  data-userid=' + val.id + '  onClick= "MessageBtn(this)"><button type="button" class="btn btn-info btn-sm">Message</button></td>';
-                htmlValue += '<td ><button type="button" class="btn btn-danger btn-sm" data-userid=' + val.id + ' data-status= ' + val.isActive + '  onClick= "DeleteUser(this)">Delete</button></td>';
+                if (val.isActive) {
+                    htmlValue += '<td ><button type="button" class="btn btn-danger btn-sm" data-userid=' + val.id + ' data-status= ' + val.isActive + '  onClick= "DeleteUser(this)">Block</button></td>';
+
+                } else {
+                    htmlValue += '<td ><button type="button" class="btn btn-success btn-sm" data-userid=' + val.id + ' data-status= ' + val.isActive + '  onClick= "DeleteUser(this)">Unblock</button></td>';
+
+                }
+
                 htmlValue += '</tr>';
 
             });
@@ -40,6 +48,12 @@ window.onload = function() {
 
 
 };
+
+function LayoutClick(uid) {
+    var data = uid.getAttribute("data-userid");
+    localStorage["chatUserId"] = data;
+    window.location = "user_profile_detail.html";
+}
 // Open to inbox.html
 function MessageBtn(uid) {
     var data = uid.getAttribute("data-userid");
@@ -76,7 +90,7 @@ function DeleteUser(uid) {
                         isActive: false
                     })
                     .then(function() {
-                        uid.innerText = "UnBlock";
+                        uid.innerText = "Unblock";
                         uid.style.background = "green";
                         console.log("Document successfully updated!");
                         uid.setAttribute("data-status", "false");
@@ -100,7 +114,7 @@ function DeleteUser(uid) {
                 isActive: true
             })
             .then(function() {
-                uid.innerText = "Delete";
+                uid.innerText = "Block";
                 uid.style.background = "red";
                 console.log("Document successfully updated!");
                 uid.setAttribute("data-status", "true");

@@ -13,6 +13,7 @@ public class client_package_values {
     private String businessName;
     private String id;
     private String userId;
+    private long ratingStar;
 
     public String getUserId() {
         return userId;
@@ -25,8 +26,16 @@ public class client_package_values {
     public client_package_values() {
     }
 
+    public long getRatingStar() {
 
-    public client_package_values(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName, String id, String userId) {
+        return ratingStar;
+    }
+
+    public void setRatingStar(long ratingStar) {
+        this.ratingStar = ratingStar;
+    }
+
+    public client_package_values(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName, String id, String userId, long ratingStar) {
         PackageName = packageName;
         this.image = image;
         Food = food;
@@ -36,13 +45,18 @@ public class client_package_values {
         this.businessName = businessName;
         this.id = id;
         this.userId = userId;
+        this.ratingStar = ratingStar;
     }
 
     public String getPackageName() {
-        return PackageName;
+        if(PackageName != null)
+            return PackageName;
+        return "";
     }
 
     public String getId() {
+        if(id == null)
+            return "";
         return id;
     }
 
@@ -55,6 +69,8 @@ public class client_package_values {
     }
 
     public String getImage() {
+        if(image == null)
+            return "";
         return image;
     }
 
@@ -63,6 +79,7 @@ public class client_package_values {
     }
 
     public ArrayList<String> getFood() {
+
         return Food;
     }
 
@@ -87,6 +104,8 @@ public class client_package_values {
     }
 
     public String getPrice() {
+        if(price == null)
+            return "";
         return price;
     }
 
@@ -95,6 +114,8 @@ public class client_package_values {
     }
 
     public String getBusinessName() {
+        if(businessName == null)
+            return "";
         return businessName;
     }
 

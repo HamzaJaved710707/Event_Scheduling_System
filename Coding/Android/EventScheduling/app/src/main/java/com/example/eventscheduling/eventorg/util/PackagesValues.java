@@ -12,7 +12,7 @@ public class PackagesValues {
     private String image;
     private ArrayList<String> Food;
     private ArrayList<String> Services;
-    private String Venue;
+    private ArrayList<String> venue;
     private String price;
     private String businessName;
     private String id;
@@ -43,12 +43,12 @@ public class PackagesValues {
         this.userId = userId;
     }
 
-    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, String venue, String price, String businessName, String id, String userId) {
+    public PackagesValues(String packageName, String image, ArrayList<String> food, ArrayList<String> services, ArrayList<String> venue, String price, String businessName, String id, String userId) {
         PackageName = packageName;
         this.image = image;
         Food = food;
         Services = services;
-        Venue = venue;
+        this.venue = venue;
         this.price = price;
         this.businessName = businessName;
         this.id = id;
@@ -91,12 +91,12 @@ public class PackagesValues {
         Services = services;
     }
 
-    public String getVenue() {
-        return Venue;
+    public ArrayList<String> getVenue() {
+        return venue;
     }
 
-    public void setVenue(String venue) {
-        Venue = venue;
+    public void setVenue(ArrayList<String> venue) {
+        this.venue = venue;
     }
 
     public String getPrice() {

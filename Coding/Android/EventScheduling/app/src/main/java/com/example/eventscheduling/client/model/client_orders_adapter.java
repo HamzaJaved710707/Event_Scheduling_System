@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.util.client_orders_data;
 import com.example.eventscheduling.client.util.client_orders_values;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,8 +30,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
     private FirebaseUser currentUser = mAuth.getCurrentUser();
     private client_orders_adapter.OnItemClicked onClick;
     private String id;
-    private ArrayList<String> packageList = new ArrayList<>();
-    private ArrayList<String> packageUserId = new ArrayList<>();
+    private List<client_orders_data> client_data = new ArrayList<>();
 
     public client_orders_adapter(Context context, List<client_orders_values> list) {
 
@@ -65,7 +65,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClick.itemClick(packageList.get(position), packageUserId.get(position));
+                    onClick.itemClick(client_data.get(position).getPackageId(), client_data.get(position).getTo(), client_data.get(position).getOrderId());
                 }
             });
         }
@@ -81,7 +81,7 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
     }
 
     public interface OnItemClicked {
-      void itemClick(String id, String userID);
+      void itemClick(String id, String userID, String orderID);
     }
 
     class client_order_adapter_holder extends RecyclerView.ViewHolder {
@@ -100,9 +100,8 @@ public class client_orders_adapter extends RecyclerView.Adapter<client_orders_ad
 
         }
     }
-    public void setpackageList(ArrayList<String> list,ArrayList<String> packageUserId){
-        packageList = list;
-        this.packageUserId = packageUserId;
+    public void setpackageList(List<client_orders_data> data){
+        client_data = data;
     }
 
 }

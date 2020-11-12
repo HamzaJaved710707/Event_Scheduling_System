@@ -5,6 +5,7 @@ $(document).ready(function() {
 window.onload = function() {
     console.log(localStorage["currentUserId"]);
     loadNumbers();
+    ratedUser();
 
 };
 // Function to redirect user to user detail page
@@ -68,4 +69,119 @@ function logOut() {
         }
     });
 
+}
+
+function ratedUser() {
+    var myvar = "";
+    var ratedUserId = document.getElementById('rated_id');
+    var next = firebase.firestore().collection("Users")
+        .orderBy("ratingStar", "desc");
+    next.get()
+        .then(function(querySnapshot) {
+            var counter = 0;
+            querySnapshot.forEach(function(doc) {
+                    counter++;
+                    // doc.data() is never undefined for query doc snapshots
+                    myvar += '<tr>' +
+                        '                                        <th>' +
+                        counter + '</th>' +
+                        '                                        <td>' +
+                        doc.data().Name + '</td>' +
+                        '                                        <td>' +
+                        doc.data().ratingStar +
+                        '</td>' +
+                        '                                     <td  data-userid=' + doc.data().id + '  onClick= "LayoutClick(this)"><button type="button" class="btn btn-success btn-sm">View Profile</button></td>' +
+                        '                                        <td  data-userid=' + doc.data().id + '  onClick= "MessageBtn(this)"><button type="button" class="btn btn-info btn-sm">Message</button></td>' +
+                        '                                     <td ><button type="button" class="btn btn-danger btn-sm" data-userid=' + doc.data().id + ' data-status= ' + doc.data().isActive + '  onClick= "DeleteUser(this)">Block</button></td>' +
+                        '                                    </tr>';
+
+
+                }
+
+
+            );
+            ratedUserId.innerHTML = myvar;
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+
+
+
+} // Change the status of user from IsActive to false
+function DeleteUser(uid) {
+
+
+
+
+
+    var data = uid.getAttribute("data-userid");
+    var activeStatus = uid.getAttribute("data-status");
+
+    if (activeStatus == "true") {
+
+        cuteAlert({
+            type: "question",
+            title: "Alert",
+            message: "Do you want to block this user?",
+            confirmText: "Confirm!",
+            cancelText: "Cancel!",
+
+        }).then((e) => {
+            if (e == "confirm") {
+
+                var db = firebase.firestore();
+                var UserRef = db.collection("Users").doc(data);
+                return UserRef.update({
+                        isActive: false
+                    })
+                    .then(function() {
+                        uid.innerText = "Unblock";
+                        uid.style.background = "green";
+                        console.log("Document successfully updated!");
+                        uid.setAttribute("data-status", "false");
+                    })
+                    .catch(function(error) {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    });
+
+            } else {
+
+            }
+        });
+
+
+    } else if (activeStatus == "false") {
+
+        var db = firebase.firestore();
+        var UserRef = db.collection("Users").doc(data);
+        return UserRef.update({
+                isActive: true
+            })
+            .then(function() {
+                uid.innerText = "Block";
+                uid.style.background = "red";
+                console.log("Document successfully updated!");
+                uid.setAttribute("data-status", "true");
+
+            })
+            .catch(function(error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+    }
+
+
+} // Open to inbox.html
+function MessageBtn(uid) {
+    var data = uid.getAttribute("data-userid");
+    localStorage["chatUserId"] = data;
+    window.location = "inbox.html";
+}
+
+function LayoutClick(uid) {
+    var data = uid.getAttribute("data-userid");
+    localStorage["chatUserId"] = data;
+    window.location = "user_profile_detail.html";
 }

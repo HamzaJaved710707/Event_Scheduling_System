@@ -33,6 +33,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import java.util.HashMap;
 import java.util.Map;
 
+import thebat.lib.validutil.ValidUtils;
+
 
 public class evntOrg_signUp extends AppCompatActivity {
     private static final String TAG = "evntOrg_signUp";
@@ -105,8 +107,12 @@ public class evntOrg_signUp extends AppCompatActivity {
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                processing();
+        if(ValidUtils.isNetworkAvailable(evntOrg_signUp.this)){
+            processing();
+        }else{
+            Toast.makeText(evntOrg_signUp.this, "Please make sure you are connected to internet", Toast.LENGTH_SHORT).show();
+        }
+                
             }
         });
         // Initialize firestore variables
@@ -150,6 +156,7 @@ public class evntOrg_signUp extends AppCompatActivity {
             alertDialog.show();
 
         } else {
+            if (ValidUtils.validateEmail(email)) {
             FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
                 @Override
                 public void onSuccess(InstanceIdResult instanceIdResult) {
@@ -199,22 +206,20 @@ public class evntOrg_signUp extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 startActivity(new Intent(evntOrg_signUp.this, evntOrg_signIn.class));
-                                                Toast.makeText(evntOrg_signUp.this, "Try again...", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(evntOrg_signUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 startActivity(new Intent(evntOrg_signUp.this, evntOrg_signIn.class));
-                                                Toast.makeText(evntOrg_signUp.this, "Try again", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(evntOrg_signUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     }
                                 });
                             }
-                }
-            });
-
-
+                        }
+                    });
 
 
                 }
@@ -237,6 +242,10 @@ public class evntOrg_signUp extends AppCompatActivity {
                     });
                 }
             });
+        }
+            else{
+                Toast.makeText(this, "Email badly formatted", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

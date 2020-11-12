@@ -136,8 +136,8 @@ private CollectionReference friendCollection;
                         } else {
                             Log.d(TAG, "onSuccess: does not exists");
                             Map value = new HashMap();
-                            value.put("id", remoteUserId);
-                            friendCollection.document().set(value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            value.put("friends", true);
+                            friendCollection.document(remoteUserId).set(value).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getContext(), "Added to friend List", Toast.LENGTH_SHORT).show();

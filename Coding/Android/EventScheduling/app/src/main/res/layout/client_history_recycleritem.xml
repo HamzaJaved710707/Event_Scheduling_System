@@ -11,7 +11,8 @@
         android:id="@+id/history_recyclerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimaryLight"
+     >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_history"
@@ -29,24 +30,36 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/image_history"
             android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:text="Event Organizer"
+            android:layout_marginTop="12dp"
+            android:fontFamily="casual"
+            android:textSize="16sp"
+            android:textColor="@color/secondarycolor"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_history"
             app:layout_constraintTop_toTopOf="@+id/image_history" />
 
-        <TextView
-            android:id="@+id/price_textHistory"
+        <RatingBar
+            android:id="@+id/client_history_rating"
+            app:layout_constraintStart_toEndOf="@id/value_textHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="28dp"
-            android:text="~Rs: 50000/-"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/value_textHistory"
             app:layout_constraintEnd_toEndOf="parent"
-    />
+            app:layout_constraintTop_toTopOf="@id/value_textHistory"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="5"
+            android:rating="4"
+            android:scaleX="1.5"
+            android:scaleY="2"
+            android:transformPivotX="5dp"
+            android:transformPivotY="5dp"
+            android:isIndicator="true"
+            android:progressTint="@color/secondarycolor"
+            android:max="5"
+            />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

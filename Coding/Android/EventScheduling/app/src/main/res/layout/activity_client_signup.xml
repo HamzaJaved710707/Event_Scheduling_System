@@ -73,8 +73,7 @@
                     android:id="@+id/email_text_client_signUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/secondarycolor"
-                    />
+                    android:textColor="@color/secondarycolor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

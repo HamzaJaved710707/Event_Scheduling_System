@@ -1,10 +1,14 @@
 package com.example.eventscheduling.client.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.model.client_msgDetail_adapter;
 import com.example.eventscheduling.client.util.client_msgDetail_values;
+import com.example.eventscheduling.util.BaseActivity;
+import com.example.eventscheduling.util.CallActivity;
+import com.example.eventscheduling.util.SinchService;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,12 +34,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.calling.Call;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class client_msgDetail extends AppCompatActivity implements View.OnClickListener {
+public class client_msgDetail extends BaseActivity implements View.OnClickListener, SinchService.StartFailedListener {
     private static final String TAG = "client_message detail";
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentuser;
@@ -57,6 +66,7 @@ public class client_msgDetail extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_msg_detail);
+
         mAuth = FirebaseAuth.getInstance();
         mCurrentuser = mAuth.getCurrentUser();
         mCurrentUserId = Objects.requireNonNull(mCurrentuser).getUid();
@@ -138,7 +148,7 @@ public class client_msgDetail extends AppCompatActivity implements View.OnClickL
                                 Map userData = new HashMap();
                                 userData.put("Name", chatUserName);
                                 userData.put("Id", mChatUserId);
-                                userData.put("timeStamp", Timestamp.now());
+                                userData.put("timeStamp", System.currentTimeMillis());
                                 Map userData2 = new HashMap();
                                 userData2.put("Name", currentUserName);
                                 userData2.put("Id", mCurrentUserId);
@@ -176,6 +186,33 @@ public class client_msgDetail extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.message_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() ==R.id.video_btn_menu){
+          /*  Intent intent = new Intent(evntOrg_MessageDetail.this, VideoCallingActivity.class);
+            intent.putExtra("userId", mChatUserId);
+            intent.putExtra("tokenId",mChatUserTokenId);
+            startActivity(intent);*/
+            if (!mCurrentUserId.equals(getSinchServiceInterface().getUserName())) {
+                getSinchServiceInterface().stopClient();
+            }
+
+            if (!getSinchServiceInterface().isStarted()) {
+                getSinchServiceInterface().startClient(mCurrentUserId);
+
+            } else {
+                openPlaceCallActivity();
+            }
+
+        }
+        return true;
+    }
 
     @Override
     protected void onStart() {
@@ -187,5 +224,32 @@ public class client_msgDetail extends AppCompatActivity implements View.OnClickL
     protected void onStop() {
         super.onStop();
         msg_adapter.stopListening();
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        getSinchServiceInterface().setStartListener(this);
+    }
+
+    @Override
+    public void onStartFailed(SinchError error) {
+
+        Log.d(TAG, error.getMessage());
+        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onStarted() {
+        openPlaceCallActivity();
+    }
+
+    private void openPlaceCallActivity() {
+        Call call = getSinchServiceInterface().callUserVideo(mChatUserId);
+        String callId = call.getCallId();
+
+        Intent callScreen = new Intent(this, CallActivity.class);
+        callScreen.putExtra(SinchService.CALL_ID, callId);
+        startActivity(callScreen);
     }
 }

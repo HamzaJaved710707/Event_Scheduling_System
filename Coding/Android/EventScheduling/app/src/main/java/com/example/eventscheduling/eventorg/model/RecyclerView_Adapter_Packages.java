@@ -32,7 +32,12 @@ public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<Pack
 
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView_Adapter_Packages.ViewHolder holder, int position, @NonNull PackagesValues model) {
-        Glide.with(context).load(model.getImage()).into(holder.image);
+        if(model.getImage() == null){
+            Glide.with(context).load(R.mipmap.package_icon).into(holder.image);
+        }else{
+            Glide.with(context).load(model.getImage()).into(holder.image);
+        }
+
         holder.   PackageName.setText(model.getPackageName());
         holder.Price.setText(model.getPrice());
         holder.BusinessName.setText(model.getBusinessName());

@@ -68,7 +68,7 @@
                 <div class="row">
                     <!-- sidebar "appName adminName and Profile pic" profile/inbox/charts/tables/setting/documentation -->
                     <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
-                        <a href="#" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border">EventSchedulingSystem</a>
+                        <a href="#" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border">ESS</a>
                         <div class="bottom-border pb-3">
                             <img src="img/ahmed.JPG" width="50" class="rounded-circle mr-3">
                             <a href="#" class="text-white">Ahmed Jamal</a>
@@ -77,9 +77,8 @@
                             <li class="nav-item"><a href="dashboard.html" class="nav-link text-white p-3 mb-2 current"><i class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
                             <li class="nav-item"><a href="profile.html" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-user text-light fa-lg mr-3"></i>Profile</a></li>
                             <li class="nav-item"><a href="inbox.html" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-envelope text-light fa-lg mr-3"></i>Inbox</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-file-alt text-light fa-lg mr-3"></i>Documentation</a></li>
-                            <li class="nav-item nav-link text-white p-3 mb-2 sidebar-link" onClick="logOut()">Log Out</li>
-
+                            <li class="nav-item"><a href="documentation_detail.html" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-file-alt text-light fa-lg mr-3"></i>Documentation</a></li>
+                            <li class="nav-item nav-link text-white p-3 mb-2 sidebar-link" onClick="logOut()"><a href="#" title="Log out"><i class="fas fa-sign-out-alt text-light fa-lg mr-3" ></i> </a>Log out</li>
                         </ul>
                     </div>
                     <!-- end of sidebar -->
@@ -91,7 +90,7 @@
                                 <h4 class="text-light text-uppercase mb-0">Dashboard</h4>
                             </div>
 
-                            <!--end of search -->
+
                             <!--start of chat icon// bell icon// logout-->
                             <div class="col-md-3">
                                 <ul class="navbar-nav">
@@ -200,42 +199,8 @@
                                         <th>Remove</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>Hamza</td>
-                                        <td>3.3</td>
-                                        <td><button type="button " class="btn btn-info btn-sm ">Message</button></td>
-                                        <td><button type="button " class="btn btn-danger btn-sm ">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <td>Talha</td>
-                                        <td>3.2</td>
-                                        <td><button type="button " class="btn btn-info btn-sm ">Message</button></td>
-                                        <td><button type="button " class="btn btn-danger btn-sm ">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th>3</th>
-                                        <td>Ahmed</td>
-                                        <td>2.1</td>
-                                        <td><button type="button " class="btn btn-info btn-sm ">Message</button></td>
-                                        <td><button type="button " class="btn btn-danger btn-sm ">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th>4</th>
-                                        <td>Talmeez</td>
-                                        <td>2.0</td>
-                                        <td><button type="button " class="btn btn-info btn-sm ">Message</button></td>
-                                        <td><button type="button " class="btn btn-danger btn-sm ">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th>5</th>
-                                        <td>Zain</td>
-                                        <td>1.9</td>
-                                        <td><button type="button " class="btn btn-info btn-sm ">Message</button></td>
-                                        <td><button type="button " class="btn btn-danger btn-sm ">Delete</button></td>
-                                    </tr>
+                                <tbody id="rated_id">
+
                                 </tbody>
 
                             </table>

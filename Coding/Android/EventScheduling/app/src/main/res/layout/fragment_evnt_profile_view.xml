@@ -36,7 +36,6 @@
             android:layout_width="208dp"
             android:layout_height="179dp"
             android:layout_marginTop="96dp"
-
             android:src="@mipmap/account_person"
             app:layout_constraintEnd_toEndOf="@+id/evnt_view_cover_pic"
             app:layout_constraintHorizontal_bias="0.497"
@@ -51,7 +50,6 @@
             android:text="User Name"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
-
             app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_pic"
             app:layout_constraintHorizontal_bias="0.597"
             app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_pic"
@@ -65,7 +63,6 @@
             android:text="@string/portfolio"
             android:textColor="@color/secondarycolor"
             android:textSize="16sp"
-
             app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_order_icon"
             app:layout_constraintHorizontal_bias="0.565"
             app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_order_icon"
@@ -80,7 +77,6 @@
             android:text="Add Friend"
             android:textColor="@color/secondarycolor"
             android:textSize="16sp"
-
             app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_followers_icon"
             app:layout_constraintHorizontal_bias="0.361"
             app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_followers_icon"
@@ -95,7 +91,6 @@
             android:text="Message"
             android:textColor="@color/secondarycolor"
             android:textSize="16sp"
-
             app:layout_constraintEnd_toEndOf="@+id/evnt_profile_view_msg_icon"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/evnt_profile_view_msg_icon"
@@ -141,20 +136,17 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/evnt_profile_view_about"
             style="@style/sectionHeader"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/anton"
             android:gravity="center"
-
             android:padding="2dp"
             android:text="About"
             android:textColor="@color/secondarycolor"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/evnt_view_textView9" />
 
@@ -170,15 +162,16 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/evnt_profile_view_about_businessNameTxt"
             android:layout_width="0dp"
-            android:layout_height="13dp"
+           android:layout_marginEnd="2dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
+            android:text="@string/no_data"
             android:textColor="@color/secondarycolor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/evnt_profile_view_about_businessName" />
@@ -204,6 +197,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:text="@string/no_data"
             android:textColor="@color/secondarycolor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_businessCat" />
@@ -215,7 +210,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="casual"
-
             android:text="Email: "
             android:textColor="@color/secondarycolor"
             android:textSize="16sp"
@@ -229,6 +223,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:text="@string/no_data"
             android:textColor="@color/secondarycolor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_email" />
@@ -240,7 +236,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="casual"
-
             android:text="Mobile Number: "
             android:textColor="@color/secondarycolor"
             android:textSize="14sp"
@@ -254,9 +249,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
+            android:text="@string/no_data"
             android:textColor="@color/secondarycolor"
-
-
+            android:layout_marginEnd="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/evnt_profile_view_about_number" />
     </androidx.constraintlayout.widget.ConstraintLayout>

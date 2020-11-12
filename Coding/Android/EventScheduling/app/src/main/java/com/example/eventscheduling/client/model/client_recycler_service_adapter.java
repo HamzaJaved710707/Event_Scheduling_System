@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.util.home_event_values;
 import com.example.eventscheduling.client.util.home_service_values;
 
 import java.util.ArrayList;

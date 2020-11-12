@@ -100,6 +100,7 @@ window.onload = function() {
 };
 //Load recent contact 
 function LoadRecentContact() {
+    var alreadyData = document.getElementById("contact_inbox_chat");
     LoadRecentCOntactListener = userCollection.doc(currentUserId).collection("conversation").onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
             if (change.type === "added") {
@@ -126,7 +127,7 @@ function LoadRecentContact() {
                 console.log("Removed city: ", change.doc.data());
             }
         });
-        var alreadyData = document.getElementById("contact_inbox_chat");
+
         alreadyData.innerHTML += contact_value;
         contact_value = "";
         progressBar.style.display = "none";

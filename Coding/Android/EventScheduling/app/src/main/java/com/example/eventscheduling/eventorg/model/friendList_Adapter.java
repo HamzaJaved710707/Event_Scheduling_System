@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -39,8 +40,11 @@ public class friendList_Adapter extends FirestoreRecyclerAdapter<friendList_valu
 
         if (currentUser != null) {
             if ((currentUser.getEmail()).equals(model.getEmail())) {
-                holder.item_layout.setVisibility(View.INVISIBLE);
-                return;
+            //    holder.item_layout.setVisibility(View.GONE);
+                RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)holder.itemView.getLayoutParams();
+                param.height = 0;
+                param.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+                holder.itemView.setVisibility(View.VISIBLE);
             } else {
                 if (model.getImgUrl() == null) {
                     Glide.with(context).load(R.mipmap.account_person).into(holder.img);

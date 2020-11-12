@@ -18,6 +18,11 @@ import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.model.evnt_analysis_client_recyclerview_adapter;
 import com.example.eventscheduling.eventorg.util.evnt_analysis_client_recyc;
 import com.example.eventscheduling.eventorg.util.evnt_analysis_temp_values;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,14 +75,14 @@ public class evntOrg_Analysis extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_evnt_org__analysis, container, false);
-        completedTxt = view.findViewById(R.id.evnt_orders_completed_txt);
-        pendingTxt = view.findViewById(R.id.evnt_orders_pending_txt);
+       // completedTxt = view.findViewById(R.id.evnt_orders_completed_txt);
+        //pendingTxt = view.findViewById(R.id.evnt_orders_pending_txt);
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             currentUserId = currentUser.getUid();
             userCollection = firestore.collection("Users");
             recyclerView = view.findViewById(R.id.evnt_analysis_recyclerview);
-            LoadData();
+            LoadData(view);
             loadClients();
         }
         return view;
@@ -93,7 +98,7 @@ public class evntOrg_Analysis extends Fragment {
 
 
     // Load data
-    private void LoadData() {
+    private void LoadData(View view) {
         userCollection.document(currentUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -116,8 +121,9 @@ public class evntOrg_Analysis extends Fragment {
                                 }
 
                             }
-                            completedTxt.setText(String.valueOf(completedOrders));
-                            pendingTxt.setText(String.valueOf(pendingOrders));
+                            initPieChart(view, pendingOrders, completedOrders);
+                          //  completedTxt.setText(String.valueOf(completedOrders));
+                           // pendingTxt.setText(String.valueOf(pendingOrders));
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -134,7 +140,28 @@ public class evntOrg_Analysis extends Fragment {
             }
         });
     }
+    public void initPieChart(View view, long pending, long completed){
+        PieChart pieChart = view.findViewById(R.id.pie_chart);
+pieChart.setHoleColor(R.color.colorPrimary);
+        pieChart.getDescription().setEnabled(false);
+pieChart.setEntryLabelTextSize(16);
+pieChart.setNoDataTextColor(R.color.secondarycolor);
+pieChart.setNoDataText("Currently there is no order's data to be displayed here");
+List<PieEntry> serviceUsed = new ArrayList<>();
 
+        serviceUsed.add(new PieEntry(pending, "Pending Orders"));
+        serviceUsed.add(new PieEntry(completed, "Completed Orders"));
+        PieDataSet pieDataSet = new PieDataSet(serviceUsed ,"#Total Orders");
+        PieData data = new PieData(pieDataSet);
+        data.setValueTextColor(R.color.secondarycolor);
+        pieDataSet.setLabel("Data");
+        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        pieDataSet.setValueTextSize(18);
+     //   pieDataSet.set
+        pieChart.setData(data);
+        pieChart.invalidate();
+
+    }
     private void loadClients() {
   userCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -159,8 +186,10 @@ public class evntOrg_Analysis extends Fragment {
                                         count++;
                                     }
                                     evnt_analysis_temp_values obj = new evnt_analysis_temp_values(id, count);
+                                        if(obj.getId() != null){
+                                            client_valueList.add(obj);
+                                        }
 
-                                    client_valueList.add(obj);
                                     count2--;
                                     if(count2 == 0){
                                         initClientRecyclerView();
@@ -185,33 +214,33 @@ public class evntOrg_Analysis extends Fragment {
     }
 private void initClientRecyclerView(){
 
-    for(int i = 0; i<= client_valueList.size()-1; i++){
+    for(int i = 0; i<= client_valueList.size()-1; i++) {
         int finalI = i;
+        client_valueList.size();
         userCollection.document(client_valueList.get(i).getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                  String Name = documentSnapshot.getString("Name");
-                  String img = documentSnapshot.getString("imgUrl");
-                  evnt_analysis_client_recyc obj =new evnt_analysis_client_recyc(Name, img, client_valueList.get(finalI).getCount());
-                  client_recycs.add(obj);
-                Collections.sort(client_recycs, evnt_analysis_client_recyc.DESCENDING_COMPARATOR );
-                    recyclerview_adapter = new evnt_analysis_client_recyclerview_adapter(getContext(), client_recycs);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setAdapter(recyclerview_adapter);
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String Name = documentSnapshot.getString("Name");
+                String img = documentSnapshot.getString("imgUrl");
+                evnt_analysis_client_recyc obj = new evnt_analysis_client_recyc(Name, img, client_valueList.get(finalI).getCount());
+                client_recycs.add(obj);
+                Collections.sort(client_recycs, evnt_analysis_client_recyc.DESCENDING_COMPARATOR);
+                recyclerview_adapter = new evnt_analysis_client_recyclerview_adapter(getContext(), client_recycs);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(recyclerview_adapter);
 
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-                }
-            });
-     }
-
+            }
+        });
 
 
+    }
 
     }
 }

@@ -22,16 +22,25 @@ import com.example.eventscheduling.MainActivity;
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.model.Filter_Package_Dialog_client;
 import com.example.eventscheduling.eventorg.ui.evntOrg_setting;
+import com.example.eventscheduling.util.BaseActivity;
+import com.example.eventscheduling.util.SinchService;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.sinch.android.rtc.SinchError;
+import com.stepstone.apprating.listener.RatingDialogListener;
 
-public class client_home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+public class client_home extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, RatingDialogListener, SinchService.StartFailedListener
 
  {
-    private DrawerLayout drawerLayout;
+     private static final String TAG = "client_home";
+     private static getRating getRatingInterface;
+     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    @Override
+
+
+
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_home);
@@ -87,7 +96,7 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                     finish();
                     break;
                 case R.id.setting_evntOrg:
-
+                    startActivity(new Intent(client_home.this, client_setting.class));
                     break;
                 default:
                     break;
@@ -123,6 +132,7 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
                     selectTitleOfActionBar("Search");
                     break;
                 case R.id.nav_messages_client:
+
                     getSupportFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.frameLayout_clientHome, new client_messages())
                             .commit();
@@ -159,4 +169,36 @@ public class client_home extends AppCompatActivity implements NavigationView.OnN
     }
 
 
-}
+     @Override
+     public void onNegativeButtonClicked() {
+         Log.d(TAG, "onNegativeButtonClicked: ");
+     }
+
+     @Override
+     public void onNeutralButtonClicked() {
+         Log.d(TAG, "onNeutralButtonClicked: ");
+     }
+
+     @Override
+     public void onPositiveButtonClicked(int i, String s) {
+         Log.d(TAG, "onPositiveButtonClicked: ");
+         getRatingInterface.getRatingMethod(i, s);
+     }
+
+     @Override
+     public void onStartFailed(SinchError error) {
+
+     }
+
+     @Override
+     public void onStarted() {
+
+     }
+
+     public interface getRating{
+        void getRatingMethod(int rate, String comment);
+ }
+ public static void ratingInterface(getRating rating){
+        getRatingInterface = rating;
+ }
+ }

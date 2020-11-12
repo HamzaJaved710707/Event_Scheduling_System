@@ -7,12 +7,12 @@ public class client_msgDetail_values {
     String imgUrl;
     Boolean seen;
     String from ;
-    Timestamp timeStamp;
+    long timeStamp;
     public client_msgDetail_values(){
         // empty constructor for firebase values
     }
 
-    public client_msgDetail_values(String message, String imgUrl, Boolean seen, String from, Timestamp timeStamp) {
+    public client_msgDetail_values(String message, String imgUrl, Boolean seen, String from, long timeStamp) {
         this.message = message;
         this.imgUrl = imgUrl;
         this.seen = seen;
@@ -52,11 +52,11 @@ public class client_msgDetail_values {
         this.from = from;
     }
 
-    public Timestamp getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Timestamp timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 }

@@ -1,3 +1,4 @@
+
 var progressBar;
 
 window.onload = function() {

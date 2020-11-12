@@ -6,6 +6,7 @@ public class client_orders_values {
     String packageId;
     String to;
     String from;
+    String orderId;
 
     public String getFrom() {
         return from;
@@ -15,12 +16,21 @@ public class client_orders_values {
         this.from = from;
     }
 
-    public client_orders_values(String name, String imgUrl, String packageId, String to, String from) {
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public client_orders_values(String name, String imgUrl, String packageId, String to, String from, String orderId) {
         Name = name;
         this.imgUrl = imgUrl;
         this.packageId = packageId;
         this.to = to;
         this.from = from;
+        this.orderId = orderId;
     }
 
     public client_orders_values() {

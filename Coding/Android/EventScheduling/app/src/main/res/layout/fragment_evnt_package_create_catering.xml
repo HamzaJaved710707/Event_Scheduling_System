@@ -34,18 +34,21 @@
         android:id="@+id/packageName_edit_evnt_create_catering"
         app:boxStrokeWidth="1dp"
         app:boxStrokeWidthFocused="1dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:hintTextColor="@color/secondarycolor"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+
+        app:elevation="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+android:background="#2B635B"
         app:boxStrokeColor="@color/secondarycolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePic_frame_evnt_create_catering"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Package Name"
-        app:boxBackgroundColor="@color/colorPrimaryLight"
         android:textColorHint="@color/secondarycolor">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -57,9 +60,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:backgroundTint="@color/colorPrimaryLight"
-        app:strokeColor="@color/secondarycolor"
-        app:strokeWidth="1dp"
+        android:backgroundTint="#2B635B"
         android:id="@+id/service_btn_package_evnt_create_caterer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,20 +69,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/packageName_edit_evnt_create_catering"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:textColorHint="@color/secondarycolor"
         android:text="Add Services"
         android:elevation="4dp"
         android:padding="16dp"
+        android:textColor="@color/secondarycolor"
         />
 
 
     <com.google.android.material.button.MaterialButton
-        android:backgroundTint="@color/colorPrimaryLight"
+        android:backgroundTint="#2B635B"
+        app:elevation="4dp"
 
         android:id="@+id/food_btn_package_evnt_create_catering"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/secondarycolor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -95,11 +94,11 @@
         android:padding="16dp"
         android:textColorHint="@color/secondarycolor"/>
     <com.google.android.material.button.MaterialButton
-        android:backgroundTint="@color/colorPrimaryLight"
+        android:backgroundTint="#2B635B"
+        app:elevation="4dp"
 
         android:id="@+id/venue_btn_package_evnt_create_catering"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/secondarycolor"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -118,18 +117,20 @@
         android:id="@+id/price_layout_evnt_create_catering"
         app:boxStrokeWidth="1dp"
         app:boxStrokeWidthFocused="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#2B635B"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:hintTextColor="@color/secondarycolor"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+
         app:boxStrokeColor="@color/secondarycolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/venue_btn_package_evnt_create_catering"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Price"
-app:boxBackgroundColor="@color/colorPrimaryLight"
+        app:elevation="4dp"
         android:textColorHint="@color/secondarycolor">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -156,15 +157,17 @@ app:boxBackgroundColor="@color/colorPrimaryLight"
         android:textColor= "@android:color/black"
         android:elevation="4dp"/>
 
-<ProgressBar
-    android:id="@+id/evnt_create_package_progressBar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf=" parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:visibility="invisible"/>
+    <ProgressBar
+        android:elevation="8dp"
+        android:progressTint="#ED0808"
+        android:id="@+id/evnt_create_package_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf=" parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

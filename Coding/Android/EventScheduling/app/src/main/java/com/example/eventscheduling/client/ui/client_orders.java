@@ -18,6 +18,7 @@ import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.model.client_friendList_Adapter;
 import com.example.eventscheduling.client.model.client_orders_adapter;
 import com.example.eventscheduling.client.util.client_friendList_values;
+import com.example.eventscheduling.client.util.client_orders_data;
 import com.example.eventscheduling.client.util.client_orders_values;
 import com.example.eventscheduling.eventorg.util.friendList_values;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +52,7 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
     private ArrayList<String> order_user_list = new ArrayList<>();
     private ArrayList<String> packageList = new ArrayList<>();
     private ProgressBar progressBar;
+    private List<client_orders_data> client_orders_data = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,13 +89,22 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
         orderCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                packageList.clear();
+
                 order_user_list.clear();
                 order_list.clear();
+                client_orders_data.clear();
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    order_user_list.add(documentSnapshot.getString("to"));
-                    packageList.add(documentSnapshot.getString("packageId"));
+                    if(documentSnapshot.getLong("status") == 0){
+                        order_user_list.add(documentSnapshot.getString("to"));
+                        client_orders_data.add(new client_orders_data(documentSnapshot.getString("packageUser"), documentSnapshot.getString("packageId"), documentSnapshot.getId(), documentSnapshot.getString("from")));
+                    }
 
+
+                }
+            
+                if(order_user_list.size() == 0){
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getContext(), "No Orders to display", Toast.LENGTH_SHORT).show();
                 }
                 for(int i= 0 ; i< order_user_list.size(); i++){
                     String value = order_user_list.get(i);
@@ -102,12 +113,12 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                             for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                                order_list.add(new client_orders_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"),"", "", ""));
+                                order_list.add(new client_orders_values(documentSnapshot.getString("Name"), documentSnapshot.getString("imgUrl"),"", "", "", documentSnapshot.getId()));
                             }
 
                             orders_adapter = new client_orders_adapter(view.getContext(), order_list);
                             recyclerView.setHasFixedSize(true);
-                            orders_adapter.setpackageList(packageList, order_user_list);
+                            orders_adapter.setpackageList(client_orders_data);
                             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                             orders_adapter.setOnClick(client_orders.this::itemClick);
                             recyclerView.setAdapter(orders_adapter);
@@ -131,11 +142,12 @@ public class client_orders extends Fragment implements client_orders_adapter.OnI
 
 
     @Override
-    public void itemClick(String Packageid, String userId) {
+    public void itemClick(String Packageid, String userId, String orderId) {
       Bundle bundle = new Bundle();
       bundle.putString("packageId", Packageid);
       bundle.putBoolean("orders", true);
       bundle.putString("userId",userId);
+      bundle.putString("orderId", orderId);
         client_package_detail_custom frag = new client_package_detail_custom();
       frag.setArguments(bundle);
       getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, frag).addToBackStack(null).commit();

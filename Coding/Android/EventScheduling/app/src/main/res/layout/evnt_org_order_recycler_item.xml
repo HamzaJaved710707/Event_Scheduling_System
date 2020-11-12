@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id = "@+id/client_order_recycler_layout_"
-        android:background="@color/colorPrimaryLight"
+        android:background="@color/colorPrimary"
         android:padding="4dp"
 
         >
@@ -40,7 +40,18 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             />
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/evnt_order_detail_txt"
+    android:layout_marginStart="16dp"
+    android:textSize="16dp"
+    android:textStyle="bold"
+    android:textColor="@android:color/white"
+    android:text="Click here for details"
+    android:layout_below="@id/evnt_order_name"
+    android:layout_toRightOf="@id/evntOrg_order_item_img"
+    />
 
     </RelativeLayout>
 

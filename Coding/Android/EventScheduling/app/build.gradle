@@ -40,6 +40,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.3.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -77,13 +78,13 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
 
-    ///Agora.io
-    implementation 'io.agora.rtc:full-sdk:3.1.2'
-
-
     // Material CalenderView Library
     implementation 'com.applandeo:material-calendar-view:1.7.0'
 
 // Check EditText wether empty or not
-    compile 'com.github.shree-vastava:ValidUtil:v1.0'
+    implementation 'com.github.shree-vastava:ValidUtil:v1.0'
+    // Rating dialog
+    implementation 'com.stepstone.apprating:app-rating:2.3.1'
+    // Sinch library
+    implementation(name:'sinch-android-rtc', version:'+', ext:'aar')
 }

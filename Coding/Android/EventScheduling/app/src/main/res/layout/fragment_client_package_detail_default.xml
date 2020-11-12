@@ -17,7 +17,7 @@
             android:layout_width="208dp"
             android:layout_height="179dp"
             android:layout_marginTop="32dp"
-            android:src="@mipmap/talha_img"
+            android:src="@mipmap/ahmed_img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,8 +34,18 @@
             app:layout_constraintEnd_toEndOf="@+id/client_packageDetail_default_img"
             app:layout_constraintStart_toStartOf="@+id/client_packageDetail_default_img"
             app:layout_constraintTop_toBottomOf="@+id/client_packageDetail_default_img" />
-
+<RatingBar
+    android:layout_marginTop="4dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/client_package_default_ratingbar"
+    app:layout_constraintStart_toStartOf="@+id/client_packagedetail_default_name"
+    app:layout_constraintEnd_toEndOf="@+id/client_packagedetail_default_name"
+    style="@style/Widget.AppCompat.RatingBar.Indicator"
+    app:layout_constraintTop_toBottomOf="@id/client_packagedetail_default_name"
+    />
         <RelativeLayout
+            android:layout_marginTop="8dp"
             android:id="@+id/food_txt_default_relativeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +53,7 @@
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/client_packagedetail_default_name">
+            app:layout_constraintTop_toBottomOf="@id/client_package_default_ratingbar">
 
             <TextView
                 android:id="@+id/food_txt_default"
@@ -63,6 +73,7 @@
                 android:visibility="gone"
                 android:id="@+id/client_package_detail_custom_food_empty_default"/>
             <ImageView
+                android:id="@+id/package_default_food_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/food_txt_default"
@@ -107,6 +118,7 @@
                 android:id="@+id/client_package_detail_custom_service_empty_default"/>
 
             <ImageView
+                android:id="@+id/package_default_service_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/service_txt_default"
@@ -150,6 +162,7 @@
                 android:visibility="gone"
                 android:id="@+id/client_package_detail_custom_venue_empty_default"/>
             <ImageView
+                android:id="@+id/package_default_venue_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/venue_txt_default"

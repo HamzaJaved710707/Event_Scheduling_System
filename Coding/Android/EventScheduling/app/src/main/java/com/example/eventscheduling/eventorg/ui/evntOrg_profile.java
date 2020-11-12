@@ -167,6 +167,7 @@ public class evntOrg_profile extends Fragment implements View.OnClickListener {
         super.onStart();
         ((evntOrg_home)getActivity()).setTitleActionBar("Profile");
         loadData();
+
     }
 
     @Override

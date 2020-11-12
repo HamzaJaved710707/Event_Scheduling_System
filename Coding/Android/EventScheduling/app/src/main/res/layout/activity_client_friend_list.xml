@@ -16,11 +16,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
+            android:progressTint="@color/colorAccent"
+            android:foregroundTint="@color/colorAccent"
             android:id="@+id/client_friendList_progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
+            android:elevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/client_friend_list_recyclerview"
             app:layout_constraintStart_toStartOf="parent"

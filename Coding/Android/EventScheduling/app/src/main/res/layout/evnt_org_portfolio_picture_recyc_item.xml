@@ -16,6 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@mipmap/hamza_img" />
+            android:src="@mipmap/ahmed_img" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

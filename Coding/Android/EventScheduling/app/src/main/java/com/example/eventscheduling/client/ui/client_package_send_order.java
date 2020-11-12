@@ -1,6 +1,7 @@
 package com.example.eventscheduling.client.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,6 +60,7 @@ public class client_package_send_order extends Fragment implements client_send_p
     private String date;
     private Boolean isDefaultPackage = false;
     private String packageUser;
+    private ProgressBar progressBar;
 
     public client_package_send_order() {
         // Required empty public constructor
@@ -82,7 +85,7 @@ public class client_package_send_order extends Fragment implements client_send_p
             date = getArguments().getString("date");
             isDefaultPackage = getArguments().getBoolean("isDefault");
             packageUser = getArguments().getString("packageUser");
-
+progressBar = view.findViewById(R.id.client_package_send_progBar);
         recyclerView = view.findViewById(R.id.client_package_send_order_recylerview);
         setHasOptionsMenu(true);
         currentUser = mAuth.getCurrentUser();
@@ -91,6 +94,7 @@ public class client_package_send_order extends Fragment implements client_send_p
             friendCollection = dbReference.document(currentUserID).collection("Friends");
             currentUser_order = dbReference.document(currentUserID).collection("Orders");
             initialize_RecyclerView();
+            progressBar.setVisibility(View.VISIBLE);
         }
         return view;
     }
@@ -104,7 +108,12 @@ public class client_package_send_order extends Fragment implements client_send_p
         order_data.put("to", id);
         order_data.put("status", 0);
         order_data.put("packageId", packageId);
-        order_data.put("packageUser", packageUser);
+        if(packageUser == null){
+            order_data.put("packageUser", currentUserID);
+        }else{
+            order_data.put("packageUser", packageUser);
+        }
+
         if(isDefaultPackage){
             order_data.put("custom", false);
         }else {
@@ -120,6 +129,14 @@ public class client_package_send_order extends Fragment implements client_send_p
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getContext(), "Your order send successfully", Toast.LENGTH_SHORT).show();
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, new client_packages_frag()).commit();
+                                    }
+                                },1500);
+                                getParentFragmentManager().beginTransaction().replace(R.id.frameLayout_clientHome, new client_packages_frag()).commit();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -167,9 +184,9 @@ public class client_package_send_order extends Fragment implements client_send_p
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    tempList.add(documentSnapshot.getString("id"));
+                    tempList.add(documentSnapshot.getId());
                 }
-                if (tempList.size() != 0) {
+                if ((tempList != null) && (tempList.size() != 0)) {
                     dbReference.whereIn(FieldPath.documentId(), tempList).whereEqualTo("type", 0).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -187,9 +204,10 @@ public class client_package_send_order extends Fragment implements client_send_p
                                 friendList_adapter.setOnClick(client_package_send_order.this);
                                 recyclerView.setAdapter(friendList_adapter);
 
-
+progressBar.setVisibility(View.INVISIBLE);
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                         }
                     });
@@ -215,9 +233,11 @@ public class client_package_send_order extends Fragment implements client_send_p
     }
 
     private void initialize_Friends_Recyclerview() {
+
     }
 
     private void initialize_EventOrg_RecyclerView() {
+        progressBar.setVisibility(View.VISIBLE);
         dbReference.whereEqualTo("type", 0).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -233,10 +253,12 @@ public class client_package_send_order extends Fragment implements client_send_p
                 friendList_adapter.setOnClick(client_package_send_order.this);
 
                 recyclerView.swapAdapter(friendList_adapter, true);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.d(TAG, e.getMessage());
 
             }

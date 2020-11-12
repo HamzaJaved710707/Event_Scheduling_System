@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,6 +84,7 @@ private ProgressBar progressBar;
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(packages_adapter);
         progressBar.setVisibility(View.INVISIBLE);
+        Toast.makeText(getContext() , "Loading", Toast.LENGTH_SHORT).show();
     }
 
     // Start listening values from server when this activity is started
@@ -107,6 +109,7 @@ private ProgressBar progressBar;
         Bundle bundle = new Bundle();
         bundle.putString("userId", userId);
         bundle.putString("packageId",  packageId);
+        bundle.putBoolean("evnt", true);
         client_package_detail_default  frag = new client_package_detail_default();
         frag.setArguments(bundle);
 getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id,frag).addToBackStack(null).commit();

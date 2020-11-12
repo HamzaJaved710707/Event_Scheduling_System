@@ -1,5 +1,6 @@
 package com.example.eventscheduling.eventorg.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,16 +21,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.model.Filter_Friend_Dialog;
+import com.example.eventscheduling.client.ui.client_friendList;
 import com.example.eventscheduling.client.ui.client_profile_view;
+import com.example.eventscheduling.client.util.client_friendList_values;
 import com.example.eventscheduling.eventorg.model.friendList_Adapter;
 import com.example.eventscheduling.eventorg.util.friendList_values;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class evntOrg_friend_list extends Fragment implements friendList_Adapter.onitemClickListener, Filter_Friend_Dialog.ExampleDialogListener {
     private static final String TAG = "evntOrg_friend_list";
@@ -41,12 +49,20 @@ public class evntOrg_friend_list extends Fragment implements friendList_Adapter.
     private String addBackStack;
     private String currentUserId;
     private CollectionReference firendsCollection;
+    private ProgressBar progressBar;
+    private Dialog mOverlayDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_evnt_friend_list, container, false);
         currentUser = mAuth.getCurrentUser();
+        setHasOptionsMenu(true);
+        progressBar = view.findViewById(R.id.evntOrg_friends_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        mOverlayDialog = new Dialog(view.getContext(), android.R.style.Theme_Panel); //display an invisible overlay dialog to prevent user interaction and pressing back
+        mOverlayDialog.setCancelable(false);
+        mOverlayDialog.show();
         if (currentUser != null) {
             current_email = currentUser.getEmail();
             currentUserId = currentUser.getUid();
@@ -67,7 +83,10 @@ public class evntOrg_friend_list extends Fragment implements friendList_Adapter.
         RecyclerView recyclerView = view.findViewById(R.id.friend_list_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        friendList_adapter.setitemOnclickListener(this);
         recyclerView.setAdapter(friendList_adapter);
+        progressBar.setVisibility(View.INVISIBLE);
+        mOverlayDialog.dismiss();
 
     }
 
@@ -96,6 +115,7 @@ public class evntOrg_friend_list extends Fragment implements friendList_Adapter.
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // This switch statement will work with Overflow menu...
         if (item.getItemId() == R.id.filter_menu) {
+
             openDialog();
         }
         return super.onOptionsItemSelected(item);
@@ -115,12 +135,14 @@ public class evntOrg_friend_list extends Fragment implements friendList_Adapter.
        evnt_profile_view obj = new evnt_profile_view();
        Bundle bundle = new Bundle();
        bundle.putString("id", id);
-       getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, obj).addToBackStack(addBackStack).commit();
+       obj.setArguments(bundle);
+       getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, obj).addToBackStack(getResources().getString(R.string.addToBackStack)).commit();
    }
    else if(type == 1){
        client_profile_view obj = new client_profile_view();
        Bundle bundle = new Bundle();
        bundle.putString("id", id);
+       obj.setArguments(bundle);
        getParentFragmentManager().beginTransaction().replace(R.id.fragment_test_id, obj).addToBackStack(addBackStack).commit();
    }
 
@@ -129,6 +151,8 @@ public class evntOrg_friend_list extends Fragment implements friendList_Adapter.
     @Override
     public void applyTexts(CheckedTextView all, CheckedTextView friends) {
         Log.d(TAG, "applyTexts: ");
+        progressBar.setVisibility(View.VISIBLE);
+        mOverlayDialog.show();
         if (all.isChecked()) {
             initialize_All_RecyclerView();
             Log.d(TAG, "applyTexts: all is checked");
@@ -143,10 +167,14 @@ public class evntOrg_friend_list extends Fragment implements friendList_Adapter.
     }
 
     private void initialize_All_RecyclerView() {
+        progressBar.setVisibility(View.INVISIBLE);
+        mOverlayDialog.dismiss();
+
 
     }
 
     private void initialize_Friends_Recyclerview() {
-
+        progressBar.setVisibility(View.INVISIBLE);
+        mOverlayDialog.dismiss();
     }
 }

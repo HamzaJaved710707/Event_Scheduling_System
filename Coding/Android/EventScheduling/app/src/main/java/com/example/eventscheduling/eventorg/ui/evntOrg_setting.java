@@ -7,10 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.eventscheduling.R;
+import com.example.eventscheduling.client.ui.client_setting;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,6 +25,9 @@ public class evntOrg_setting extends AppCompatActivity {
     private Button dlt_account_btn;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private TextInputEditText passwordEdit;
+    private TextInputEditText confirmEdit;
+    private MaterialButton changeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,32 @@ public class evntOrg_setting extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         setContentView(R.layout.activity_evnt_org_setting);
         dlt_account_btn = findViewById(R.id.delete_account_btn_evntOrg);
+        passwordEdit = findViewById(R.id.evntOrg_setting_change_pass_edit1);
+        confirmEdit = findViewById(R.id.evntOrg_setting_change_pass_edit2);
+        changeBtn = findViewById(R.id.evntOrg_change_pass_btn);
+        changeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(passwordEdit.getText() != null  && confirmEdit.getText() != null){
+                    String pass = passwordEdit.getText().toString();
+                    String confirmPass = confirmEdit.getText().toString();
+                    if( pass.equals(confirmPass)){
+                        currentUser.updatePassword(pass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(evntOrg_setting.this, "Password Updated...", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(evntOrg_setting.this, "Unable to change your password", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
         dlt_account_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

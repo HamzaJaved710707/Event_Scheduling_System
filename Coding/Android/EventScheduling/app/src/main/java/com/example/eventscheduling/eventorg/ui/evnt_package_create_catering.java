@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -41,6 +44,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
+import static android.media.tv.TvContract.AUTHORITY;
 
 
 public class evnt_package_create_catering extends Fragment implements evntOrg_home.OnBackPressedListener {
@@ -59,6 +65,7 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
     private static final int GALLERY_REQ = 2;
     List<String> new_items_food = new ArrayList<>();
     List<String> new_items_service = new ArrayList<>();
+    List<String> new_items_venue = new ArrayList<>();
     MaterialButton food_btn;
     private SharedPreferences sharedPreferences;
     private MaterialButton service_btn;
@@ -85,7 +92,13 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
     private ProgressBar progressBar;
     private MaterialButton venueBtn;
     private Dialog mOverlayDialog;
+    private DocumentReference foodCollection;
+    private DocumentReference serviceCollection;
+    private DocumentReference venueCollection;
 
+   private ArrayList<String> service = new ArrayList<>();
+   private ArrayList<String> venue = new ArrayList<>();
+   private ArrayList<String> food = new ArrayList<>();
 
     public static String getMimeType(Uri uri) {
         String type = null;
@@ -178,7 +191,9 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
         sharedPreferences = view.getContext().getSharedPreferences("MY_SHARE", MODE_PRIVATE);
         preferencesEditor = sharedPreferences.edit();
         progressBar.setVisibility(View.VISIBLE);
-
+        mOverlayDialog = new Dialog(view.getContext(), android.R.style.Theme_Panel); //display an invisible overlay dialog to prevent user interaction and pressing back
+        mOverlayDialog.setCancelable(false);
+        mOverlayDialog.show();
 
     }
 
@@ -248,6 +263,9 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
             package_img_Ref = firebaseStorage.getReference("Event_Org/" + currentUserID + "/Packages_Photos");
             packageReference = firestore.collection("Users").document(currentUserID).collection("Packages");
             checkCategory(view);
+            foodCollection = firestore.collection("Users").document(currentUserID).collection("Resources").document("1");
+            serviceCollection = firestore.collection("Users").document(currentUserID).collection("Resources").document("2");
+            venueCollection = firestore.collection("Users").document(currentUserID).collection("Resources").document("3");
             create_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -259,138 +277,448 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
         food_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 new_items_food.clear();
-                List<Integer> selectedItems = new ArrayList<>();
-                String[] items = {"Biryani", "Pulao", "Rice", "Chawal"};
+                foodCollection.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        ArrayList<String> food = (ArrayList<String>) documentSnapshot.get("food");
 
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(getActivity());
+                        if(food != null){
+                            String[] arr = new String[food.size()];
+                            for(int i=0 ; i< food.size();i++){
+                                arr[i] = food.get(i);
+                                //getProductName or any suitable method
+                            }
+                            AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity());
 
 
-                builder.setTitle("Select")
-                        .setMultiChoiceItems(items, null,
-                                new DialogInterface.OnMultiChoiceClickListener() {
-                                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                                        Log.i("Dialogos", "Opción elegida: " + items[item]);
-                                        if (isChecked) {
-                                            new_items_food.add(items[item]);
+                            ArrayList<String> finalFood1 = food;
+                            builder.setTitle("Select")
+                                    .setMultiChoiceItems(arr, null,
+                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                public void onClick(DialogInterface dialog, int item, boolean isChecked) {
+
+                                                    if (isChecked) {
+                                                        new_items_food.add(arr[item]);
+                                                    }
+
+
+                                                }
+                                            }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Log.d("EVent Packages", "onClick: " + new_items_food);
+                                }
+                            }).setNegativeButton("Add new Item", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Add Food Item");
+
+                                    // Set up the input
+                                    final EditText input = new EditText(getContext());
+                                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                                    builder.setView(input);
+
+                                    // Set up the buttons
+                                    builder.setPositiveButton("OK", (dialog1, which1) -> {
+
+                                        m_Text = input.getText().toString();
+                                        finalFood1.add(m_Text);
+
+                                        foodCollection.update("food", finalFood1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "Sucessfully added");
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d(TAG,e.getMessage());
+                                            }
+                                        });
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
                                         }
+                                    });
+
+                                    builder.show();
+
+                                }
+                            });
 
 
-                                    }
-                                }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Log.d("EVent Packages", "onClick: " + new_items_food);
-                    }
-                }).setNegativeButton("Create New Item", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Title");
+                            builder.create();
+                            builder.show();
+                        }else{
+                            food = new ArrayList<>();
+                            String[] arr = {""};
+                            AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity());
 
-                        // Set up the input
-                        final EditText input = new EditText(getContext());
-                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        builder.setView(input);
 
-                        // Set up the buttons
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            ArrayList<String> finalFood = food;
+                            builder.setTitle("Select")
+                                    .setMultiChoiceItems(arr, null,
+                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                public void onClick(DialogInterface dialog, int item, boolean isChecked) {
 
-                                m_Text = input.getText().toString();
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
+                                                    if (isChecked) {
+                                                        new_items_food.add(arr[item]);
+                                                    }
 
-                        builder.show();
 
+                                                }
+                                            }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Log.d("EVent Packages", "onClick: " + new_items_food);
+                                }
+                            }).setNegativeButton("Add new Item", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Add Food Item");
+
+                                    // Set up the input
+                                    final EditText input = new EditText(getContext());
+                                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                    input.setInputType(InputType.TYPE_CLASS_TEXT );
+                                    builder.setView(input);
+
+                                    // Set up the buttons
+                                    builder.setPositiveButton("OK", (dialog1, which1) -> {
+
+                                        m_Text = input.getText().toString();
+                                        finalFood.add(m_Text);
+                                        Map foodData = new HashMap();
+                                        foodData.put("food", finalFood);
+                                        foodCollection.set(foodData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "onSuccess: ");
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d(TAG, e.getMessage());
+                                            }
+                                        });
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    builder.show();
+
+                                }
+                            });
+
+
+                            builder.create();
+                            builder.show();
+                        }
                     }
                 });
 
-
-                builder.create();
-                builder.show();
             }
 
 
+        });
+        venueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                venueCollection.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        ArrayList<String> venue = (ArrayList<String>) documentSnapshot.get("venue");
+                        if (venue != null) {
+                        String[] arr = new String[venue.size()];
+                        for (int i = 0; i < venue.size(); i++) {
+                            arr[i] = venue.get(i);
+                            //getProductName or any suitable method
+                        }
+
+
+                            AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity());
+
+
+                            ArrayList<String> finalVenue1 = venue;
+                            builder.setTitle("Select Venue")
+                                    .setMultiChoiceItems(arr, null,
+                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                public void onClick(DialogInterface dialog, int item, boolean isChecked) {
+                                                    Log.i("Dialogos", "Opción elegida: " + arr[item]);
+                                                    if (isChecked) {
+                                                        new_items_venue.add(arr[item]);
+                                                    }
+
+
+                                                }
+                                            }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Log.d("EVent Packages", "onClick: " + new_items_service);
+                                }
+                            }).setNegativeButton("Add new Venue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Select Venue");
+
+                                    // Set up the input
+                                    final EditText input = new EditText(getContext());
+                                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                    input.setInputType(InputType.TYPE_CLASS_TEXT );
+                                    builder.setView(input);
+
+                                    // Set up the buttons
+                                    builder.setPositiveButton("OK", (dialog12, which12) -> {
+
+                                        m_Text = input.getText().toString();
+                                       new_items_venue.add(m_Text);
+
+                                       venueCollection.update("venue",new_items_venue);
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    builder.show();
+
+                                }
+                            });
+
+
+                            builder.create();
+                            builder.show();
+                        }else{
+                            venue = new ArrayList<>();
+                            String[] arr = {""};
+                            AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity());
+
+
+                            ArrayList<String> finalVenue = venue;
+                            builder.setTitle("Select Venue")
+                                    .setMultiChoiceItems(arr, null,
+                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                public void onClick(DialogInterface dialog, int item, boolean isChecked) {
+                                                    Log.i("Dialogos", "Opción elegida: " + arr[item]);
+                                                    if (isChecked) {
+                                                        new_items_venue.add(arr[item]);
+                                                    }
+
+
+                                                }
+                                            }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Log.d("EVent Packages", "onClick: " + new_items_service);
+                                }
+                            }).setNegativeButton("Add new Venue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Select Venue");
+
+                                    // Set up the input
+                                    final EditText input = new EditText(getContext());
+                                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                    input.setInputType(InputType.TYPE_CLASS_TEXT );
+                                    builder.setView(input);
+
+                                    // Set up the buttons
+                                    builder.setPositiveButton("OK", (dialog12, which12) -> {
+
+                                        m_Text = input.getText().toString();
+                                        finalVenue.add(m_Text);
+                                        Map foodData = new HashMap();
+                                        foodData.put("venue", finalVenue);
+                                       venueCollection.set(foodData);
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    builder.show();
+
+                                }
+                            });
+
+
+                            builder.create();
+                            builder.show();
+                        }
+
+
+                    }    });
+            }
         });
 
         /// set click listener for service button
         service_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new_items_service.clear();
-                List<Integer> selectedItems = new ArrayList<>();
-                String[] items = {"Hamza", "Talha", "AHmed", "Talmeez"};
+               serviceCollection.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(getActivity());
+                        service = (ArrayList<String>) documentSnapshot.get("service");
+                        if ( service!= null && service.size() != 0){
+                            String[] arr = new String[service.size()];
+                        for (int i = 0; i < service.size(); i++) {
+                            arr[i] = service.get(i);
+                            //getProductName or any suitable method
+                        }
+                        if (service != null) {
+
+                            AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity());
 
 
-                builder.setTitle("Select")
-                        .setMultiChoiceItems(items, null,
-                                new DialogInterface.OnMultiChoiceClickListener() {
-                                    public void onClick(DialogInterface dialog, int item, boolean isChecked) {
-                                        Log.i("Dialogos", "Opción elegida: " + items[item]);
-                                        if (isChecked) {
-                                            new_items_service.add(items[item]);
+                            builder.setTitle("Select Service")
+                                    .setMultiChoiceItems(arr, null,
+                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                public void onClick(DialogInterface dialog, int item, boolean isChecked) {
+                                                    Log.i("Dialogos", "Opción elegida: " + arr[item]);
+                                                    if (isChecked) {
+                                                        new_items_service.add(arr[item]);
+                                                    }
+
+
+                                                }
+                                            }).setPositiveButton("Done", (dialog, which) -> {
+                                                dialog.dismiss();
+                                                Log.d("EVent Packages", "onClick: " + new_items_service);
+                                            }).setNegativeButton("Add new Service", (dialog, which) -> {
+                                                dialog.dismiss();
+                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                                                builder1.setTitle("Select Service");
+
+                                                // Set up the input
+                                                final EditText input = new EditText(getContext());
+                                                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                                input.setInputType(InputType.TYPE_CLASS_TEXT );
+                                                builder1.setView(input);
+
+                                                // Set up the buttons
+                                                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        m_Text = input.getText().toString();
+                                                    service.add(m_Text);
+
+                                                   serviceCollection.update("service", service);
+                                                    }
+                                                });
+                                                builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+
+                                                builder1.show();
+
+                                            });
+
+
+                            builder.create();
+                            builder.show();
+                        }
+
+
+                    }else{
+service = new ArrayList<>();
+ String[] arr = {""};
+                            AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity());
+
+
+                            builder.setTitle("Select Service")
+                                    .setMultiChoiceItems(arr, null,
+                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                public void onClick(DialogInterface dialog, int item, boolean isChecked) {
+                                                    Log.i("Dialogos", "Opción elegida: " + arr[item]);
+                                                    if (isChecked) {
+                                                        new_items_service.add(arr[item]);
+                                                    }
+
+
+                                                }
+                                            }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Log.d("EVent Packages", "onClick: " + new_items_service);
+                                }
+                            }).setNegativeButton("Add new Service", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Select Service");
+
+                                    // Set up the input
+                                    final EditText input = new EditText(getContext());
+                                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                                    input.setInputType(InputType.TYPE_CLASS_TEXT );
+                                    builder.setView(input);
+
+                                    // Set up the buttons
+                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            m_Text = input.getText().toString();
+service.add(m_Text);   Map foodData = new HashMap();
+                                            foodData.put("service", service);
+serviceCollection.set(foodData);
                                         }
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                                    builder.show();
+
+                                }
+                            });
 
 
-                                    }
-                                }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Log.d("EVent Packages", "onClick: " + new_items_service);
-                    }
-                }).setNegativeButton("Create New Item", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Title");
+                            builder.create();
+                            builder.show();
+                        } }    });
 
-                        // Set up the input
-                        final EditText input = new EditText(getContext());
-                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        builder.setView(input);
-
-                        // Set up the buttons
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                m_Text = input.getText().toString();
-                                Log.d(TAG, "onClick: " + m_Text);
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        builder.show();
-
-                    }
-                });
-
-
-                builder.create();
-                builder.show();
             }
 
 
@@ -411,27 +739,31 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
 
                         case "Event_Organizer":
                             progressBar.setVisibility(View.INVISIBLE);
-
+mOverlayDialog.dismiss();
                             break;
                         case "Caterer":
                             progressBar.setVisibility(View.INVISIBLE);
+                            mOverlayDialog.dismiss();
 
                             venueBtn.setVisibility(View.GONE);
                             break;
                         case "Venue_Provider":
                             food_btn.setVisibility(View.GONE);
                             progressBar.setVisibility(View.INVISIBLE);
+                            mOverlayDialog.dismiss();
 
                             break;
                         case "Decoration":
                             food_btn.setVisibility(View.GONE);
                             progressBar.setVisibility(View.INVISIBLE);
+                            mOverlayDialog.dismiss();
 
                             venueBtn.setVisibility(View.GONE);
                             break;
                         case "Car_Rent":
                             venueBtn.setVisibility(View.GONE);
                             progressBar.setVisibility(View.INVISIBLE);
+                            mOverlayDialog.dismiss();
 
                             food_btn.setVisibility(View.GONE);
 
@@ -439,6 +771,7 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
                         case "Invitation_Card":
                             venueBtn.setVisibility(View.GONE);
                             progressBar.setVisibility(View.INVISIBLE);
+                            mOverlayDialog.dismiss();
 
                             food_btn.setVisibility(View.GONE);
                         default:
@@ -448,6 +781,8 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
                     }
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
+                    mOverlayDialog.dismiss();
+
                     mAuth.signOut();
                     startActivity(new Intent(view.getContext(), evntOrg_signIn.class));
                 }
@@ -558,8 +893,10 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.camera:
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                intent.setType("image/*");
+                File f = new File(Environment.getExternalStorageDirectory(), "temp.jpg");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+             //   intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), AUTHORITY, f));
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivityForResult(intent, PIC_CAMERA_REQ);
                 return true;
             case R.id.gallery:
@@ -586,24 +923,24 @@ public class evnt_package_create_catering extends Fragment implements evntOrg_ho
                     uri_download = sharedPreferences.getString("uri_download", uri_download);
                     String businessName = documentSnapshot.getString("businessName");
                     Map data = new HashMap();
+                    data.clear();
                     data.put("image", uri_download);
-
+                    data.put("PackageName", PackageName);
+                    data.put("Services", new_items_service);
+                    data.put("Food", new_items_food);
+                    data.put("price", price);
+                    data.put("businessName", businessName);
+                    data.put("id", doc_ref);
+                    data.put("custom", false);
+                    data.put("userId", currentUserID);
+                    data.put("venue",new_items_venue);
                     packageReference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(getContext(), "Package Successfully Created", Toast.LENGTH_SHORT).show();
-                            doc_ref = documentReference.getId();
-                            data.put("PackageName", PackageName);
-                            data.put("Services", new_items_service);
-                            data.put("Food", new_items_food);
-                            data.put("price", price);
-                            data.put("businessName", businessName);
-                            data.put("id", doc_ref);
-                            data.put("custom", false);
-                            data.put("userId", currentUserID);
-                            packageReference.document(doc_ref).set(data);
                             progressBar.setVisibility(View.INVISIBLE);
                             mOverlayDialog.dismiss();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

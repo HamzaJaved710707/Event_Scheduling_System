@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    <CheckedTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/evnt_Orders_all_fitler_menu_txt"
+        android:text="All"
+        android:checked="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        />
+    <CheckedTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/evnt_Orders_completed_fitler_menu_txt"
+        android:text="Completed Orders"
+        android:checked="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/evnt_Orders_all_fitler_menu_txt"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>
+    <CheckedTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/evnt_Orders_pending_fitler_menu_txt"
+        android:text="Completed Orders"
+        android:checked="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/evnt_Orders_completed_fitler_menu_txt"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>
+
+</RelativeLayout>

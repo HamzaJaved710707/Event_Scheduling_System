@@ -121,7 +121,7 @@ public class evntOrg_Calender extends Fragment {
     }
     private void addEvents(){
         List<Calendar> dates = new ArrayList<>();
-
+List<Calendar> datesCalCompleted = new ArrayList<>();
         for(String date1: pendingDates){
             try {
                 DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
@@ -134,11 +134,29 @@ public class evntOrg_Calender extends Fragment {
                 // handle the failure
             }
         }
+        for(String date2: completedDates) {
 
+                try {
+                    DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+                    Date dateObj = dateFormat.parse(date2);
+                    Calendar obj = Calendar.getInstance();
+                    obj.setTime(Objects.requireNonNull(dateObj));
+                    datesCalCompleted.add(obj);
+                } catch (ParseException pe) {
+                    // handle the failure
+                }
+
+        }
         List<EventDay> eventDay = new ArrayList<>();
+        List<EventDay> eventDayCompleted = new ArrayList<>();
+        eventDayCompleted.clear();
         eventDay.clear();
         for(Calendar cal: dates){
-            EventDay day = new EventDay(cal,R.color.colorAccent);
+            EventDay day = new EventDay(cal,R.color.calender_pending_clr);
+            eventDay.add(day);
+        }
+        for(Calendar calCompleted: datesCalCompleted){
+            EventDay day = new EventDay(calCompleted,R.color.colorAccent);
             eventDay.add(day);
         }
 

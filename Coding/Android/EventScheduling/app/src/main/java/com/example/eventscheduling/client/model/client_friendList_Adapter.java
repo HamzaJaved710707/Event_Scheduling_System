@@ -51,7 +51,7 @@ public class client_friendList_Adapter extends RecyclerView.Adapter<client_frien
 
 
         if (currentUser.getUid().equals(friendValues.get(position).getId())) {
-            holder.item_layout.setVisibility(View.INVISIBLE);
+            holder.item_layout.setVisibility(View.GONE);
         } else {
             holder.name.setText(friendValues.get(position).getName());
             if(friendValues.get(position).getImgUrl() == null){

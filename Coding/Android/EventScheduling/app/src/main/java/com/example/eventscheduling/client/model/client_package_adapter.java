@@ -47,6 +47,8 @@ public class client_package_adapter extends RecyclerView.Adapter<client_package_
         holder.packageName.setText(packages_values.get(position).getPackageName());
         holder.Price.setText(packages_values.get(position).getPrice());
         holder.businessName.setText(packages_values.get(position).getBusinessName());
+
+        holder.ratingBar.setRating(packages_values.get(position).getRatingStar());
         holder.detailTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

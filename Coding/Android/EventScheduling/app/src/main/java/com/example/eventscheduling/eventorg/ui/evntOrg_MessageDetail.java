@@ -8,22 +8,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.model.msgDetail_adapter;
 import com.example.eventscheduling.eventorg.util.msgDetail_values;
-import com.example.eventscheduling.util.VideoCallingActivity;
+import com.example.eventscheduling.util.BaseActivity;
+import com.example.eventscheduling.util.CallActivity;
+import com.example.eventscheduling.util.SinchService;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -31,12 +34,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.calling.Call;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnClickListener {
+public class evntOrg_MessageDetail extends  BaseActivity implements View.OnClickListener, SinchService.StartFailedListener {
     private static final String TAG = "evntOrg_MessageDetail";
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentuser;
@@ -69,6 +74,10 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
         // Get intent from Message Activity from document snapshot
         mChatUserId = getIntent().getStringExtra("chatId");
         mChatUserTokenId = getIntent().getStringExtra("tokenId");
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("Messages");
+
+        }
         // Initialize Views
         sendView = findViewById(R.id.messageSendImg);
         messageWriteField = findViewById(R.id.messageWriteEdt);
@@ -100,14 +109,40 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() ==R.id.video_btn_menu){
-            Intent intent = new Intent(evntOrg_MessageDetail.this, VideoCallingActivity.class);
+          /*  Intent intent = new Intent(evntOrg_MessageDetail.this, VideoCallingActivity.class);
             intent.putExtra("userId", mChatUserId);
             intent.putExtra("tokenId",mChatUserTokenId);
-            startActivity(intent);
+            startActivity(intent);*/
+            if (!mCurrentUserId.equals(getSinchServiceInterface().getUserName())) {
+                getSinchServiceInterface().stopClient();
+            }
+
+            if (!getSinchServiceInterface().isStarted()) {
+                getSinchServiceInterface().startClient(mCurrentUserId);
+
+            } else {
+                openPlaceCallActivity();
+            }
+
         }
         return true;
     }
 
+    private void openPlaceCallActivity() {
+        Call call = getSinchServiceInterface().callUserVideo(mChatUserId);
+        String callId = call.getCallId();
+
+        Intent callScreen = new Intent(this, CallActivity.class);
+        callScreen.putExtra(SinchService.CALL_ID, callId);
+        startActivity(callScreen);
+    }
+
+    private void stopButtonClicked() {
+        if (getSinchServiceInterface() != null) {
+            getSinchServiceInterface().stopClient();
+        }
+        finish();
+    }
     private void sendMessage() {
 
         Log.d(TAG, "Click on send button");
@@ -187,6 +222,18 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(msg_adapter);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                msg_adapter.item_delete_swap(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
         // Scroll the window to bottom to show new msg added...
         msg_adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -213,5 +260,21 @@ public class evntOrg_MessageDetail extends AppCompatActivity implements View.OnC
         super.onStop();
         msg_adapter.stopListening();
     }
+    @Override
+    protected void onServiceConnected() {
+        getSinchServiceInterface().setStartListener(this);
+    }
 
+    @Override
+    public void onStartFailed(SinchError error) {
+
+            Log.d(TAG, error.getMessage());
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onStarted() {
+openPlaceCallActivity();
+    }
 }

@@ -1,20 +1,50 @@
 package com.example.eventscheduling.client.util;
 
 public class history_values {
-    private int imageResource;
-    private   String m_name;
-    private String m_priceTag;
-    public history_values(){}
-    public history_values(int imgRes, String name, String priceTag){
-        imageResource = imgRes;
-        m_name = name;
-        m_priceTag = priceTag;
+    private String imgUrl;
+    private String Name;
+    private long rate;
+    private String id;
+
+    public history_values() {
     }
-    public int getImageResource(){
-        return  imageResource;
+
+    public String getImgUrl() {
+        return imgUrl;
     }
-    public String getM_name(){
-        return m_name;
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
-    public String getM_priceTag() { return m_priceTag;}
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public long getRate() {
+        return rate;
+    }
+
+    public void setRate(long rate) {
+        this.rate = rate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public history_values(String imgUrl, String name, long rate, String id) {
+        this.imgUrl = imgUrl;
+        Name = name;
+        this.rate = rate;
+        this.id = id;
+    }
 }

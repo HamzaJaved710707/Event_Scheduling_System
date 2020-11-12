@@ -108,6 +108,7 @@ public class client_profile extends Fragment implements View.OnClickListener {
         client_profile_photo = view.findViewById(R.id.client_profile_pic);
         client_cover_photo = view.findViewById(R.id.client_cover_pic);
         progressBar = view.findViewById(R.id.client_profile_progressBar);
+
         mOverlayDialog = new Dialog(view.getContext(), android.R.style.Theme_Panel); //display an invisible overlay dialog to prevent user interaction and pressing back
         mOverlayDialog.setCancelable(false);
         mOverlayDialog.show();
