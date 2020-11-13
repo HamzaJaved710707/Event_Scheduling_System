@@ -72,7 +72,9 @@ public class client_signUp extends AppCompatActivity {
                 processing();
             }
         });
-
+if(getSupportActionBar() != null){
+    getSupportActionBar().setTitle("Sign Up");
+}
         // Firebase Authentication initialization
         mAuth = FirebaseAuth.getInstance();
     }
@@ -133,7 +135,7 @@ public class client_signUp extends AppCompatActivity {
                 userData.put("email", emailTxt);
                 userData.put("mobileNumber", mobileNumber);
                 userData.put("password", passTxt);
-                userData.put("isActive", false);
+                userData.put("isActive", true);
                 userData.put("id", currentUser_id);
                 userData.put("tokenId", tokenId);
                 firestoreDatabase.collection("Users").document(currentUser_id).set(userData)

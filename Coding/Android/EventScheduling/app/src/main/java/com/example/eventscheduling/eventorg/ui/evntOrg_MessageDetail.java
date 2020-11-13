@@ -147,6 +147,7 @@ public class evntOrg_MessageDetail extends  BaseActivity implements View.OnClick
 
         Log.d(TAG, "Click on send button");
         String data = messageWriteField.getText().toString();
+        messageWriteField.setText("");
         data = data.trim();
         if (!data.matches("")) {
             if(value == 1) {

@@ -160,10 +160,7 @@ public class client_profile extends Fragment implements View.OnClickListener {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.camera:
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivityForResult(intent, PIC_CAMERA_REQ);
-                return true;
+
             case R.id.gallery:
                 Intent intent1 = new Intent();
                 intent1.setType("image/*");

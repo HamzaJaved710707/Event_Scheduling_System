@@ -150,6 +150,7 @@ public class evntOrg_Portfolio_Videos extends Fragment implements View.OnClickLi
 
 
     private void initRecyclerView(View view){
+        arrayList.clear();
         user_video_collection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -194,7 +195,7 @@ public class evntOrg_Portfolio_Videos extends Fragment implements View.OnClickLi
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
                                             Toast.makeText(getContext(), "Upload Sucessfull", Toast.LENGTH_SHORT).show();
-
+initRecyclerView(getView());
                                         }
                                     });
                                 }

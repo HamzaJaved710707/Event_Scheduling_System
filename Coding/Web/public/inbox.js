@@ -47,7 +47,7 @@ function sendMessage() {
                 document.getElementById("type_msg_editText").value = "";
                 var currentdoc = userCollection.doc(currentUserId);
                 currentdoc.get().then(function(doc2) {
-                    currentUserName = doc2.data().Name;
+                 //                                           currentUserName =  doc2.data().Name;
                     var val = doc1.data();
                     chatUserName = val.Name;
                     if (value == 1) {

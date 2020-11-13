@@ -144,7 +144,7 @@ private String id;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.evnt_portfolio_pictures_flt_Btn:
-                String[] colors = {"Camera", "Gallery"};
+                String[] colors = { "Gallery"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Select Picture");
@@ -153,14 +153,13 @@ private String id;
                     public void onClick(DialogInterface dialog, int which) {
                         // the user clicked on colors[which]
                         if (which == 0) {
-                            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                            startActivityForResult(intent, PIC_CAMERA_REQ);
-
-                        } else if (which == 1) {
                             Intent intent1 = new Intent();
                             intent1.setType("image/*");
                             intent1.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(intent1, "Select Picture"), GALLERY_REQ);
+
+                        } else if (which == 1) {
+                            Toast.makeText(getContext(), "Select Again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -196,7 +195,7 @@ private String id;
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
                                             Toast.makeText(getContext(), "Upload Sucessfull", Toast.LENGTH_SHORT).show();
-
+initPictures(getView());
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override

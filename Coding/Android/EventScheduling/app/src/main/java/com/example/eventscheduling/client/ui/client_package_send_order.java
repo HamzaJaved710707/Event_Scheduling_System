@@ -96,6 +96,9 @@ progressBar = view.findViewById(R.id.client_package_send_progBar);
             initialize_RecyclerView();
             progressBar.setVisibility(View.VISIBLE);
         }
+        if(getActivity().getActionBar() != null){
+            getActivity().getActionBar().setTitle("Send Order");
+        }
         return view;
     }
 
@@ -224,7 +227,7 @@ progressBar.setVisibility(View.INVISIBLE);
             Log.d(TAG, "applyTexts: all is checked");
         } else if (friends.isChecked()) {
             // initialize_Friend_RecyclerView();
-            initialize_Friends_Recyclerview();
+            initialize_EventOrg_RecyclerView();
             Log.d(TAG, "applyTexts: friends is checked");
         } else {
             Log.d(TAG, "applyTexts: both");
@@ -233,7 +236,7 @@ progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void initialize_Friends_Recyclerview() {
-
+progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void initialize_EventOrg_RecyclerView() {

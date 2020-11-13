@@ -894,13 +894,7 @@ mOverlayDialog.dismiss();
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.camera:
-                File f = new File(Environment.getExternalStorageDirectory(), "temp.jpg");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-             //   intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), AUTHORITY, f));
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivityForResult(intent, PIC_CAMERA_REQ);
-                return true;
+
             case R.id.gallery:
                 Intent intent1 = new Intent();
                 intent1.setType("image/*");

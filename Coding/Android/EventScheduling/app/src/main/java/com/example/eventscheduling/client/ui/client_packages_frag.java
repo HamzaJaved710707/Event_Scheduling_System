@@ -297,7 +297,7 @@ public class client_packages_frag extends Fragment implements Filter_Package_Dia
 
         }
         // Only card invitation is selected
-        else if (!evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && !card.isChecked()) {
+        else if (!evntOrg.isChecked() && !caterer.isChecked() && !decoration.isChecked() && !venue.isChecked() && card.isChecked()) {
             package_adapter.deleteRecyclerData();
             Query query = userCollection.whereEqualTo("businessCat", "Invitation_Card").whereEqualTo("type", 0);
             query.get().addOnSuccessListener(queryDocumentSnapshots -> {

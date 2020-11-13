@@ -30,32 +30,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/evnt_profile_pic"
-                    android:layout_width="208dp"
-                    android:layout_height="179dp"
-                    android:layout_marginTop="96dp"
-                    android:src="@mipmap/bandhan_marriage_profile"
-                    app:layout_constraintEnd_toEndOf="@+id/evnt_cover_pic"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="@+id/evnt_cover_pic"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/evnt_profile_pic"
+            android:layout_width="208dp"
+            android:layout_height="179dp"
+            android:layout_marginTop="96dp"
+            app:layout_constraintEnd_toEndOf="@+id/evnt_cover_pic"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@+id/evnt_cover_pic"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/evnt_profile_business_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="Bandhan Marriage Hall"
-                    android:textColor="@color/secondarycolor"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
-                    app:layout_constraintHorizontal_bias="0.597"
-                    app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
-                    app:layout_constraintTop_toBottomOf="@+id/evnt_profile_pic" />
+        <TextView
+            android:id="@+id/evnt_profile_business_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/secondarycolor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/evnt_profile_pic"
+            app:layout_constraintStart_toStartOf="@+id/evnt_profile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/evnt_profile_pic" />
 
-                <TextView
+        <TextView
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

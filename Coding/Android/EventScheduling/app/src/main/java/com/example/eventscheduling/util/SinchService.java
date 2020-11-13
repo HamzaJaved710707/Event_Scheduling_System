@@ -44,8 +44,8 @@ public class SinchService extends Service {
     public static final String MESSENGER = "MESSENGER";
     private Messenger messenger;
     private StartFailedListener mListener;
-    private String appKey = "046ee0eb-1f69-46ec-aba3-8b31472c4f9d";
-    private String secretKey = "RKP2mofTCkaqOiALxarIhg==";
+    private String appKey = "dd9e492c-8fee-435f-b7a3-737cb0939933";
+    private String secretKey = "iPdxDNuH9E6bRJBaZ/ePSg==";
     private String host = "clientapi.sinch.com";
     private PersistedSettings mSettings;
 

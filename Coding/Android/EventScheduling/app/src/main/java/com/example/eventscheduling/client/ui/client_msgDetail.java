@@ -133,6 +133,8 @@ public class client_msgDetail extends BaseActivity implements View.OnClickListen
         Log.d(TAG, "Click on send button");
         String data = messageWriteField.getText().toString();
         data = data.trim();
+        messageWriteField.setText("");
+        Toast.makeText(this, "Sending", Toast.LENGTH_SHORT).show();
         if(value == 1) {
             user_collection.document(mCurrentUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
