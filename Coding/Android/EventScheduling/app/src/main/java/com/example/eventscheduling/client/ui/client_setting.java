@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.eventorg.ui.evntOrg_home;
 import com.example.eventscheduling.eventorg.ui.evntOrg_signIn;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

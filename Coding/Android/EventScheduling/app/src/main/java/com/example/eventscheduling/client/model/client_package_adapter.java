@@ -13,11 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.util.client_friendList_values;
 import com.example.eventscheduling.client.util.client_package_values;
-import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Packages;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.example.eventscheduling.util;
 
 import android.annotation.SuppressLint;
-import android.media.browse.MediaBrowser;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.eventorg.ui.evntOrg_Portfolio_Videos;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerView;

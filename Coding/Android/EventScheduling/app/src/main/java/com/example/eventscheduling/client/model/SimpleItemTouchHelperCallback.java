@@ -3,7 +3,6 @@ package com.example.eventscheduling.client.model;
 import android.graphics.Canvas;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 

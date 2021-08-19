@@ -2,8 +2,6 @@ package com.example.eventscheduling.eventorg.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import com.example.eventscheduling.R;
 import com.example.eventscheduling.eventorg.util.portfolio_video_values;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class Portfolio_Videos_Adapter extends RecyclerView.Adapter<Portfolio_Video_ViewHolder> {
 

@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +25,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -56,7 +54,7 @@ public class client_msgDetail extends BaseActivity implements View.OnClickListen
     private CollectionReference chat_Collection_Reference = firebaseFirestore.collection("chats");
     private CollectionReference conversation_Collection_Reference = firebaseFirestore.collection("conversation");
     private CollectionReference user_collection = firebaseFirestore.collection("Users");
-    private client_msgDetail_adapter msg_adapter;
+    private com.example.eventscheduling.client.model.client_msgDetail_adapter msg_adapter;
     private LinearLayoutManager linearLayoutManager;
     private int value = 1;
     private String chatUserName;

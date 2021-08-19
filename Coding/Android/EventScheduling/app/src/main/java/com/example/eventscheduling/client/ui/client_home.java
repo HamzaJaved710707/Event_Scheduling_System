@@ -13,15 +13,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.eventscheduling.MainActivity;
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.model.Filter_Package_Dialog_client;
-import com.example.eventscheduling.eventorg.ui.evntOrg_setting;
 import com.example.eventscheduling.util.BaseActivity;
 import com.example.eventscheduling.util.SinchService;
 import com.google.android.material.navigation.NavigationView;

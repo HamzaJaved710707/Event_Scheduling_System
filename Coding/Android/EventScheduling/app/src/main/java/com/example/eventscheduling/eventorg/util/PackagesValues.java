@@ -1,8 +1,6 @@
 package com.example.eventscheduling.eventorg.util;
 
 
-import android.widget.ProgressBar;
-
 import java.util.ArrayList;
 
 // Class to return values to packages of event Organizer

@@ -23,27 +23,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".util.CallActivity"></activity>
-        <activity android:name=".util.IncomingCallScreen" />
-        <service android:name=".util.SinchService"/>
-        <activity android:name=".util.PlaceCallActivity" />
-        <activity android:name=".client.ui.client_setting" />
-        <activity android:name=".client.ui.client_msgDetail" />
-        <activity android:name=".client.ui.client_friendList" />
-        <activity android:name=".eventorg.ui.evntOrg_setting" />
-        <activity android:name=".eventorg.ui.evntOrg_Package_detail" />
-        <activity android:name=".eventorg.ui.evntOrg_Package_create" />
-        <activity android:name=".eventorg.ui.evntOrg_emailVerification" />
-        <activity android:name=".eventorg.ui.evntOrg_friend_list" />
-        <activity android:name=".eventorg.ui.evntOrg_MessageDetail" />
-        <activity android:name=".eventorg.mapService" />
-        <activity android:name=".util.InternetBroadCastReceiver" />
-        <activity android:name=".client.ui.client_messages" />
+        <activity android:name="com.example.eventscheduling.util.CallActivity"></activity>
+        <activity android:name="com.example.eventscheduling.util.IncomingCallScreen" />
+        <service android:name="com.example.eventscheduling.util.SinchService"/>
+        <activity android:name="com.example.eventscheduling.util.PlaceCallActivity" />
+        <activity android:name="com.example.eventscheduling.client.ui.client_setting" />
+        <activity android:name="com.example.eventscheduling.client.ui.client_msgDetail" />
+        <activity android:name="com.example.eventscheduling.client.ui.client_friendList" />
+        <activity android:name="com.example.eventscheduling.eventorg.ui.evntOrg_setting" />
+        <activity android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Package_detail" />
+        <activity android:name="com.example.eventscheduling.eventorg.ui.evntOrg_Package_create" />
+        <activity android:name="com.example.eventscheduling.eventorg.ui.evntOrg_emailVerification" />
+        <activity android:name="com.example.eventscheduling.eventorg.ui.evntOrg_friend_list" />
+        <activity android:name="com.example.eventscheduling.eventorg.ui.evntOrg_MessageDetail" />
+        <activity android:name="com.example.eventscheduling.eventorg.mapService" />
+        <activity android:name="com.example.eventscheduling.util.InternetBroadCastReceiver" />
+        <activity android:name="com.example.eventscheduling.client.ui.client_messages" />
         <activity
-            android:name=".client.ui.client_home"
+            android:name="com.example.eventscheduling.client.ui.client_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".eventorg.ui.evntOrg_home"
+            android:name="com.example.eventscheduling.eventorg.ui.evntOrg_home"
             android:label="@string/title_activity_evnt_org_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
@@ -68,10 +68,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".MapLocation"
+            android:name="com.example.eventscheduling.MapLocation"
             android:label="Map" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.example.eventscheduling.SplashActivity"
             android:theme="@style/splashScreenStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,20 +80,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.eventscheduling.MainActivity"
             android:label="EventSchedulingSystem" />
         <activity
-            android:name=".eventorg.ui.evntOrg_signIn"
+            android:name="com.example.eventscheduling.eventorg.ui.evntOrg_signIn"
             android:label="Sign In"
             android:theme="@style/splashScreenStyle" />
         <activity
-            android:name=".eventorg.ui.evntOrg_signUp"
+            android:name="com.example.eventscheduling.eventorg.ui.evntOrg_signUp"
             android:label="Sign Up" />
-        <activity android:name=".client.ui.client_signIn" />
-        <activity android:name=".client.ui.client_signUp" />
-        <activity android:name=".util.ExoMediaPlayer" />
+        <activity android:name="com.example.eventscheduling.client.ui.client_signIn" />
+        <activity android:name="com.example.eventscheduling.client.ui.client_signUp" />
+        <activity android:name="com.example.eventscheduling.util.ExoMediaPlayer" />
         <service
-            android:name=".util.MyFirebaseMessagingService"
+            android:name="com.example.eventscheduling.util.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

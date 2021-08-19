@@ -17,7 +17,6 @@ import com.example.eventscheduling.client.util.client_orders_values;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

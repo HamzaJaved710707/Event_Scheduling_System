@@ -1,27 +1,19 @@
 package com.example.eventscheduling.client.model;
 
 import android.content.Context;
-import android.media.Rating;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.client.ui.client_history;
-import com.example.eventscheduling.client.util.Client_Msg_Values;
 import com.example.eventscheduling.client.util.history_values;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,6 @@
 package com.example.eventscheduling.eventorg.ui;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,22 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.model.Filter_Friend_Dialog;
-import com.example.eventscheduling.client.ui.client_friendList;
 import com.example.eventscheduling.client.ui.client_profile_view;
-import com.example.eventscheduling.client.util.client_friendList_values;
 import com.example.eventscheduling.eventorg.model.friendList_Adapter;
 import com.example.eventscheduling.eventorg.util.friendList_values;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class evntOrg_friend_list extends Fragment implements friendList_Adapter.onitemClickListener, Filter_Friend_Dialog.ExampleDialogListener {
     private static final String TAG = "evntOrg_friend_list";

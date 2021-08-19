@@ -18,8 +18,6 @@ import com.example.eventscheduling.eventorg.util.PackagesValues;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import org.w3c.dom.Text;
-
 public class RecyclerView_Adapter_Packages extends FirestoreRecyclerAdapter<PackagesValues, RecyclerView_Adapter_Packages.ViewHolder> {
     // Variables
     Context context;

@@ -1,8 +1,5 @@
 package com.example.eventscheduling.util;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.bluetooth.BluetoothAssignedNumbers;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;

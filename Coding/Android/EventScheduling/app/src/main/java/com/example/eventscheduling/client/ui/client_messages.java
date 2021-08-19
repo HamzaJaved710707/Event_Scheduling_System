@@ -1,7 +1,6 @@
 package com.example.eventscheduling.client.ui;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +19,6 @@ import com.example.eventscheduling.client.model.Client_RecyclerAdptr_Msg;
 import com.example.eventscheduling.client.util.Client_Msg_Values;
 import com.example.eventscheduling.eventorg.model.RecyclerView_Adapter_Message;
 import com.example.eventscheduling.eventorg.ui.evntOrg_MessageDetail;
-import com.example.eventscheduling.eventorg.ui.evntOrg_friend_list;
-import com.example.eventscheduling.eventorg.util.MessageValues;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,8 +27,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
 
 
 public class client_messages extends Fragment {

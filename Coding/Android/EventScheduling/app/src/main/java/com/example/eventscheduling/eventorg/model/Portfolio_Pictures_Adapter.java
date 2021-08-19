@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.eventscheduling.R;
-import com.example.eventscheduling.eventorg.util.portfolio_pictures_values;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

@@ -4,10 +4,8 @@ import android.content.ServiceConnection;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.content.pm.PackageManager;
@@ -17,7 +15,6 @@ import android.os.Messenger;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 

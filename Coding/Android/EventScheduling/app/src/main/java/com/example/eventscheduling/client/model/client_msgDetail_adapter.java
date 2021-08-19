@@ -14,10 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.eventscheduling.R;
 import com.example.eventscheduling.client.util.client_msgDetail_values;
-import com.example.eventscheduling.eventorg.model.msgDetail_adapter;
-import com.example.eventscheduling.eventorg.util.msgDetail_values;
+import com.example.eventscheduling.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;

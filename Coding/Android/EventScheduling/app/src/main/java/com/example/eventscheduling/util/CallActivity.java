@@ -1,7 +1,5 @@
 package com.example.eventscheduling.util;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.eventscheduling.R;
 import com.sinch.android.rtc.AudioController;
 import com.sinch.android.rtc.PushPair;
@@ -19,8 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 

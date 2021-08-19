@@ -21,7 +21,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;

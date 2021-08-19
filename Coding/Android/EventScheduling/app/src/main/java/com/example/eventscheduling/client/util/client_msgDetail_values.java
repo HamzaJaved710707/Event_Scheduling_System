@@ -1,7 +1,5 @@
 package com.example.eventscheduling.client.util;
 
-import com.google.firebase.Timestamp;
-
 public class client_msgDetail_values {
     String message;
     String imgUrl;
